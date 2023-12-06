@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .dev.env
+    ports:
+      - "8080:8080" # Expose port 8080 on the host machine
+      - "2345:2345" # Debug
+    volumes:
+      - .:/app # Mount the current directory to the container's /app directory
+    depends_on:
+      - postgres
+    working_dir: "/app"
+   
+  # The postgres service is one postgres instance with two databases, "master"
+  # and "matav". The matav database corresponds to the "tenant" web service.
+  postgres:
+    image: postgres:latest
+    container_name: postgres-song
+    restart: always
+    env_file:
+      - ./.dev.env
+    ports:
+      - "5432:5432" # Expose port 5432 on the host machine
+    volumes:
+      - ./initdb.d:/docker-entrypoint-initdb.d  # Mount the initdb.d directory as a volume
+      - postgres_data:/var/lib/postgresql/data # Mount a volume to persist data
+      - .:/app # Mount the current directory to the container's /app directory
+
+volumes:
+  postgres_data: # Volume for PostgreSQL data
