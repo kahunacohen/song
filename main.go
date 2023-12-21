@@ -6,15 +6,12 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/kahunacohen/songs/controllers"
 )
 
 func main() {
 	r := gin.Default()
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Hello, songs!",
-		})
-	})
+	r.GET("/api/v1/users/:user_id/:song_id", controllers.SongsByUser)
 	r.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }

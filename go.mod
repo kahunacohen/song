@@ -1,4 +1,4 @@
-module song
+module github.com/kahunacohen/songs
 
 go 1.20
 
