@@ -10,6 +10,8 @@ import (
 func SongsByUser(c *gin.Context) {
 	userID := c.Param("user_id")
 	songID := c.Param("song_id")
+	c.MustGet("db")
+	// getSong(db, userID, songID)
 	if c.MustGet("rsp_fmt") == "json" {
 		response := gin.H{
 			"user_id": userID,

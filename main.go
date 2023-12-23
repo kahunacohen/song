@@ -2,25 +2,39 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"os"
-	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/kahunacohen/songs/controllers"
 )
 
-func ResponseFormatMiddleware(c *gin.Context) {
-	if strings.Contains(c.Request.URL.Path, "/api") {
-		c.Set("rsp_fmt", "json")
-	} else {
-		c.Set("rsp_fmt", "html")
+func initDB() (*pgxpool.Pool, error) {
+	connStr := "postgresql://postgres:password@postgres:5432/songs?sslmode=disable"
+	poolConfig, err := pgxpool.ParseConfig(connStr)
+	if err != nil {
+		return nil, err
 	}
-	c.Next()
+
+	pool, err := pgxpool.ConnectConfig(context.Background(), poolConfig)
+	if err != nil {
+		return nil, err
+	}
+
+	return pool, nil
 }
 func main() {
+	db, err := initDB()
+	if err != nil {
+		log.Fatalf("failed to intialize db: %v", err)
+	}
+	defer db.Close()
 	router := gin.Default()
 	router.Use(ResponseFormatMiddleware)
+	router.Use(DatabaseMiddleware(db))
 	router.GET("/api/v1/users/:user_id/:song_id", controllers.SongsByUser)
 	router.GET("/users/:user_id/:song_id", controllers.SongsByUser)
 
