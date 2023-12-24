@@ -30,6 +30,7 @@ func main() {
 	defer conn.Close(ctx)
 	router := gin.Default()
 	router.Use(ResponseFormatMiddleware)
+	router.LoadHTMLGlob("templates/*")
 	router.GET("/api/v1/users/:user_id/:song_id", controllers.SongsByUserHandler(conn))
 	router.GET("/users/:user_id/:song_id", controllers.SongsByUserHandler(conn))
 

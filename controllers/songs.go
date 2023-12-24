@@ -18,16 +18,12 @@ func SongsByUserHandler(conn *pgx.Conn) gin.HandlerFunc {
 		if err != nil {
 			fmt.Println("error")
 		}
-		fmt.Println(songs)
-
 		if c.MustGet("rsp_fmt") == "json" {
-			response := gin.H{
-				"user_id": userID,
-				"song_id": "foo",
-			}
-			c.JSON(http.StatusOK, response)
+			c.JSON(http.StatusOK, songs)
 		} else {
-			c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(fmt.Sprintf("<ul><li>user: %s</li><li>song: %s</li></ul>", userID, "foo")))
+			c.HTML(http.StatusOK, "songs.html", gin.H{
+				"Items": songs,
+			})
 		}
 	}
 }
