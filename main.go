@@ -8,35 +8,30 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/jackc/pgx/v5"
 	"github.com/kahunacohen/songs/controllers"
 )
 
-func initDB() (*pgxpool.Pool, error) {
+func initDB(ctx context.Context) (*pgx.Conn, error) {
 	connStr := "postgresql://postgres:password@postgres:5432/songs?sslmode=disable"
-	poolConfig, err := pgxpool.ParseConfig(connStr)
+	conn, err := pgx.Connect(ctx, connStr)
 	if err != nil {
-		return nil, err
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
 	}
-
-	pool, err := pgxpool.ConnectConfig(context.Background(), poolConfig)
-	if err != nil {
-		return nil, err
-	}
-
-	return pool, nil
+	return conn, err
 }
 func main() {
-	db, err := initDB()
+	ctx := context.Background()
+	conn, err := initDB(ctx)
 	if err != nil {
 		log.Fatalf("failed to intialize db: %v", err)
 	}
-	defer db.Close()
+	defer conn.Close(ctx)
 	router := gin.Default()
 	router.Use(ResponseFormatMiddleware)
-	router.Use(DatabaseMiddleware(db))
-	router.GET("/api/v1/users/:user_id/:song_id", controllers.SongsByUser)
-	router.GET("/users/:user_id/:song_id", controllers.SongsByUser)
+	router.GET("/api/v1/users/:user_id/:song_id", controllers.SongsByUserHandler(conn))
+	router.GET("/users/:user_id/:song_id", controllers.SongsByUserHandler(conn))
 
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
