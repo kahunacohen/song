@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -30,9 +31,17 @@ func main() {
 	defer conn.Close(ctx)
 	router := gin.Default()
 	router.Use(ResponseFormatMiddleware)
-	router.LoadHTMLGlob("templates/*")
+	router.LoadHTMLGlob("templates/*.html")
 	router.GET("/api/v1/users/:user_id/:song_id", controllers.SongsByUserHandler(conn))
 	router.GET("/users/:user_id/:song_id", controllers.SongsByUserHandler(conn))
+	router.GET("/", func(c *gin.Context) {
+		data := gin.H{
+			"Title": "Gin Example",
+		}
+
+		// Render the HTML template with the provided data
+		c.HTML(http.StatusOK, "base.html", data)
+	})
 
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
