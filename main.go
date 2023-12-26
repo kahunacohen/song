@@ -34,8 +34,8 @@ func main() {
 	router := gin.Default()
 	router.Use(ResponseFormatMiddleware)
 	router.LoadHTMLGlob("templates/*.html")
-	router.GET("/api/v1/users/:user_id/:song_id", controllers.SongsByUserHandler(conn))
-	router.GET("/users/:user_id/:song_id", controllers.SongsByUserHandler(conn))
+	router.GET("/api/v1/users/:user_id", controllers.SongsByUserHandler(conn))
+	router.GET("/users/:user_id", controllers.SongsByUserHandler(conn))
 	router.GET("/", func(c *gin.Context) {
 		data := gin.H{
 			"Title": "Gin Example",
