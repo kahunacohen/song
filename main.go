@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"text/template"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
@@ -40,10 +41,20 @@ func main() {
 		}
 
 		// Render the HTML template with the provided data
-		c.HTML(http.StatusOK, "base.html", data)
+		if err := executeTemplates(c.Writer, "base.html", "content.html", data); err != nil {
+			c.String(http.StatusInternalServerError, err.Error())
+		}
+		// c.HTML(http.StatusOK, "base.html", data)
 	})
 
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
+}
+func executeTemplates(w http.ResponseWriter, baseTemplate, contentTemplate string, data interface{}) error {
+	// Load the base template and content template
+	templates := template.Must(template.ParseFiles("templates/"+baseTemplate, "templates/"+contentTemplate))
+
+	// Execute the base template with the content template
+	return templates.ExecuteTemplate(w, baseTemplate, data)
 }
 
 // package main
