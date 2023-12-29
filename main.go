@@ -35,7 +35,7 @@ func main() {
 	// router.GET("/api/v1/users/:user_id/songs", controllers.SongsByUserHandler(conn))
 	// router.GET("/users/:user_id/songs", controllers.SongsByUserHandler(conn))
 	router.GET("/", func(c *gin.Context) {
-		component := templates.Hello("Chewy")
+		component := templates.Hello("Jesse")
 		templates.Render(c, component)
 	})
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
