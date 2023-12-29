@@ -21,8 +21,9 @@ func SongsByUserHandler(conn *pgx.Conn) gin.HandlerFunc {
 		if c.MustGet("rsp_fmt") == "json" {
 			c.JSON(http.StatusOK, songs)
 		} else {
-			c.HTML(http.StatusOK, "songs.html", gin.H{
-				"Items": songs,
+			c.HTML(http.StatusOK, "base.html", gin.H{
+				"Items":        songs,
+				"TemplateName": "songs.html",
 			})
 		}
 	}

@@ -5,13 +5,11 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
 	"github.com/kahunacohen/songs/controllers"
-	"github.com/kahunacohen/songs/templates"
 )
 
 func initDB(ctx context.Context) (*pgx.Conn, error) {
@@ -34,15 +32,14 @@ func main() {
 	router := gin.Default()
 	router.Use(ResponseFormatMiddleware)
 	router.LoadHTMLGlob("templates/*.html")
-	router.GET("/api/v1/users/:user_id", controllers.SongsByUserHandler(conn))
-	router.GET("/users/:user_id", controllers.SongsByUserHandler(conn))
+	router.GET("/api/v1/users/:user_id/songs", controllers.SongsByUserHandler(conn))
+	router.GET("/users/:user_id/songs", controllers.SongsByUserHandler(conn))
 	router.GET("/", func(c *gin.Context) {
 		data := gin.H{
-			"Title": "Gin Example",
+			"Title":        "Gin Example",
+			"TemplateName": "content.html",
 		}
-		if err := templates.Render(c.Writer, "content.html", data); err != nil {
-			c.String(http.StatusInternalServerError, err.Error())
-		}
+		c.HTML(200, "base.html", data)
 	})
 
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
