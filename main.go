@@ -5,11 +5,12 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
-	"github.com/kahunacohen/songs/controllers"
+	// "github.com/kahunacohen/songs/controllers"
 )
 
 func initDB(ctx context.Context) (*pgx.Conn, error) {
@@ -31,15 +32,16 @@ func main() {
 	defer conn.Close(ctx)
 	router := gin.Default()
 	router.Use(ResponseFormatMiddleware)
-	router.LoadHTMLGlob("templates/*.html")
-	router.GET("/api/v1/users/:user_id/songs", controllers.SongsByUserHandler(conn))
-	router.GET("/users/:user_id/songs", controllers.SongsByUserHandler(conn))
+	// router.LoadHTMLGlob("templates/*.html")
+	// router.GET("/api/v1/users/:user_id/songs", controllers.SongsByUserHandler(conn))
+	// router.GET("/users/:user_id/songs", controllers.SongsByUserHandler(conn))
 	router.GET("/", func(c *gin.Context) {
-		data := gin.H{
-			"Title":        "Gin Example",
-			"TemplateName": "content.html",
-		}
-		c.HTML(200, "base.html", data)
+		component := Hello("John")
+		c.Header("Content-Type", "text/html; charset=utf-8")
+		// Set the HTTP status code
+		c.Status(http.StatusOK)
+		component.Render(c, c.Writer)
+
 	})
 
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
