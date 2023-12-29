@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
+	"github.com/kahunacohen/songs/templates"
 	// "github.com/kahunacohen/songs/controllers"
 )
 
@@ -32,11 +33,10 @@ func main() {
 	defer conn.Close(ctx)
 	router := gin.Default()
 	router.Use(ResponseFormatMiddleware)
-	// router.LoadHTMLGlob("templates/*.html")
 	// router.GET("/api/v1/users/:user_id/songs", controllers.SongsByUserHandler(conn))
 	// router.GET("/users/:user_id/songs", controllers.SongsByUserHandler(conn))
 	router.GET("/", func(c *gin.Context) {
-		component := Hello("John")
+		component := templates.Hello("john")
 		c.Header("Content-Type", "text/html; charset=utf-8")
 		// Set the HTTP status code
 		c.Status(http.StatusOK)

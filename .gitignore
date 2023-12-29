@@ -1,0 +1,31 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Project-specific output/ (bin directory on the top level of your project)
+/bin/
+
+# Directory for test binaries
+/testbin/
+
+# Compiled Go source code
+*.a
+*.o
+
+# Dependency directories (remove the comment below if you'll be using Glide)
+# vendor/
+
+# Generated templates from templ
+templates/*.go
+# Misc
+.DS_Store
+Thumbs.db
