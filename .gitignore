@@ -25,7 +25,8 @@
 # vendor/
 
 # Generated templates from templ
-templates/*.go
+templates/*_templ.go
 # Misc
 .DS_Store
 Thumbs.db
+tmp/*.*

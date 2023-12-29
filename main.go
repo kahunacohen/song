@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -36,66 +35,8 @@ func main() {
 	// router.GET("/api/v1/users/:user_id/songs", controllers.SongsByUserHandler(conn))
 	// router.GET("/users/:user_id/songs", controllers.SongsByUserHandler(conn))
 	router.GET("/", func(c *gin.Context) {
-		component := templates.Hello("john")
-		c.Header("Content-Type", "text/html; charset=utf-8")
-		// Set the HTTP status code
-		c.Status(http.StatusOK)
-		component.Render(c, c.Writer)
-
+		component := templates.Hello("Chewy")
+		templates.Render(c, component)
 	})
-
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
-
-// package main
-
-// import (
-//     "html/template"
-//     "net/http"
-//     "github.com/gin-gonic/gin"
-// )
-
-// type PageData struct {
-//     Title   string
-//     Content string
-// }
-
-// func main() {
-//     router := gin.Default()
-
-//     // Define routes
-//     router.GET("/page_a", func(c *gin.Context) {
-//         data := PageData{
-//             Title:   "Page A",
-//             Content: "This is the content for Page A.",
-//         }
-
-//         // Execute the "base.html" template with the "content_a.html" template
-//         if err := executeTemplates(c.Writer, "base.html", "content_a.html", data); err != nil {
-//             c.String(http.StatusInternalServerError, err.Error())
-//         }
-//     })
-
-//     router.GET("/page_b", func(c *gin.Context) {
-//         data := PageData{
-//             Title:   "Page B",
-//             Content: "This is the content for Page B.",
-//         }
-
-//         // Execute the "base.html" template with the "content_b.html" template
-//         if err := executeTemplates(c.Writer, "base.html", "content_b.html", data); err != nil {
-//             c.String(http.StatusInternalServerError, err.Error())
-//         }
-//     })
-
-//     router.Run(":8080")
-// }
-
-// // executeTemplates executes the base template with the specified content template
-// func executeTemplates(w http.ResponseWriter, baseTemplate, contentTemplate string, data PageData) error {
-//     // Load the base template and content template
-//     templates := template.Must(template.ParseFiles("templates/" + baseTemplate, "templates/" + contentTemplate))
-
-//     // Execute the base template with the content template
-//     return templates.ExecuteTemplate(w, baseTemplate, data)
-// }
