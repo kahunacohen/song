@@ -22,7 +22,10 @@ func SongsByUserHandler(conn *pgx.Conn) gin.HandlerFunc {
 		if c.MustGet("rsp_fmt") == "json" {
 			c.JSON(http.StatusOK, songs)
 		} else {
-			templates.Render(c, templates.Songs(songs))
+			templates.Render(c, templates.Base(
+				"Songs",
+				templates.Songs(songs),
+			))
 		}
 	}
 }

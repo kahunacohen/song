@@ -10,7 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
 	"github.com/kahunacohen/songs/controllers"
-	"github.com/kahunacohen/songs/templates"
 	// "github.com/kahunacohen/songs/controllers"
 )
 
@@ -35,9 +34,5 @@ func main() {
 	router.Use(ResponseFormatMiddleware)
 	router.GET("/api/v1/users/:user_id/songs", controllers.SongsByUserHandler(conn))
 	router.GET("/users/:user_id/songs", controllers.SongsByUserHandler(conn))
-	router.GET("/", func(c *gin.Context) {
-		// component := templates.Hello("Jesse")
-		templates.Render(c, templates.Base())
-	})
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
