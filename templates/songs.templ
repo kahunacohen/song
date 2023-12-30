@@ -1,0 +1,22 @@
+package templates
+
+import "github.com/kahunacohen/songs/db"
+
+templ Songs(songs []db.Song) {
+	<table>
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Genre</th>
+			</tr>
+		</thead>
+		<tbody>
+			for _, song := range songs {
+				<tr>
+					<td>{song.Title}</td>
+					<td>{song.Genre}</td>
+				</tr>
+			}
+		</tbody>
+	</table>		
+}

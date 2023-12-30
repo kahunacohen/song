@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
 	"github.com/kahunacohen/songs/db"
+	"github.com/kahunacohen/songs/templates"
 )
 
 func SongsByUserHandler(conn *pgx.Conn) gin.HandlerFunc {
@@ -21,10 +22,7 @@ func SongsByUserHandler(conn *pgx.Conn) gin.HandlerFunc {
 		if c.MustGet("rsp_fmt") == "json" {
 			c.JSON(http.StatusOK, songs)
 		} else {
-			c.HTML(http.StatusOK, "base.html", gin.H{
-				"Items":        songs,
-				"TemplateName": "songs.html",
-			})
+			templates.Render(c, templates.Songs(songs))
 		}
 	}
 }
