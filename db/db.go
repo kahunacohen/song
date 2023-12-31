@@ -3,14 +3,18 @@ package db
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 )
 
 type Song struct {
-	SongID int    `json:"song_id"`
-	Title  string `json:"title"`
-	Genre  string `json:"genre"`
+	CreatedAt time.Time `json:"created_at"`
+	Capo      int
+	Genre     string    `json:"genre"`
+	SongID    int       `json:"song_id"`
+	Title     string    `json:"title"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
