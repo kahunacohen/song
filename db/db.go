@@ -12,6 +12,7 @@ type Song struct {
 	CreatedAt time.Time `json:"created_at"`
 	Capo      int
 	Genre     string    `json:"genre"`
+	Lyrics    string    `json:"lyrics"`
 	SongID    int       `json:"song_id"`
 	Title     string    `json:"title"`
 	UpdatedAt time.Time `json:"updated_at"`

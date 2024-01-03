@@ -1,0 +1,9 @@
+package templates
+
+import "github.com/kahunacohen/songs/db"
+
+templ Song(song db.Song) {
+    <div>
+     <div>{song.Lyrics}</div>
+    </div>
+}
