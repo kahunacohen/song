@@ -1,8 +1,11 @@
 package templates
 
-import "github.com/kahunacohen/songs/db"
+import (
+"fmt"
+"github.com/kahunacohen/songs/db"
+)
 
-templ Songs(songs []db.Song) {
+templ Songs(userID string, songs []db.Song) {
 	<table class="table">
 		<thead>
 			<tr>
@@ -13,7 +16,7 @@ templ Songs(songs []db.Song) {
 		<tbody>
 			for _, song := range songs {
 				<tr>
-					<td>{song.Title}</td>
+					<td><a href={templ.URL(fmt.Sprintf("/users/%s/songs/%d", userID, song.SongID))}>{song.Title}</a></td>
 					<td>{song.Genre}</td>
 				</tr>
 			}

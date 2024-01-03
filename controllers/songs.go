@@ -24,7 +24,7 @@ func SongsByUserHandler(conn *pgx.Conn) gin.HandlerFunc {
 		} else {
 			templates.Render(c, templates.Base(
 				"Songs",
-				templates.Songs(songs),
+				templates.Songs(userID, songs),
 			))
 		}
 	}
