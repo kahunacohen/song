@@ -31,6 +31,7 @@ func main() {
 	}
 	defer conn.Close(ctx)
 	router := gin.Default()
+	router.Static("/static", "./static")
 	router.Use(ResponseFormatMiddleware)
 	router.GET("/api/v1/users/:user_id/songs", controllers.GetSongs(conn))
 	router.GET("/users/:user_id/songs", controllers.GetSongs(conn))
