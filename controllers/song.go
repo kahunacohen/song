@@ -11,7 +11,7 @@ import (
 	"github.com/kahunacohen/songs/templates"
 )
 
-func SongByUserHandler(conn *pgx.Conn) gin.HandlerFunc {
+func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		songID := c.Param("song_id")
 		songIDAsInt, _ := strconv.Atoi(songID)

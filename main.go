@@ -32,9 +32,9 @@ func main() {
 	defer conn.Close(ctx)
 	router := gin.Default()
 	router.Use(ResponseFormatMiddleware)
-	router.GET("/api/v1/users/:user_id/songs", controllers.SongsByUserHandler(conn))
-	router.GET("/users/:user_id/songs", controllers.SongsByUserHandler(conn))
-	router.GET("/api/v1/users/:user_id/songs/:song_id", controllers.SongByUserHandler(conn))
-	router.GET("/users/:user_id/songs/:song_id", controllers.SongByUserHandler(conn))
+	router.GET("/api/v1/users/:user_id/songs", controllers.GetSongs(conn))
+	router.GET("/users/:user_id/songs", controllers.GetSongs(conn))
+	router.GET("/api/v1/users/:user_id/songs/:song_id", controllers.GetSong(conn))
+	router.GET("/users/:user_id/songs/:song_id", controllers.GetSong(conn))
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
