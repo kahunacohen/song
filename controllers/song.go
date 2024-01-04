@@ -24,7 +24,7 @@ func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 		} else {
 			templates.Render(c, templates.Base(
 				song.Title,
-				templates.Song(*song),
+				templates.Song(*song, c.Query("mode") == "edit"),
 			))
 		}
 	}

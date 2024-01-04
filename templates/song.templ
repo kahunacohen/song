@@ -1,9 +1,26 @@
 package templates
 
-import "github.com/kahunacohen/songs/db"
+import (
+    "github.com/kahunacohen/songs/db"
+)
 
-templ Song(song db.Song) {
+templ Song(song db.Song, editMode bool) {
     <div>
-     <div>{song.Lyrics}</div>
+    if editMode {
+        <form>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input id="title" type="text" class="form-control" value={song.Title}/>
+            </div>
+            <div class="form-group">
+                <label for="lyrics">Lyrics</label>
+                <textarea class="form-control" id="lyrics" value={song.Lyrics}>{song.Lyrics}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    } else {
+        <h2>{song.Title}</h2>
+        <div>{song.Lyrics}</div>
+    }
     </div>
 }
