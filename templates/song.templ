@@ -5,8 +5,9 @@ import (
 )
 
 templ Song(song db.Song, editMode bool) {
-    <div>
+    <div id="wrapper">
     if editMode {
+        <h2>Edit "{song.Title}"</h2>
         <form>
             <div class="form-group">
                 <label for="title">Title</label>
@@ -21,6 +22,12 @@ templ Song(song db.Song, editMode bool) {
     } else {
         <h2>{song.Title}</h2>
         <div>{song.Lyrics}</div>
+        <button 
+            hx-get="/users/1/songs/1?mode=edit" 
+            hx-swap="innerHTML" 
+            hx-target="body"
+            hx-push-url="true" 
+            class="btn btn-primary">Edit</button>
     }
     </div>
 }
