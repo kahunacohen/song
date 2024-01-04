@@ -4,7 +4,7 @@ import (
     "github.com/kahunacohen/songs/db"
 )
 
-templ Song(song db.Song, editMode bool) {
+templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
     <div id="wrapper">
     if editMode {
         <h2>Edit "{song.Title}"</h2>
@@ -17,13 +17,16 @@ templ Song(song db.Song, editMode bool) {
                 <label for="lyrics">Lyrics</label>
                 <textarea class="form-control" id="lyrics" value={song.Lyrics}>{song.Lyrics}</textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button
+                hx-put={uri} 
+                type="submit" 
+                class="btn btn-primary">Submit</button>
         </form>
     } else {
         <h2>{song.Title}</h2>
         <div>{song.Lyrics}</div>
         <button 
-            hx-get="/users/1/songs/1?mode=edit" 
+            hx-get={uriEditMode} 
             hx-swap="innerHTML" 
             hx-target="body"
             hx-push-url="true" 
