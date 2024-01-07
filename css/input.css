@@ -7,4 +7,8 @@
         @apply text-xl;
         @apply font-bold;
     }
+    a[href] {
+        @apply text-blue-500; 
+        @apply hover:text-blue-700;
+    }
 }
