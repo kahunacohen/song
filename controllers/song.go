@@ -23,7 +23,7 @@ func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 		if c.MustGet("rsp_fmt") == "json" {
 			c.JSON(http.StatusOK, song)
 		} else {
-			uri := fmt.Sprintf("/users/%s/songs/%d", userID, song.SongID)
+			uri := fmt.Sprintf("/users/%s/songs/%d", userID, song.Id)
 			uriEditMode := fmt.Sprintf("%s?mode=edit", uri)
 			templates.Render(c, templates.Base(
 				song.Title,

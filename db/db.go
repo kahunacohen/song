@@ -13,7 +13,7 @@ type Song struct {
 	Capo      int
 	Genre     string    `json:"genre"`
 	Lyrics    string    `json:"lyrics"`
-	SongID    int       `json:"song_id"`
+	Id        int       `json:"song_id"`
 	Title     string    `json:"title"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
@@ -28,7 +28,7 @@ func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
 	var songs []Song
 	for rows.Next() {
 		var song Song
-		if err := rows.Scan(&song.SongID, &song.Title, &song.Genre); err != nil {
+		if err := rows.Scan(&song.Id, &song.Title, &song.Genre); err != nil {
 			return nil, fmt.Errorf("error scanning row: %v", err)
 		}
 		songs = append(songs, song)
@@ -41,7 +41,7 @@ func GetSongByID(conn *pgx.Conn, id int) (*Song, error) {
 	query := "SELECT song_id, title, genre, lyrics FROM songs WHERE song_id = $1;"
 	row := conn.QueryRow(context.Background(), query, id)
 	var song Song
-	if err := row.Scan(&song.SongID, &song.Title, &song.Genre, &song.Lyrics); err != nil {
+	if err := row.Scan(&song.Id, &song.Title, &song.Genre, &song.Lyrics); err != nil {
 		return nil, fmt.Errorf("error scanning row: %v", err)
 	}
 	return &song, nil

@@ -18,19 +18,8 @@ VALUES
     (NULL, 'Paul', 'Simon');
 
 -- Songs
-INSERT INTO songs (title, key, genre, capo, lyrics, user_id)
+INSERT INTO songs (title, key, genre, capo, lyrics, user_id, composer_id, performer_id)
 VALUES
     ('Lucy in the Sky with Diamonds', 'D', 'Rock', 3, '[A]Picture your[A7]self on a [D]boat on a [DM]river', 1),
     ('The Boxer', NULL, 'Folk', NULL, '[C]I am just a poor boy\nThough my story''s seldom [AM]told', 1);
 
--- many-to-many mappings
-INSERT INTO composer_song (composer_id, song_id)
-VALUES
-    (2, 1),
-    (3, 1),
-    (1, 2);
-
-INSERT INTO performer_song (performer_id, song_id)
-VALUES
-    (1, 1),
-    (2, 2);
