@@ -10,18 +10,23 @@ CREATE TABLE  users (
 );
 CREATE TABLE composers (
     id SERIAL PRIMARY KEY,
-    last_name VARCHAR(255) NOT NULL,
-    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255),
+    first_name VARCHAR(255),
+    "name" VARCHAR(255) 
     created_at TIMESTAMP DEFAULT current_timestamp,
-    updated_at TIMESTAMP DEFAULT current_timestamp
+    updated_at TIMESTAMP DEFAULT current_timestamp,
+    CONSTRAINT check_not_null_columns
+    CHECK ((last_name IS NOT NULL AND first_name IS NOT NULL) OR name IS NOT NULL)
 );
 CREATE TABLE performers (
     id SERIAL PRIMARY KEY,
     last_name VARCHAR(255),
     first_name VARCHAR(255),
-    group_name VARCHAR(255),
+    "name" VARCHAR(255),
     created_at TIMESTAMP DEFAULT current_timestamp,
-    updated_at TIMESTAMP DEFAULT current_timestamp
+    updated_at TIMESTAMP DEFAULT current_timestamp,
+    CONSTRAINT check_not_null_columns
+    CHECK ((last_name IS NOT NULL AND first_name IS NOT NULL) OR name IS NOT NULL)
 );
 CREATE TYPE genre AS ENUM ('Bluegrass', 'Blues', 'Rock', 'Pop', 'Hip-Hop', 'Country', 'Traditional', 'Folk');
 
