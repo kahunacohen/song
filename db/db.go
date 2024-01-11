@@ -13,13 +13,13 @@ type Song struct {
 	Capo      int
 	Genre     string    `json:"genre"`
 	Lyrics    string    `json:"lyrics"`
-	Id        int       `json:"song_id"`
+	Id        int       `json:"id"`
 	Title     string    `json:"title"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
-	query := "SELECT song_id, title, genre FROM songs WHERE user_id = $1;"
+	query := "SELECT id, title, genre FROM songs WHERE user_id = $1;"
 	rows, err := conn.Query(context.Background(), query, userID)
 	if err != nil {
 		fmt.Println("Error executing query:", err)
@@ -38,7 +38,7 @@ func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
 }
 
 func GetSongByID(conn *pgx.Conn, id int) (*Song, error) {
-	query := "SELECT song_id, title, genre, lyrics FROM songs WHERE song_id = $1;"
+	query := "SELECT id, title, genre, lyrics FROM songs WHERE id = $1;"
 	row := conn.QueryRow(context.Background(), query, id)
 	var song Song
 	if err := row.Scan(&song.Id, &song.Title, &song.Genre, &song.Lyrics); err != nil {
