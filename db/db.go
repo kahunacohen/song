@@ -19,7 +19,7 @@ type Song struct {
 }
 
 func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
-	query := "SELECT id, title, genre FROM songs WHERE user_id = $1;"
+	query := "SELECT id, title, genre FROM songs WHERE user_id = $1 ORDER BY title;"
 	rows, err := conn.Query(context.Background(), query, userID)
 	if err != nil {
 		fmt.Println("Error executing query:", err)
