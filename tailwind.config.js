@@ -4,7 +4,12 @@ module.exports = {
     './templates/*.templ'
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Nunito', 'sans-serif'],
+      },
+    },
+
   },
   plugins: [],
 }

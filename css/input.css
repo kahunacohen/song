@@ -6,9 +6,16 @@
     h2 {
         @apply text-xl;
         @apply font-bold;
+        @apply mb-3;
     }
     a[href] {
         @apply text-blue-500; 
         @apply hover:text-blue-700;
+    }
+    label {
+        @apply font-bold;
+    }
+    input[type=text] {
+        @apply mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500;
     }
 }
