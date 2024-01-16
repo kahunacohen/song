@@ -7,7 +7,6 @@ import (
 templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
     <div id="wrapper">
     if editMode {
-        <h2>Edit "{song.Title}"</h2>
         <form>
             <div>
                 <label for="title">Title</label>
@@ -22,7 +21,6 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
                 type="submit">Submit</button>
         </form>
     } else {
-        <h2>{song.Title}</h2>
         <div>{song.Lyrics}</div>
         <button 
             hx-get={uriEditMode} 

@@ -24,10 +24,17 @@ func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 			c.JSON(http.StatusOK, song)
 		} else {
 			uri := fmt.Sprintf("/users/%s/songs/%d", userID, song.Id)
-			uriEditMode := fmt.Sprintf("%s?mode=edit", uri)
+			editModeUri := fmt.Sprintf("%s?mode=edit", uri)
+			mode := c.Query("mode")
 			templates.Render(c, templates.Base(
-				song.Title,
-				templates.Song(*song, uri, uriEditMode, c.Query("mode") == "edit"),
+				func() string {
+					if mode == "edit" {
+						return fmt.Sprintf("Edit \"%s\"", song.Title)
+					} else {
+						return song.Title
+					}
+				}(),
+				templates.Song(*song, uri, editModeUri, mode == "edit"),
 			))
 		}
 	}

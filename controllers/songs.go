@@ -23,7 +23,7 @@ func GetSongs(conn *pgx.Conn) gin.HandlerFunc {
 			c.JSON(http.StatusOK, songs)
 		} else {
 			templates.Render(c, templates.Base(
-				"Songs",
+				"My Songs",
 				templates.Songs(userID, songs),
 			))
 		}
