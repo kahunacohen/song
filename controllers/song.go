@@ -40,8 +40,9 @@ func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 	}
 }
 
-type PutSongRequest struct {
-	Title string
+type SongForm struct {
+	Title  string `form:"title" binding:"required"`
+	Lyrics string `form:"lyrics" binding:"required"`
 }
 
 func PutSong(conn *pgx.Conn) gin.HandlerFunc {
@@ -51,6 +52,14 @@ func PutSong(conn *pgx.Conn) gin.HandlerFunc {
 		// 	// DO SOMETHING WITH THE ERROR
 		// }
 
-		// fmt.Println(request.Title)
+		var songForm SongForm
+
+		// Bind and validate form data
+		if err := c.ShouldBind(&songForm); err != nil {
+			fmt.Println("error!")
+			return
+		}
+		fmt.Println(songForm.Title)
+
 	}
 }
