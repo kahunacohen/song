@@ -46,8 +46,11 @@ func GetSongByID(conn *pgx.Conn, id int) (*Song, error) {
 	}
 	return &song, nil
 }
-func WriteSong(conn *pgx.Conn, song *Song) (*Song, error) {
+func UpdateSong(conn *pgx.Conn, song *Song) error {
 	query := "UPDATE songs SET title='$1', lyrics='$2' WHERE id=$3;"
-
-	return &song, nil
+	_, err := conn.Exec(context.Background(), query, song.Title, song.Lyrics, song.Id)
+	if err != nil {
+		return fmt.Errorf("error updating song: %v", err)
+	}
+	return nil
 }
