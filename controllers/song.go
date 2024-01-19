@@ -39,3 +39,18 @@ func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 		}
 	}
 }
+
+type PutSongRequest struct {
+	Title string
+}
+
+func PutSong(conn *pgx.Conn) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// var request PutSongRequest
+		// if err := c.BindJSON(&request); err != nil {
+		// 	// DO SOMETHING WITH THE ERROR
+		// }
+
+		// fmt.Println(request.Title)
+	}
+}
