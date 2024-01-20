@@ -49,12 +49,16 @@ type SongForm struct {
 func PutSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var songForm SongForm
-		if err := c.ShouldBind(&songForm); err != nil {
-			fmt.Println("error!")
-			return
+		c.Bind(&songForm)
+		id, err := strconv.Atoi(songForm.Id)
+		if err != nil {
+			//
 		}
-		fmt.Println("IH!!!!!")
-		fmt.Printf("id: %s", songForm.Id)
+		_, err = conn.Exec(c, "UPDATE songs SET title=$1, lyrics=$2 WHERE id=$3",
+			songForm.Title, songForm.Lyrics, id)
+		if err != nil {
+			fmt.Println("error!")
+		}
 
 	}
 }
