@@ -41,25 +41,20 @@ func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 }
 
 type SongForm struct {
+	Id     string `form:"id" binding:"required"`
 	Title  string `form:"title" binding:"required"`
 	Lyrics string `form:"lyrics" binding:"required"`
 }
 
 func PutSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// var request PutSongRequest
-		// if err := c.BindJSON(&request); err != nil {
-		// 	// DO SOMETHING WITH THE ERROR
-		// }
-
 		var songForm SongForm
-
-		// Bind and validate form data
 		if err := c.ShouldBind(&songForm); err != nil {
 			fmt.Println("error!")
 			return
 		}
-		fmt.Println(songForm.Title)
+		fmt.Println("IH!!!!!")
+		fmt.Printf("id: %s", songForm.Id)
 
 	}
 }

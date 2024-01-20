@@ -2,12 +2,16 @@ package templates
 
 import (
     "github.com/kahunacohen/songs/db"
+    "strconv"
 )
 
 templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
     <div id="wrapper">
     if editMode {
+        <p>{strconv.Itoa(song.Id)}</p>
         <form>
+
+            <input type="hidden" name="id" value={strconv.Itoa(song.Id)}/>
             <div>
                 <label for="title">Title</label>
                 <input id="title" name="title" type="text" value={song.Title}/>
