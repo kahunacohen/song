@@ -37,6 +37,8 @@ func main() {
 	router.GET("/users/:user_id/songs", controllers.GetSongs(conn))
 	router.GET("/api/v1/users/:user_id/songs/:song_id", controllers.GetSong(conn))
 	router.PUT("/users/:user_id/songs/:song_id", controllers.PutSong(conn))
+	// For put form method. Browsers don't like action=put
+	router.POST("/users/:user_id/songs/:song_id", controllers.PutSong(conn))
 	router.GET("/users/:user_id/songs/:song_id", controllers.GetSong(conn))
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }

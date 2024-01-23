@@ -6,9 +6,13 @@ import (
 )
 
 templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
+    <h2 class="mb-3">{song.Title}</h2>
     <div id="wrapper">
     if editMode {
-        <form>
+        <!-- form can save (stay in edit mode) and put 
+        post when submitting and redirecting back to view mode. Standard
+        html form handles submitting, htmx handles saving. -->
+        <form action={templ.SafeURL(uri)} method="post">
             <input type="hidden" name="id" value={strconv.Itoa(song.Id)}/>
             <div>
                 <label for="title">Title</label>
@@ -19,8 +23,13 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
                 <textarea id="lyrics" name="lyrics" class="resize-none border rounded-md p-2 min-h-full w-full" rows="4" value="{song.Lyrics}">{song.Lyrics}</textarea>
             </div>
             <button
-                hx-put={uri} 
-                type="submit">Submit</button>
+                hx-put={uri}
+                hx-target="body"
+                type="submit">Save
+            </button>
+            <button
+                type="submit">Submit
+            </button>
         </form>
     } else {
         <div>{song.Lyrics}</div>

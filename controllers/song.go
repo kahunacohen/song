@@ -42,6 +42,7 @@ func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 
 func PutSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		userID := c.Param("user_id")
 		var song db.Song
 		c.Bind(&song)
 		_, err := conn.Exec(c, "UPDATE songs SET title=$1, lyrics=$2 WHERE id=$3",
@@ -49,6 +50,16 @@ func PutSong(conn *pgx.Conn) gin.HandlerFunc {
 		if err != nil {
 			fmt.Println("error!")
 		}
-
+		uri := fmt.Sprintf("/users/%s/songs/%d", userID, song.Id)
+		editModeUri := fmt.Sprintf("%s?mode=edit", uri)
+		if c.Request.Method == "POST" {
+			// We are receiving from old-school form where method=POST
+			// is not supported by browsers, so redirect to same page
+			// with a GET.
+			c.Redirect(http.StatusSeeOther, uri)
+			return
+		}
+		// Re-render the new data when PUTing
+		templates.Render(c, templates.Song(song, uri, editModeUri, true))
 	}
 }
