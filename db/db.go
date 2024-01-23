@@ -11,10 +11,10 @@ import (
 type Song struct {
 	CreatedAt time.Time `json:"created_at"`
 	Capo      int
-	Genre     string    `json:"genre"`
-	Lyrics    string    `json:"lyrics"`
-	Id        int       `json:"id"`
-	Title     string    `json:"title"`
+	Genre     string    `form:"genre" json:"genre"`
+	Lyrics    string    `form:"lyrics" binding:"required" json:"lyrics"`
+	Id        int       `form:"id" binding:"required" json:"id"`
+	Title     string    `form:"title" binding:"required" json:"title"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 

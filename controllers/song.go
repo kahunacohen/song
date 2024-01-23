@@ -40,22 +40,12 @@ func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 	}
 }
 
-type SongForm struct {
-	Id     string `form:"id" binding:"required"`
-	Title  string `form:"title" binding:"required"`
-	Lyrics string `form:"lyrics" binding:"required"`
-}
-
 func PutSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var songForm SongForm
-		c.Bind(&songForm)
-		id, err := strconv.Atoi(songForm.Id)
-		if err != nil {
-			//
-		}
-		_, err = conn.Exec(c, "UPDATE songs SET title=$1, lyrics=$2 WHERE id=$3",
-			songForm.Title, songForm.Lyrics, id)
+		var song db.Song
+		c.Bind(&song)
+		_, err := conn.Exec(c, "UPDATE songs SET title=$1, lyrics=$2 WHERE id=$3",
+			song.Title, song.Lyrics, song.Id)
 		if err != nil {
 			fmt.Println("error!")
 		}
