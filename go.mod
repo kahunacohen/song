@@ -3,7 +3,7 @@ module github.com/kahunacohen/songs
 go 1.20
 
 require (
-	github.com/a-h/templ v0.2.501
+	github.com/a-h/templ v0.2.513
 	github.com/gin-gonic/gin v1.9.1
 	github.com/jackc/pgx/v5 v5.5.1
 )
