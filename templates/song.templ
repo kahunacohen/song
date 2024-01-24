@@ -35,7 +35,6 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
             <button
                 hx-put={uri}
                 hx-target="body"
-                hx-on:afterRequest="alert('Done making a request!')"
                 type="submit">Save
             </button>
             <button
@@ -52,4 +51,11 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
             class="btn btn-primary">Edit</button>
     }
     </div>
+    <script>
+    // JavaScript function to handle the response after the htmx request
+    document.body.addEventListener('htmx:afterRequest', function (event) {
+        alert(event.detail.requestConfig.verb);
+    });
+</script>
+
 }
