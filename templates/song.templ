@@ -2,7 +2,6 @@ package templates
 
 import (
     "github.com/kahunacohen/songs/db"
-    "strconv"
 )
 
 templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
@@ -23,20 +22,11 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
         post when submitting and redirecting back to view mode. Standard
         html form handles submitting, htmx handles saving. -->
         <form action={templ.SafeURL(uri)} method="post">
-            <div id="song-form-contents">
-                <input type="hidden" name="id" value={strconv.Itoa(song.Id)}/>
-                <div>
-                    <label for="title">Title</label>
-                    <input id="title" name="title" type="text" value={song.Title}/>
-                </div>
-                <div class="form-group">
-                    <label class="mt-3" for="lyrics">Lyrics</label>
-                    <textarea id="lyrics" name="lyrics" class="resize-none border rounded-md p-2 min-h-full w-full" rows="4" value="{song.Lyrics}">{song.Lyrics}</textarea>
-                </div>
-            </div>
+            @SongFormContents(song)
             <button
                 hx-put={uri}
-                hx-target="body"
+                hx-target="#song-form-contents"
+                x-on:htmx:after-request="alert('after');"
                 type="submit">Save
             </button>
             <button
@@ -53,15 +43,4 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
             class="btn btn-primary">Edit</button>
     }
     </div>
-    <script>
-    // JavaScript function to handle the response after the htmx request
-    Alpine.data(document.body).showAlert = false;
-
-    document.body.addEventListener('htmx:afterRequest', function (event) {
-        if(event.detail.requestConfig.verb) {
-            Alpine.data(document.body).showAlert = true;
-        }
-    });
-</script>
-
 }

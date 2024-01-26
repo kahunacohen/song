@@ -51,7 +51,7 @@ func PutSong(conn *pgx.Conn) gin.HandlerFunc {
 			fmt.Println("error!")
 		}
 		uri := fmt.Sprintf("/users/%s/songs/%d", userID, song.Id)
-		editModeUri := fmt.Sprintf("%s?mode=edit", uri)
+		// editModeUri := fmt.Sprintf("%s?mode=edit", uri)
 		if c.Request.Method == "POST" {
 			// We are receiving from old-school form where method=POST
 			// is not supported by browsers, so redirect to same page
@@ -60,6 +60,6 @@ func PutSong(conn *pgx.Conn) gin.HandlerFunc {
 			return
 		}
 		// Re-render the new data when PUTing
-		templates.Render(c, templates.Song(song, uri, editModeUri, true))
+		templates.Render(c, templates.SongFormContents(song))
 	}
 }
