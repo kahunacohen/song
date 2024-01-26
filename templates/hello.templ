@@ -1,5 +1,15 @@
 package templates
 
-templ Hello(name string) {
-	<div>Hello, { name }</div>
+templ Hello() {
+	<html>
+	<head>
+		<script type="text/javascript" src="/static/htmx.min.js"></script>
+	</head>
+	<body>
+		<div id="target">Target</div>
+		<button type="button" hx-get="/users/2/songs/6" hx-target="#target" 
+		hx-on::after-request="alert('after')"
+		hx-on::before-request="alert('start')">Click me</button>
+	</body>
+	</html>
 }
