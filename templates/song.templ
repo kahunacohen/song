@@ -6,17 +6,15 @@ import (
 
 templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
     <h2 class="mb-3">{song.Title}</h2>
-    <div id="wrapper" >
-        <div
-            x-show="showAlert"
-            x-transition:enter="transition ease-out duration-500"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-500"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0">
-            Song saved
-        </div>
+    <div id="wrapper" x-data="{ showSuccess: false }" >
+    <div
+    x-show="showSuccess"
+    x-transition:enter="transition-opacity duration-1000"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    >
+    Song saved
+</div>
     if editMode {
         <!-- form can save (stay in edit mode) and put 
         post when submitting and redirecting back to view mode. Standard
@@ -26,13 +24,15 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
             <button
                 hx-put={uri}
                 hx-target="#song-form-contents"
-                x-on:htmx:after-request="alert('after');"
+                x-on:htmx:after-request="showSuccess = true"
                 type="submit">Save
             </button>
             <button
                 type="submit">Submit
             </button>
         </form>
+        <script>
+        </script>
     } else {
         <div>{song.Lyrics}</div>
         <button 
