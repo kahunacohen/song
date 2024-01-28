@@ -5,8 +5,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      borderColor: {
+        'alert-success': '#c3e6cb',
+      },
       fontFamily: {
         sans: ['Nunito', 'sans-serif'],
+      },
+      textColor: {
+        'alert-success': '#155724',
       },
     },
 
