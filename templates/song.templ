@@ -7,14 +7,14 @@ import (
 templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
     <h2 class="mb-3">{song.Title}</h2>
     <div id="wrapper" x-data="{ showSuccess: false }" >
-    <div
-    x-show="showSuccess"
-    x-transition:enter="transition-opacity duration-1000"
-    x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100"
-    >
+        <span
+            x-data
+            x-show="showSuccess"
+            x-transition
+            x-init="$watch('showSuccess', (value) => setTimeout(() => showSuccess=false, 3000))"
+        >
     Song saved
-</div>
+    </span>
     if editMode {
         <!-- form can save (stay in edit mode) and put 
         post when submitting and redirecting back to view mode. Standard

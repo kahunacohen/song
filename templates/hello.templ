@@ -3,13 +3,18 @@ package templates
 templ Hello() {
 	<html>
 	<head>
+		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 		<script type="text/javascript" src="/static/htmx.min.js"></script>
+
 	</head>
 	<body>
-		<div id="target">Target</div>
-		<button type="button" hx-get="/users/2/songs/6" hx-target="#target" 
-		hx-on::after-request="alert('after')"
-		hx-on::before-request="alert('start')">Click me</button>
+<div x-data="{ open: false }">
+    <button @click="open = ! open">Toggle</button>
+ 
+    <div x-show="open" x-transition>
+        Hello 👋
+    </div>
+</div>
 	</body>
 	</html>
 }
