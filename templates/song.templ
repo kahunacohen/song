@@ -5,17 +5,10 @@ import (
 )
 
 templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
-    <h2 class="mb-3">{song.Title}</h2>
-    <div id="wrapper" x-data="{ showSuccess: false }" >
-        <span
-            x-data
-            x-show="showSuccess"
-            x-transition
-            x-init="$watch('showSuccess', (value) => setTimeout(() => showSuccess=false, 3000))"
-        >
-    Song saved
-    </span>
+    <div id="wrapper" x-data="{ saveSuccess: false }" >
+        <h2 class="mb-3">{song.Title}</h2>
     if editMode {
+        @Alert("Saved song", "saveSuccess")
         <!-- form can save (stay in edit mode) and put 
         post when submitting and redirecting back to view mode. Standard
         html form handles submitting, htmx handles saving. -->
@@ -24,7 +17,7 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
             <button
                 hx-put={uri}
                 hx-target="#song-form-contents"
-                x-on:htmx:after-request="showSuccess = true"
+                x-on:htmx:after-request="saveSuccess = true"
                 type="submit">Save
             </button>
             <button

@@ -1,0 +1,11 @@
+package templates
+import "fmt"
+
+templ Alert(text string, varNameToWatch string) {
+    <span
+        x-show={varNameToWatch}
+        x-transition
+        x-init={fmt.Sprintf("$watch('%s', (value) => setTimeout(() => %s=false, 3000))", varNameToWatch, varNameToWatch)}>
+    {text}
+  </span>
+}
