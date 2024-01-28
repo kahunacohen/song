@@ -3,7 +3,7 @@ import "fmt"
 
 templ Alert(text string, varNameToWatch string) {
     <div
-        class="absolute top-0 left-1/2 p-tb-3 p-lr-5 bg-green-200 text-alert-success border-custom-alert-success"
+        class="absolute top-2 left-1/2 py-3 px-5 shadow-md bg-green-200 text-alert-success border-custom-alert-success"
         x-show={varNameToWatch}
         x-transition
         x-init={fmt.Sprintf("$watch('%s', (value) => setTimeout(() => %s=false, 3000))", varNameToWatch, varNameToWatch)}>
