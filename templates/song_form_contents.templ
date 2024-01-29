@@ -6,6 +6,7 @@ import (
 )
 
 templ SongFormContents(song db.Song) {
+    <span style="display:none;" hx-swap-oob="innerHTML:h2,title" style="border:1px solid red">Edit "{song.Title}"</span>
     <div id="song-form-contents">
         <input type="hidden" name="id" value={strconv.Itoa(song.Id)}/>
         <div>

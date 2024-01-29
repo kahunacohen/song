@@ -6,7 +6,7 @@ import (
 
 templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
     <div id="wrapper" x-data="{ saveSuccess: false }" >
-        <h2 class="mb-3">{song.Title}</h2>
+        <h2 class="mb-3">Edit "{song.Title}"</h2>
     if editMode {
         @Alert("Saved song", "saveSuccess")
         <!-- form can save (stay in edit mode) and put 
