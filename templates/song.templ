@@ -6,8 +6,8 @@ import (
 
 templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
     <div id="wrapper" x-data="{ saveSuccess: false }" >
-        <h2 class="mb-3">Edit "{song.Title}"</h2>
     if editMode {
+        <h2 class="mb-3">Edit "{song.Title}"</h2>
         @Alert("Saved song", "saveSuccess")
         <!-- form can save (stay in edit mode) and put 
         post when submitting and redirecting back to view mode. Standard
@@ -18,15 +18,16 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
                 hx-put={uri}
                 hx-target="#song-form-contents"
                 x-on:htmx:after-request="saveSuccess = true"
-                type="submit">Save
+                type="submit">Save and continue editing
             </button>
             <button
-                type="submit">Submit
+                type="submit">Save
             </button>
         </form>
         <script>
         </script>
     } else {
+        <h2 class="mb-3">{song.Title}</h2>
         <div>{song.Lyrics}</div>
         <button 
             hx-get={uriEditMode} 
