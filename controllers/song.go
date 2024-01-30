@@ -17,12 +17,12 @@ func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 		songIDAsInt, _ := strconv.Atoi(songID)
 		userID := c.Param("user_id")
 		song, err := db.GetSongByID(conn, songIDAsInt)
-		if err != nil {
-			fmt.Println("error")
-		}
 		if c.MustGet("rsp_fmt") == "json" {
 			c.JSON(http.StatusOK, song)
 		} else {
+			if err != nil {
+				return // 404 page
+			}
 			uri := fmt.Sprintf("/users/%s/songs/%d", userID, song.Id)
 			editModeUri := fmt.Sprintf("%s?mode=edit", uri)
 			mode := c.Query("mode")
@@ -42,24 +42,29 @@ func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 
 func PutSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		fmt.Println("HERE!")
 		userID := c.Param("user_id")
 		var song db.Song
 		c.Bind(&song)
 		_, err := conn.Exec(c, "UPDATE songs SET title=$1, lyrics=$2 WHERE id=$3",
 			song.Title, song.Lyrics, song.Id)
 		if err != nil {
+			// @TODO error handling.
 			fmt.Println("error!")
 		}
-		uri := fmt.Sprintf("/users/%s/songs/%d", userID, song.Id)
-		// editModeUri := fmt.Sprintf("%s?mode=edit", uri)
-		if c.Request.Method == "POST" {
-			// We are receiving from old-school form where method=POST
-			// is not supported by browsers, so redirect to same page
-			// with a GET.
-			c.Redirect(http.StatusSeeOther, uri)
-			return
+		if c.MustGet("rsp_fmt") == "json" {
+			c.JSON(http.StatusOK, song)
+		} else {
+			uri := fmt.Sprintf("/users/%s/songs/%d", userID, song.Id)
+			if c.Request.Method == "POST" {
+				// We are receiving from old-school form where method=POST
+				// is not supported by browsers, so redirect to same page
+				// with a GET.
+				c.Redirect(http.StatusSeeOther, uri)
+				return
+			}
+			// Re-render the new data when PUTing
+			templates.Render(c, templates.SongFormContents(song))
 		}
-		// Re-render the new data when PUTing
-		templates.Render(c, templates.SongFormContents(song))
 	}
 }

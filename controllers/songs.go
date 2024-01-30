@@ -29,3 +29,16 @@ func GetSongs(conn *pgx.Conn) gin.HandlerFunc {
 		}
 	}
 }
+
+func DeleteSong(conn *pgx.Conn) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		songID := c.Param("song_id")
+		songAsInt, err := strconv.Atoi(songID)
+		if err != nil {
+			fmt.Println("handle error")
+		}
+		if db.DeleteSong(conn, songAsInt); err != nil {
+			fmt.Println("error")
+		}
+	}
+}

@@ -14,6 +14,9 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
         html form handles submitting, htmx handles saving. -->
         <form action={templ.SafeURL(uri)} method="post">
             @SongFormContents(song)
+            <button hx-delete={uri} type="submit">
+                Delete
+            </button>
             <button
                 hx-put={uri}
                 hx-target="#song-form-contents"

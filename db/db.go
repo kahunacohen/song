@@ -54,3 +54,12 @@ func UpdateSong(conn *pgx.Conn, song *Song) error {
 	}
 	return nil
 }
+func DeleteSong(conn *pgx.Conn, songID int) error {
+	query := "DELETE FROM songs WHERE id=$1"
+	_, err := conn.Exec(context.Background(), query, songID)
+	if err != nil {
+		fmt.Println("error here!")
+		return err
+	}
+	return nil
+}
