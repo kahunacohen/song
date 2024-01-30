@@ -16,12 +16,13 @@ func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 		songID := c.Param("song_id")
 		songIDAsInt, _ := strconv.Atoi(songID)
 		userID := c.Param("user_id")
-		song, err := db.GetSongByID(conn, songIDAsInt)
+		song, getSongErr := db.GetSongByID(conn, songIDAsInt)
 		if c.MustGet("rsp_fmt") == "json" {
 			c.JSON(http.StatusOK, song)
 		} else {
-			if err != nil {
-				return // 404 page
+			if getSongErr != nil {
+				templates.Render(c, templates.Base("Not found", templates.NotFound()))
+				return
 			}
 			uri := fmt.Sprintf("/users/%s/songs/%d", userID, song.Id)
 			editModeUri := fmt.Sprintf("%s?mode=edit", uri)
