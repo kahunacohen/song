@@ -5,16 +5,46 @@ templ Hello() {
 	<head>
 		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 		<script type="text/javascript" src="/static/htmx.min.js"></script>
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+
+				Alpine.data("alert", function () {
+					return {
+						show: false,
+						message: '',
+						showAlert(message) {
+							this.message = message;
+							this.show = true;
+							setTimeout(() => {
+								this.show = false;
+								this.message = '';
+							}, 3000);
+						},
+					};
+				});
+			});
+		</script>
 
 	</head>
 	<body>
-<div x-data="{ open: false }">
-    <button @click="open = ! open">Toggle</button>
- 
-    <div x-show="open" x-transition>
-        Hello 👋
-    </div>
-</div>
+		<div x-data="alert">
+			<div x-transition x-show="visible">Hi</div>
+		</div>
+	<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data("alert", () => ({
+            visible: false,
+			init() {
+				setTimeout(() => this.show(), 500)
+			},
+            show() {
+                this.visible = true;
+				setTimeout(() => this.visible = false, 3000);
+            }
+        }))
+    })
+</script>
+
 	</body>
 	</html>
 }

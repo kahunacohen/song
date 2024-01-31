@@ -32,14 +32,16 @@ func GetSongs(conn *pgx.Conn) gin.HandlerFunc {
 
 func DeleteSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		songID := c.Param("song_id")
-		songAsInt, err := strconv.Atoi(songID)
-		if err != nil {
-			fmt.Println("handle error")
-		}
-		if db.DeleteSong(conn, songAsInt); err != nil {
-			fmt.Println("error")
-		}
-		c.Header("HX-Redirect", fmt.Sprintf("/users/%s/songs", c.Param("user_id")))
+		// songID := c.Param("song_id")
+		// songAsInt, err := strconv.Atoi(songID)
+		// if err != nil {
+		// 	c.AbortWithError(http.StatusInternalServerError,
+		// 		fmt.Errorf("not able to convert song id to an int: %v", err))
+		// }
+		// if db.DeleteSong(conn, songAsInt); err != nil {
+		// 	c.AbortWithError(http.StatusInternalServerError,
+		// 		fmt.Errorf("not able to delete song: %v", err))
+		// }
+		c.Header("HX-Redirect", fmt.Sprintf("/users/%s/songs?confirmation=deleted", c.Param("user_id")))
 	}
 }

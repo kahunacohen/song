@@ -7,6 +7,6 @@ templ Alert(text string, varNameToWatch string) {
         x-show={varNameToWatch}
         x-transition
         x-init={fmt.Sprintf("$watch('%s', (value) => setTimeout(() => %s=false, 3000))", varNameToWatch, varNameToWatch)}>
-    {text}
+      {text}
   </div>
 }
