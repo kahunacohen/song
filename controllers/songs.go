@@ -40,5 +40,6 @@ func DeleteSong(conn *pgx.Conn) gin.HandlerFunc {
 		if db.DeleteSong(conn, songAsInt); err != nil {
 			fmt.Println("error")
 		}
+		c.Header("HX-Redirect", fmt.Sprintf("/users/%s/songs", c.Param("user_id")))
 	}
 }
