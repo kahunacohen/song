@@ -27,14 +27,16 @@ templ Hello() {
 
 	</head>
 	<body>
-		<div x-data="alert">
-			<div x-transition x-show="visible">Hi</div>
+		<div x-data="alert('shit!')">
+			<div x-transition x-show="visible" x-text="message"></div>
 		</div>
 	<script>
     document.addEventListener('alpine:init', () => {
-        Alpine.data("alert", () => ({
+        Alpine.data("alert", (message) => ({
             visible: false,
+			message: "",
 			init() {
+				this.message = message;
 				setTimeout(() => this.show(), 500)
 			},
             show() {
