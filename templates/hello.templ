@@ -5,44 +5,36 @@ templ Hello() {
 	<head>
 		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 		<script type="text/javascript" src="/static/htmx.min.js"></script>
-		<script>
-			document.addEventListener('DOMContentLoaded', function () {
-
-				Alpine.data("alert", function () {
-					return {
-						show: false,
-						message: '',
-						showAlert(message) {
-							this.message = message;
-							this.show = true;
-							setTimeout(() => {
-								this.show = false;
-								this.message = '';
-							}, 3000);
-						},
-					};
-				});
-			});
-		</script>
-
 	</head>
 	<body>
-		<div x-data="alert('shit!')">
+		<div x-data="toast('foo!')">
 			<div x-transition x-show="visible" x-text="message"></div>
+		</div>
+		<div x-data="toast('bar!')">
+			<div x-transition x-show="visible" x-text="message"></div>
+		</div>
+
+		<div x-data="{showIt: false}">
+			<template x-if="showIt">
+				<div x-data="toast('baz!')">
+					<div x-transition x-show="visible" x-text="message"></div>
+				</div>
+			</template>
+			<button @click="() => showIt = !showIt">show it</button> 
 		</div>
 	<script>
     document.addEventListener('alpine:init', () => {
-        Alpine.data("alert", (message) => ({
+        Alpine.data("toast", (message) => ({
             visible: false,
 			message: "",
 			init() {
 				this.message = message;
-				setTimeout(() => this.show(), 500)
+				setTimeout(() => this.show(), 500);
 			},
             show() {
                 this.visible = true;
 				setTimeout(() => this.visible = false, 3000);
-            }
+            },
         }))
     })
 </script>
