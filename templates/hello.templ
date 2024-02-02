@@ -28,6 +28,7 @@ templ Hello() {
             visible: false,
 			message: "",
 			init() {
+				this.$watch("visible", ()=> {console.log(this.visible)})
 				this.message = message;
 				setTimeout(() => this.show(), 500);
 			},
