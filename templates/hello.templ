@@ -7,20 +7,12 @@ templ Hello() {
 		<script type="text/javascript" src="/static/htmx.min.js"></script>
 	</head>
 	<body>
-		<div x-data="toast('foo!')">
+		<div x-data="toast('hello!')">
 			<div x-transition x-show="visible" x-text="message"></div>
-		</div>
-		<div x-data="toast('bar!')">
-			<div x-transition x-show="visible" x-text="message"></div>
-		</div>
-
-		<div x-data="{showIt: false}">
-			<template x-if="showIt">
-				<div x-data="toast('baz!')">
-					<div x-transition x-show="visible" x-text="message"></div>
-				</div>
-			</template>
-			<button @click="() => showIt = !showIt">show it</button> 
+			<button 
+				hx-get="/users/2/songs/6"
+				x-on:htmx:after-request="show()"
+			>get</button>
 		</div>
 	<script>
     document.addEventListener('alpine:init', () => {
@@ -28,13 +20,11 @@ templ Hello() {
             visible: false,
 			message: "",
 			init() {
-				this.$watch("visible", ()=> {console.log(this.visible)})
 				this.message = message;
-				setTimeout(() => this.show(), 500);
 			},
             show() {
-                this.visible = true;
-				setTimeout(() => this.visible = false, 3000);
+				setTimeout(() => this.visible = true, 500);
+				setTimeout(() => this.visible = false, 3500);
             },
         }))
     })
