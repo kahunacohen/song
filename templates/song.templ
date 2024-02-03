@@ -7,18 +7,12 @@ import (
 templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
     <div id="wrapper">
     if editMode {
-        <h2 class="mb-3">Edit "{song.Title}"</h2>
-        // @Alert("Saved song", "saveSuccess")
-       
+        <h2 class="mb-3">Edit "{song.Title}"</h2>       
         <!-- form can save (stay in edit mode) and put 
         post when submitting and redirecting back to view mode. Standard
         html form handles submitting, htmx handles saving. -->
-        <form action={templ.SafeURL(uri)} method="post" x-data="toast('Song saved')">
-        	<div 
-                class="absolute top-2 left-1/2 py-3 px-5 shadow-md bg-green-200 text-alert-success border-custom-alert-success"
-                x-transition x-show="visible" 
-                x-text="message">
-            </div>
+        <form action={templ.SafeURL(uri)} method="post" x-data="Toast('Song saved')">
+            @Toast()
             @SongFormContents(song)
             <button hx-delete={uri} type="submit">
                 Delete

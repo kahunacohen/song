@@ -1,5 +1,5 @@
 document.addEventListener('alpine:init', () => {
-    Alpine.data("toast", (message) => ({
+    Alpine.data("Toast", (message) => ({
         visible: false,
         message: "",
         init() {
