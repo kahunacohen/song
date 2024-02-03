@@ -5,19 +5,20 @@ import (
 )
 
 templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
-    <div id="wrapper" x-data="{ saveSuccess: false }" >
+    <div id="wrapper">
     if editMode {
         <h2 class="mb-3">Edit "{song.Title}"</h2>
         // @Alert("Saved song", "saveSuccess")
-        <template x-if="saveSuccess">
-            <div x-data="toast('bar!')">
-                <div x-transition x-show="visible" x-text="message"></div>
-            </div>
-        </template>
+       
         <!-- form can save (stay in edit mode) and put 
         post when submitting and redirecting back to view mode. Standard
         html form handles submitting, htmx handles saving. -->
-        <form action={templ.SafeURL(uri)} method="post">
+        <form action={templ.SafeURL(uri)} method="post" x-data="toast('Song saved')">
+        	<div 
+                class="absolute top-2 left-1/2 py-3 px-5 shadow-md bg-green-200 text-alert-success border-custom-alert-success"
+                x-transition x-show="visible" 
+                x-text="message">
+            </div>
             @SongFormContents(song)
             <button hx-delete={uri} type="submit">
                 Delete
@@ -25,29 +26,13 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
             <button
                 hx-put={uri}
                 hx-target="#song-form-contents"
-                x-on:htmx:after-request="saveSuccess = true"
+                x-on:htmx:after-request="showToast()"
                 type="submit">Save and continue editing
             </button>
             <button
                 type="submit">Save
             </button>
         </form>
-        <script>
-         document.addEventListener('alpine:init', () => {
-        Alpine.data("toast", (message) => ({
-            visible: false,
-			message: "",
-			init() {
-				this.message = message;
-				setTimeout(() => this.show(), 500);
-			},
-            show() {
-                this.visible = true;
-				setTimeout(() => this.visible = false, 3000);
-            },
-        }))
-    })
-        </script>
     } else {
         <h2 class="mb-3">{song.Title}</h2>
         <div>{song.Lyrics}</div>

@@ -6,8 +6,8 @@ import (
 )
 
 templ Songs(userID string, songs []db.Song) {
-	<div x-data="myData">
-		@Alert("deleted", "showDeleteConfirmation")
+	<div>
+		// @Alert("deleted", "showDeleteConfirmation")
 		<table class="min-w-full bg-white border border-gray-300">
 			<thead>
 				<tr class="bg-gray-200">
@@ -25,14 +25,4 @@ templ Songs(userID string, songs []db.Song) {
 			</tbody>
 		</table>
 	</div>
-	<script>
-		document.addEventListener('DOMContentLoaded', () => {
-			if (new URL(document.location.href).searchParams.get("confirm")) {
-					console.log(window.Alpine)
-					window.Alpine.data("myData", () => ({
-			        	showDeleteConfirmation: true,
-			    	}));
-			}
-	});
-	</script>	
 }

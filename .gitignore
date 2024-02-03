@@ -30,5 +30,5 @@ templates/*_templ.go
 .DS_Store
 Thumbs.db
 tmp
-static/*
+static/output.css
 tailwindcss
