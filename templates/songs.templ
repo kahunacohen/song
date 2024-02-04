@@ -10,13 +10,15 @@ templ Songs(userID string, songs []db.Song) {
 		function foo() {
 			console.log(new URL(location.href).searchParams.get("confirmation"));
 			if(new URL(location.href).searchParams.get("confirmation") === "deleted") {
-				this.show();
+				this.showToast();
+				const urlWithoutQueryString = window.location.origin + window.location.pathname;
+				window.history.replaceState({}, document.title, urlWithoutQueryString);
 			}
 		}
 	</script>
 	<div x-data="Toast('Song deleted')">
 		@Toast()
-		<table x=data="foo" class="min-w-full bg-white border border-gray-300">
+		<table x-data="foo" class="min-w-full bg-white border border-gray-300">
 			<thead>
 				<tr class="bg-gray-200">
 					<th class="py-2 px-4 text-left">Title</th>
