@@ -6,9 +6,17 @@ import (
 )
 
 templ Songs(userID string, songs []db.Song) {
-	<div>
-		// @Alert("deleted", "showDeleteConfirmation")
-		<table class="min-w-full bg-white border border-gray-300">
+	<script>
+		function foo() {
+			console.log(new URL(location.href).searchParams.get("confirmation"));
+			if(new URL(location.href).searchParams.get("confirmation") === "deleted") {
+				this.show();
+			}
+		}
+	</script>
+	<div x-data="Toast('Song deleted')">
+		@Toast()
+		<table x=data="foo" class="min-w-full bg-white border border-gray-300">
 			<thead>
 				<tr class="bg-gray-200">
 					<th class="py-2 px-4 text-left">Title</th>
