@@ -18,13 +18,16 @@ templ Songs(userID string, songs []db.Song) {
 	<div x-data="Toast('Song deleted')">
 		@Toast()
 		<div id="modal">Modal
-			<div class="modal-content"></div>
-			<button type="submit">Save</button>
+			<form hx-post={fmt.Sprintf("/users/%s/songs", userID)}>
+				<label for="title">Title</label><input type="text" name="title" id="title"></input>
+				<button 
+					type="submit">Save
+				</button>
+			</form>
 		</div>
 		<button 
 			type="submit"
 			hx-get={fmt.Sprintf("/users/%s/songs/new", userID)}
-			hx-target="#modal .modal-content"
 			>Add new song
 		</button>
 		<table x-data="showToastIfSongDeleted" class="min-w-full bg-white border border-gray-300">
