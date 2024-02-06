@@ -30,6 +30,13 @@ func GetSongs(conn *pgx.Conn) gin.HandlerFunc {
 	}
 }
 
+func NewSong(conn *pgx.Conn) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		templates.SongFormContents(db.Song{}).Render(c, c.Writer)
+
+	}
+}
+
 func DeleteSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		songID := c.Param("song_id")
