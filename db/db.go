@@ -20,7 +20,7 @@ type Song struct {
 }
 
 func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
-	query := "SELECT id, title, genre FROM songs WHERE user_id = $1 ORDER BY title;"
+	query := "SELECT id, title, genre, user_id FROM songs WHERE user_id = $1 ORDER BY title;"
 	rows, err := conn.Query(context.Background(), query, userID)
 	if err != nil {
 		fmt.Println("Error executing query:", err)
@@ -29,7 +29,7 @@ func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
 	var songs []Song
 	for rows.Next() {
 		var song Song
-		if err := rows.Scan(&song.Id, &song.Title, &song.Genre); err != nil {
+		if err := rows.Scan(&song.Id, &song.Title, &song.Genre, &song.UserID); err != nil {
 			return nil, fmt.Errorf("error scanning row: %v", err)
 		}
 		songs = append(songs, song)
