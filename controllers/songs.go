@@ -43,7 +43,11 @@ func PostSong(conn *pgx.Conn) gin.HandlerFunc {
 			fmt.Println(err)
 			return
 		}
-		fmt.Println(song)
+		err := db.CreateSong(conn, &song)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 	}
 }
 func DeleteSong(conn *pgx.Conn) gin.HandlerFunc {

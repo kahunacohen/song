@@ -16,6 +16,7 @@ type Song struct {
 	Id        int       `form:"id" json:"id"`
 	Title     string    `form:"title" binding:"required" json:"title"`
 	UpdatedAt time.Time `json:"updated_at"`
+	UserID    int       `form:"user_id" json:"user_id"`
 }
 
 func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
@@ -51,6 +52,14 @@ func UpdateSong(conn *pgx.Conn, song *Song) error {
 	_, err := conn.Exec(context.Background(), query, song.Title, song.Lyrics, song.Id)
 	if err != nil {
 		return fmt.Errorf("error updating song: %v", err)
+	}
+	return nil
+}
+func CreateSong(conn *pgx.Conn, song *Song) error {
+	query := "INSERT INTO songs (title, lyrics, user_id, genre) VALUES($1, $2, $3, $4)"
+	_, err := conn.Exec(context.Background(), query, song.Title, song.Lyrics, song.UserID, "Rock")
+	if err != nil {
+		return fmt.Errorf("error creating song: %v", err)
 	}
 	return nil
 }

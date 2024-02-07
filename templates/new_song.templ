@@ -7,6 +7,7 @@ import (
 
 templ NewSong(userID string) {
     <form method="post" hx-post={fmt.Sprintf("/users/%s/songs/new", userID)}>
+        <input type="hidden" name="user_id" value={userID}/>
         @SongFormContents(db.Song{})
         <button type="submit">Save</button>
     </form>
