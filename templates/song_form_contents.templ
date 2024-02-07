@@ -12,6 +12,8 @@ templ SongFormContents(song db.Song) {
     }
     <div id="song-form-contents">
         <input type="hidden" name="id" value={strconv.Itoa(song.Id)}/>
+        <input type="hidden" name="genre" value="Rock"/>
+
         <div>
             <label for="title">Title</label>
             <input id="title" name="title" type="text" value={song.Title}/>

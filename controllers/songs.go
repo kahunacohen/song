@@ -48,6 +48,9 @@ func PostSong(conn *pgx.Conn) gin.HandlerFunc {
 			fmt.Println(err)
 			return
 		}
+		fmt.Println("genre:")
+		fmt.Println(song.Genre)
+		templates.SongRow(song).Render(c, c.Writer)
 	}
 }
 func DeleteSong(conn *pgx.Conn) gin.HandlerFunc {
