@@ -47,14 +47,6 @@ func GetSongByID(conn *pgx.Conn, id int) (*Song, error) {
 	}
 	return &song, nil
 }
-func GetSongByTitle(conn *pgx.Conn, userID int, title string) (*Song, error) {
-	var song Song
-	query := "SELECT id, title, genre, lyrics, user_id FROM songs WHERE user_id=$1 AND title=$2"
-	if err := conn.QueryRow(context.Background(), query, userID, title).Scan(&song.Id, &song.Title, &song.Genre, &song.Lyrics, &song.UserID); err != nil {
-		return nil, err
-	}
-	return &song, nil
-}
 func UpdateSong(conn *pgx.Conn, song *Song) error {
 	query := "UPDATE songs SET title='$1', lyrics='$2' WHERE id=$3;"
 	_, err := conn.Exec(context.Background(), query, song.Title, song.Lyrics, song.Id)
@@ -63,15 +55,15 @@ func UpdateSong(conn *pgx.Conn, song *Song) error {
 	}
 	return nil
 }
-func CreateSong(conn *pgx.Conn, song *Song) (*Song, error) {
+func CreateSong(conn *pgx.Conn, song *Song) error {
 	var id int
 	query := "INSERT INTO songs (title, lyrics, user_id, genre) VALUES($1, $2, $3, $4) RETURNING id"
 	err := conn.QueryRow(context.Background(), query, song.Title, song.Lyrics, song.UserID, "Rock").Scan(&id)
 	if err != nil {
-		return nil, fmt.Errorf("error creating song: %v", err)
+		return fmt.Errorf("error creating song: %v", err)
 	}
 	song.Id = id
-	return song, nil
+	return nil
 }
 func DeleteSong(conn *pgx.Conn, songID int) error {
 	query := "DELETE FROM songs WHERE id=$1"

@@ -42,8 +42,7 @@ func PostSong(conn *pgx.Conn) gin.HandlerFunc {
 			fmt.Println(err)
 			return
 		}
-		song, err := db.CreateSong(conn, song)
-		if err != nil {
+		if err := db.CreateSong(conn, song); err != nil {
 			fmt.Println(err)
 			return
 		}
