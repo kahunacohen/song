@@ -13,7 +13,7 @@ type Song struct {
 	Capo      int
 	Genre     string    `form:"genre" json:"genre"`
 	Lyrics    string    `form:"lyrics" binding:"required" json:"lyrics"`
-	Id        int       `form:"id" binding:"required" json:"id"`
+	Id        int       `form:"id" json:"id"`
 	Title     string    `form:"title" binding:"required" json:"title"`
 	UpdatedAt time.Time `json:"updated_at"`
 }

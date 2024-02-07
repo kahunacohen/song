@@ -30,19 +30,22 @@ func GetSongs(conn *pgx.Conn) gin.HandlerFunc {
 	}
 }
 
-func PostSong(conn *pgx.Conn) gin.HandlerFunc {
+func NewSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		err := c.Request.ParseForm()
-		if err != nil {
-			fmt.Println("error")
-		}
-		c.Request.ParseForm()
-		title := c.Request.Form.Get("title")
-		lyrics := c.Request.Form.Get("lyrics")
-
+		templates.NewSong(c.Param("user_id")).Render(c, c.Writer)
 	}
 }
-
+func PostSong(conn *pgx.Conn) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var song db.Song
+		// Bind form data to the User struct
+		if err := c.ShouldBind(&song); err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println(song)
+	}
+}
 func DeleteSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		songID := c.Param("song_id")

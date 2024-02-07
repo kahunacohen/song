@@ -43,7 +43,6 @@ func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 
 func PutSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		fmt.Println("HERE!")
 		userID := c.Param("user_id")
 		var song db.Song
 		c.Bind(&song)

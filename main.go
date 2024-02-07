@@ -44,7 +44,8 @@ func main() {
 
 	router.GET("/api/v1/users/:user_id/songs/:song_id", controllers.GetSong(conn))
 	router.PUT("/users/:user_id/songs/:song_id", controllers.PutSong(conn))
-	router.POST("/users/:user_id/songs", controllers.PostSong(conn))
+	router.GET("/users/:user_id/songs/new", controllers.NewSong(conn))
+	router.POST("/users/:user_id/songs/new", controllers.PostSong(conn))
 
 	// /songs/id
 	// For put form method. Browsers don't like action=put

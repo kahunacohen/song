@@ -1,0 +1,13 @@
+package templates 
+
+import (
+    "fmt"
+    "github.com/kahunacohen/songs/db"
+)
+
+templ NewSong(userID string) {
+    <form method="post" hx-post={fmt.Sprintf("/users/%s/songs/new", userID)}>
+        @SongFormContents(db.Song{})
+        <button type="submit">Save</button>
+    </form>
+}
