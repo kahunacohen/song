@@ -37,20 +37,17 @@ func NewSong(conn *pgx.Conn) gin.HandlerFunc {
 }
 func PostSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var song db.Song
-		// Bind form data to the User struct
+		var song *db.Song
 		if err := c.ShouldBind(&song); err != nil {
 			fmt.Println(err)
 			return
 		}
-		err := db.CreateSong(conn, &song)
+		song, err := db.CreateSong(conn, song)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		fmt.Println("genre:")
-		fmt.Println(song.Genre)
-		templates.SongRow(song).Render(c, c.Writer)
+		templates.SongRow(*song).Render(c, c.Writer)
 	}
 }
 func DeleteSong(conn *pgx.Conn) gin.HandlerFunc {
