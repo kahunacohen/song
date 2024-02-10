@@ -11,7 +11,7 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
         <!-- form can save (stay in edit mode) and put 
         post when submitting and redirecting back to view mode. Standard
         html form handles submitting, htmx handles saving. -->
-        <form action={templ.SafeURL(uri)} method="post" x-data="Toast('Song saved')">
+        <form action={templ.SafeURL(uri)} method="post" hx-boost="true" x-data="Toast('Song saved')">
             @Toast()
             @SongFormContents(song)
             <button hx-delete={uri} type="submit">
@@ -28,14 +28,28 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
             </button>
         </form>
     } else {
-        <h2 class="mb-3">{song.Title}</h2>
-        <div>{song.Lyrics}</div>
-        <button 
-            hx-get={uriEditMode} 
-            hx-swap="innerHTML" 
-            hx-target="body"
-            hx-push-url="true" 
-            class="btn btn-primary">Edit</button>
+    <script>
+		function showToastIfSongDeleted() {
+			if(new URL(location.href).searchParams.get("confirmation") === "saved") {
+				this.showToast();
+				const urlWithoutQueryString = window.location.origin + window.location.pathname;
+				window.history.replaceState({}, document.title, urlWithoutQueryString);
+			}
+		}
+	</script>
+        <div x-data="Toast('Song saved')">
+            @Toast()
+            <div x-data="showToastIfSongDeleted">
+            <h2 class="mb-3">{song.Title}</h2>
+            <div>{song.Lyrics}</div>
+            <button 
+                hx-get={uriEditMode} 
+                hx-swap="innerHTML" 
+                hx-target="body"
+                hx-push-url="true" 
+                class="btn btn-primary">Edit</button>
+                </div>
+        </div>
     }
     </div>
 }
