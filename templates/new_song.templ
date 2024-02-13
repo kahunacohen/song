@@ -8,10 +8,10 @@ import (
 templ NewSong(userID string) {
     <form method="post" 
         hx-post={fmt.Sprintf("/users/%s/songs/new", userID)}
+        hx-vals={fmt.Sprintf("{\"user_id\": \"%s\"}", userID)}
         x-on:htmx:after-request="showModal=false"
         hx-target="table tbody"
         hx-swap="afterbegin">
-            <input type="hidden" name="user_id" value={userID}/>
             @SongFormContents(db.Song{})
             <div class="flex space-x-8">
                 <button class="btn" type="submit">Save</button>
