@@ -14,16 +14,18 @@ templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
         <form action={templ.SafeURL(uri)} method="post" hx-boost="true" x-data="Toast('Song saved')">
             @Toast()
             @SongFormContents(song)
-            <button hx-delete={uri} type="submit">
+            <button class="btn" hx-delete={uri} type="submit">
                 Delete
             </button>
             <button
+                class="btn"
                 hx-put={uri}
                 hx-target="#song-form-contents"
                 x-on:htmx:after-request="showToast()"
                 type="submit">Save and continue editing
             </button>
             <button
+                class="btn"
                 type="submit">Save
             </button>
         </form>
