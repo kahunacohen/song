@@ -11,7 +11,7 @@ import (
 	"github.com/kahunacohen/songs/templates"
 )
 
-func GetSong(conn *pgx.Conn) gin.HandlerFunc {
+func ReadSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		songID := c.Param("song_id")
 		songIDAsInt, _ := strconv.Atoi(songID)
@@ -41,7 +41,7 @@ func GetSong(conn *pgx.Conn) gin.HandlerFunc {
 	}
 }
 
-func PutSong(conn *pgx.Conn) gin.HandlerFunc {
+func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.Param("user_id")
 		var song db.Song

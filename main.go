@@ -39,18 +39,18 @@ func main() {
 	})
 
 	// /songs/
-	router.GET("/api/v1/users/:user_id/songs", controllers.GetSongs(conn))
-	router.GET("/users/:user_id/songs", controllers.GetSongs(conn))
+	router.GET("/api/v1/users/:user_id/songs", controllers.ReadSongs(conn))
+	router.GET("/users/:user_id/songs", controllers.ReadSongs(conn))
 
-	router.GET("/api/v1/users/:user_id/songs/:song_id", controllers.GetSong(conn))
-	router.PUT("/users/:user_id/songs/:song_id", controllers.PutSong(conn))
+	router.GET("/api/v1/users/:user_id/songs/:song_id", controllers.ReadSong(conn))
+	router.PUT("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn))
 	router.GET("/users/:user_id/songs/new", controllers.NewSong(conn))
-	router.POST("/users/:user_id/songs/new", controllers.PostSong(conn))
+	router.POST("/users/:user_id/songs/new", controllers.CreateSong(conn))
 
 	// /songs/id
 	// For put form method. Browsers don't like action=put
-	router.POST("/users/:user_id/songs/:song_id", controllers.PutSong(conn))
-	router.GET("/users/:user_id/songs/:song_id", controllers.GetSong(conn))
+	router.POST("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn))
+	router.GET("/users/:user_id/songs/:song_id", controllers.ReadSong(conn))
 	router.DELETE("/users/:user_id/songs/:song_id", controllers.DeleteSong(conn))
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }

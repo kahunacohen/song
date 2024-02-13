@@ -11,7 +11,7 @@ import (
 	"github.com/kahunacohen/songs/templates"
 )
 
-func GetSongs(conn *pgx.Conn) gin.HandlerFunc {
+func ReadSongs(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.Param("user_id")
 		userIDAsInt, _ := strconv.Atoi(userID)
@@ -35,7 +35,7 @@ func NewSong(conn *pgx.Conn) gin.HandlerFunc {
 		templates.NewSong(c.Param("user_id")).Render(c, c.Writer)
 	}
 }
-func PostSong(conn *pgx.Conn) gin.HandlerFunc {
+func CreateSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var song *db.Song
 		if err := c.ShouldBind(&song); err != nil {
