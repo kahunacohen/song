@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
-	"github.com/kahunacohen/songs/db"
+	"github.com/kahunacohen/songs/models"
 	"github.com/kahunacohen/songs/templates"
 )
 
@@ -16,7 +16,7 @@ func ReadSong(conn *pgx.Conn) gin.HandlerFunc {
 		songID := c.Param("song_id")
 		songIDAsInt, _ := strconv.Atoi(songID)
 		userID := c.Param("user_id")
-		song, getSongErr := db.GetSongByID(conn, songIDAsInt)
+		song, getSongErr := models.GetSongByID(conn, songIDAsInt)
 		if c.MustGet("rsp_fmt") == "json" {
 			c.JSON(http.StatusOK, song)
 		} else {
@@ -44,7 +44,7 @@ func ReadSong(conn *pgx.Conn) gin.HandlerFunc {
 func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.Param("user_id")
-		var song db.Song
+		var song models.Song
 		c.Bind(&song)
 		_, err := conn.Exec(c, "UPDATE songs SET title=$1, lyrics=$2 WHERE id=$3",
 			song.Title, song.Lyrics, song.Id)

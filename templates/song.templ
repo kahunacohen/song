@@ -1,10 +1,10 @@
 package templates
 
 import (
-    "github.com/kahunacohen/songs/db"
+    "github.com/kahunacohen/songs/models"
 )
 
-templ Song(song db.Song, uri string, uriEditMode string, editMode bool) {
+templ Song(song models.Song, uri string, uriEditMode string, editMode bool) {
     <div id="wrapper">
     if editMode {
         <h2 class="mb-3">Edit "{song.Title}"</h2>       

@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
-	"github.com/kahunacohen/songs/db"
+	"github.com/kahunacohen/songs/models"
 	"github.com/kahunacohen/songs/templates"
 )
 
@@ -15,7 +15,7 @@ func ReadSongs(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.Param("user_id")
 		userIDAsInt, _ := strconv.Atoi(userID)
-		songs, err := db.GetSongsByUser(conn, userIDAsInt)
+		songs, err := models.GetSongsByUser(conn, userIDAsInt)
 		if err != nil {
 			fmt.Println("error")
 		}
@@ -37,12 +37,12 @@ func NewSong(conn *pgx.Conn) gin.HandlerFunc {
 }
 func CreateSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var song *db.Song
+		var song *models.Song
 		if err := c.ShouldBind(&song); err != nil {
 			fmt.Println(err)
 			return
 		}
-		if err := db.CreateSong(conn, song); err != nil {
+		if err := models.CreateSong(conn, song); err != nil {
 			fmt.Println(err)
 			return
 		}
@@ -57,7 +57,7 @@ func DeleteSong(conn *pgx.Conn) gin.HandlerFunc {
 			c.AbortWithError(http.StatusInternalServerError,
 				fmt.Errorf("not able to convert song id to an int: %v", err))
 		}
-		if db.DeleteSong(conn, songAsInt); err != nil {
+		if models.DeleteSong(conn, songAsInt); err != nil {
 			c.AbortWithError(http.StatusInternalServerError,
 				fmt.Errorf("not able to delete song: %v", err))
 		}

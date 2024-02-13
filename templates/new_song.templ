@@ -2,7 +2,7 @@ package templates
 
 import (
     "fmt"
-    "github.com/kahunacohen/songs/db"
+    "github.com/kahunacohen/songs/models"
 )
 
 templ NewSong(userID string) {
@@ -12,7 +12,7 @@ templ NewSong(userID string) {
         x-on:htmx:after-request="showModal=false"
         hx-target="table tbody"
         hx-swap="afterbegin">
-            @SongFormContents(db.Song{})
+            @SongFormContents(models.Song{})
             <div class="flex space-x-8">
                 <button class="btn" type="submit">Save</button>
                 <button @click.prevent="showModal=false">Cancel</button>

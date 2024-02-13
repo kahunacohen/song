@@ -2,10 +2,10 @@ package templates
 
 import (
 "fmt"
-"github.com/kahunacohen/songs/db"
+"github.com/kahunacohen/songs/models"
 )
 
-templ Songs(userID string, songs []db.Song) {
+templ Songs(userID string, songs []models.Song) {
 	<script>
 		function showToastIfSongDeleted() {
 			if(new URL(location.href).searchParams.get("confirmation") === "deleted") {
