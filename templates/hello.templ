@@ -4,39 +4,28 @@ templ Hello() {
 	<html>
 	<head>
 		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-		<script type="text/javascript" src="/static/htmx.min.js"></script>
+		// <script type="text/javascript" src="/static/htmx.min.js"></script>
 		<script>
 			function foo() {
-				if(new URL(location.href).searchParams.get("param")) {
-					this.show();
+				const url = new URL(location.href);
+				const searchParams = url.searchParams;
+				const msg = searchParams.get("msg");
+				if (msg) {
+					this.flashVisible = true;
+					this.msg = msg;
+					history.replaceState(null, '', window.location.pathname);
+					setTimeout(() => {
+						this.flashVisible = false;
+						this.msg='';
+					}, 3000)
 				}
 			}
 		</script>
 	</head>
-	<body x-data="toast('hello')">
-		<div x-data="foo">
-			<div x-transition x-show="visible" x-text="message"></div>
-			// <button 
-			// 	hx-get="/users/2/songs/6"
-			// 	x-on:htmx:after-request="show()"
-			// >get</button>
+	<body>
+		<div x-data="{flashVisible: false, msg:''}" x-init="foo">
+			<div style="background-color: green; color: white; padding: 10px;" x-show="flashVisible" x-text="msg" x-transition></div>
 		</div>
-	<script>
-    document.addEventListener('alpine:init', () => {
-        Alpine.data("toast", (message) => ({
-            visible: false,
-			message: "",
-			init() {
-				this.message = message;
-			},
-            show() {
-				setTimeout(() => this.visible = true, 500);
-				setTimeout(() => this.visible = false, 3500);
-            },
-        }))
-    })
-</script>
-
 	</body>
 	</html>
 }
