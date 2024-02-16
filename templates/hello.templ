@@ -6,26 +6,19 @@ templ Hello() {
 		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 		// <script type="text/javascript" src="/static/htmx.min.js"></script>
 		<script>
-			function foo() {
-				const url = new URL(location.href);
-				const searchParams = url.searchParams;
-				const msg = searchParams.get("msg");
-				if (msg) {
-					this.flashVisible = true;
-					this.msg = msg;
-					history.replaceState(null, '', window.location.pathname);
-					setTimeout(() => {
-						this.flashVisible = false;
-						this.msg='';
-					}, 3000)
-				}
-			}
+		document.addEventListener('alpine:init', () => {
+			Alpine.store('flash', {
+					msg: "",
+					on: false
+        	})
+    	})
 		</script>
 	</head>
 	<body>
-		<div x-data="{flashVisible: false, msg:''}" x-init="foo">
-			<div style="background-color: green; color: white; padding: 10px;" x-show="flashVisible" x-text="msg" x-transition></div>
+		<div>
+			<div style="background-color: green; color: white; padding: 10px;" x-show="$store.flash.on; this.timeoutID = setTimeout(() => {$store.flash.on = false; $store.flash.msg=''; clearTimeout(this.timeoutID);}, 3000)" x-text="$store.flash.msg" x-transition x-init="console.log('hji')"></div>
 		</div>
+		<button x-data @click="$store.flash.on=true; $store.flash.msg='bar'">show flash</button>
 	</body>
 	</html>
 }
