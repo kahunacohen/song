@@ -7,18 +7,32 @@ templ Hello() {
 		// <script type="text/javascript" src="/static/htmx.min.js"></script>
 		<script>
 		document.addEventListener('alpine:init', () => {
-			Alpine.store('flash', {
+			Alpine.store("flash", {
 					msg: "",
 					on: false
         	})
+			Alpine.data("flash", (msg) => ({		
+				msg,		
+				init() { 
+					this.$watch("$store.flash.on", (on) => {
+						if (on) {
+							console.log(msg)
+							setTimeout(() => {
+								this.$store.flash.on = false;
+								this.$store.flash.msg = "";
+							}, 3500);
+						}
+					})
+				}
+			}))
     	})
 		</script>
 	</head>
 	<body>
 		<div>
-			<div style="background-color: green; color: white; padding: 10px;" x-show="$store.flash.on; this.timeoutID = setTimeout(() => {$store.flash.on = false; $store.flash.msg=''; clearTimeout(this.timeoutID);}, 3000)" x-text="$store.flash.msg" x-transition x-init="console.log('hji')"></div>
+			<div x-data="flash('Saved!')" x-show="$store.flash.on" x-transition x-text="msg"></div>
 		</div>
-		<button x-data @click="$store.flash.on=true; $store.flash.msg='bar'">show flash</button>
+		<button x-data @click="$store.flash.on=true">show flash</button>
 	</body>
 	</html>
 }
