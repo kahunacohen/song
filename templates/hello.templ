@@ -16,7 +16,6 @@ templ Hello() {
 				init() { 
 					this.$watch("$store.flash.on", (on) => {
 						if (on) {
-							console.log(msg)
 							setTimeout(() => {
 								this.$store.flash.on = false;
 								this.$store.flash.msg = "";
@@ -29,9 +28,7 @@ templ Hello() {
 		</script>
 	</head>
 	<body>
-		<div>
-			<div x-data="flash('Saved!')" x-show="$store.flash.on" x-transition x-text="msg"></div>
-		</div>
+		@Flash("Song foo")
 		<button x-data @click="$store.flash.on=true">show flash</button>
 	</body>
 	</html>
