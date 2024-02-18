@@ -1,14 +1,19 @@
 document.addEventListener('alpine:init', () => {
-    Alpine.data("Toast", (message) => ({
-        visible: false,
-        message: "",
-        init() {
-            this.message = message;
-        },
-        showToast() {
-
-            setTimeout(() => this.visible = true, 500);
-            setTimeout(() => this.visible = false, 3500);
-        },
-    }));
+    Alpine.store("flash", {
+        msg: "",
+        on: false
+})
+Alpine.data("flash", (msg) => ({		
+    msg,		
+    init() { 
+        this.$watch("$store.flash.on", (on) => {
+            if (on) {
+                setTimeout(() => {
+                    this.$store.flash.on = false;
+                    this.$store.flash.msg = "";
+                }, 3500);
+            }
+        })
+    }
+}))
 });

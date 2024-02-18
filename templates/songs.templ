@@ -6,18 +6,9 @@ import (
 )
 
 templ Songs(userID string, songs []models.Song) {
-	<script>
-		function showToastIfSongDeleted() {
-			if(new URL(location.href).searchParams.get("confirmation") === "deleted") {
-				this.showToast();
-				const urlWithoutQueryString = window.location.origin + window.location.pathname;
-				window.history.replaceState({}, document.title, urlWithoutQueryString);
-			}
-		}
-	</script>
-	<div x-data="Toast('Song deleted')">
+	<div>
 		<div x-data="{showModal: false}">
-			@Toast()
+
 			<div x-show="showModal" id="new-song-modal" class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50">
 				<div class="inside max-w-3xl px-6 py-4 mx-auto text-left bg-white rounded shadow-lg"></div>
 			</div>
@@ -30,7 +21,7 @@ templ Songs(userID string, songs []models.Song) {
 				x-on:click="showModal=true"
 				>Add new song
 			</button>
-			<table x-data="showToastIfSongDeleted" class="min-w-full bg-white border border-gray-300">
+			<table class="min-w-full bg-white border border-gray-300">
 				<thead>
 					<tr class="bg-gray-200">
 						<th class="py-2 px-4 text-left">Title</th>

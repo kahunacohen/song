@@ -1,0 +1,14 @@
+package templates
+
+import "fmt"
+
+templ Flash(msg string) {
+    <div>
+	    <div
+            class="absolute top-2 left-1/2 py-3 px-5 shadow-md bg-green-200 text-alert-success border-custom-alert-success"
+            x-data={fmt.Sprintf("flash(\"%s\")", msg)}
+            x-show="$store.flash.on"
+            x-transition
+            x-text="msg"></div>
+	</div>
+}
