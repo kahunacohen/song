@@ -28,8 +28,8 @@ templ Hello() {
 		</script>
 	</head>
 	<body>
-		@Flash("Song foo")
-		<button x-data @click="$store.flash.on=true">show flash</button>
+		@Flash()
+		<button x-data @click="$store.flash.on=true; $store.flash.msg='Saved'">show flash</button>
 	</body>
 	</html>
 }

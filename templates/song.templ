@@ -6,6 +6,8 @@ import (
 
 templ Song(song models.Song, uri string, uriEditMode string, editMode bool) {
     <div id="wrapper">
+    @Flash()
+
     if editMode {
         <h2 class="mb-3">Edit "{song.Title}"</h2>       
         <!-- form can save (stay in edit mode) and put 
@@ -20,6 +22,7 @@ templ Song(song models.Song, uri string, uriEditMode string, editMode bool) {
                 class="btn"
                 hx-put={uri}
                 hx-target="#song-form-contents"
+                x-on:htmx:after-request="alert('did it');"
                 type="submit">Save and continue editing
             </button>
             <button

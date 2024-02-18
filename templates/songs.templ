@@ -6,6 +6,7 @@ import (
 )
 
 templ Songs(userID string, songs []models.Song) {
+	@Flash()
 	<div>
 		<div x-data="{showModal: false}">
 

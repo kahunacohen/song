@@ -17,8 +17,7 @@ templ Base(title string, contents templ.Component) {
 						msg: "",
 						on: false
 					});
-					Alpine.data("flash", (msg) => ({		
-						msg,		
+					Alpine.data("flash", () => ({			
 						init() { 
 							this.$watch("$store.flash.on", (on) => {
 								if (on) {
