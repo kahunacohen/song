@@ -15,14 +15,17 @@ templ Song(song models.Song, uri string, uriEditMode string, editMode bool) {
         html form handles submitting, htmx handles saving. -->
         <form action={templ.SafeURL(uri)} method="post" hx-boost="true">
             @SongFormContents(song)
-            <button class="btn" hx-delete={uri} type="submit">
-                Delete
-            </button>
+            <button 
+                class="btn" 
+                hx-delete={uri} 
+                x-on:htmx:after-request="flashOn=true;flashMsg='Song deleted'"
+                type="submit">
+                Delete</button>
             <button
                 class="btn"
                 hx-put={uri}
                 hx-target="#song-form-contents"
-                x-on:htmx:after-request="alert('did it');"
+                x-on:htmx:after-request="flashOn=true;flashMsg='Song saved'"
                 type="submit">Save and continue editing
             </button>
             <button

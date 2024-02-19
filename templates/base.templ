@@ -13,26 +13,22 @@ templ Base(title string, contents templ.Component) {
 			<title>{title}</title>
 			<script>
 				document.addEventListener('alpine:init', () => {
-					Alpine.store("flash", {
-						msg: "",
-						on: false
-					});
 					Alpine.data("flash", () => ({			
 						init() { 
-							this.$watch("$store.flash.on", (on) => {
+							this.$watch("flashOn", (on) => {
 								if (on) {
 									setTimeout(() => {
-										this.$store.flash.on = false;
-										this.$store.flash.msg = "";
+										this.flashOn = false;
+										this.flashMsg = "";
 									}, 3500);
 								}
 							})
 						}
 					}));
-				})
+				});
 			</script>
 		</head>
-		<body class="m-4">
+		<body class="m-4" x-data="{flashOn: false, flashMsg: ''}">
 			@contents
 		</body>
 	</html>
