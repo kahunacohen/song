@@ -14,15 +14,31 @@ templ Base(title string, contents templ.Component) {
 			<script>
 				document.addEventListener('alpine:init', () => {
 					Alpine.data("flash", () => ({			
-						init() { 
-							this.$watch("flashOn", (on) => {
-								if (on) {
+						init() {
+							const searchParams = new URLSearchParams(window.location.search);
+							const onParam = searchParams.get("flashOn");
+							const msgParam = searchParams.get("flashMsg");
+							if (onParam && msgParam) {
+								setTimeout(() => {
+									this.flashOn = true;
+									this.flashMsg = msgParam;
 									setTimeout(() => {
 										this.flashOn = false;
 										this.flashMsg = "";
+										searchParams.delete("flashOn");
+										searchParams.delete("flashMsg");
 									}, 3500);
-								}
-							})
+								}, 1000);
+							} else {
+								this.$watch("flashOn", (on) => {
+									if (on) {
+										setTimeout(() => {
+											this.flashOn = false;
+											this.flashMsg = "";
+										}, 3500);
+									}
+								});
+							}
 						}
 					}));
 				});

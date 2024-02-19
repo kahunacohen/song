@@ -61,6 +61,6 @@ func DeleteSong(conn *pgx.Conn) gin.HandlerFunc {
 			c.AbortWithError(http.StatusInternalServerError,
 				fmt.Errorf("not able to delete song: %v", err))
 		}
-		c.Header("HX-Redirect", fmt.Sprintf("/users/%s/songs?confirmation=deleted", c.Param("user_id")))
+		c.Header("HX-Redirect", fmt.Sprintf("/users/%s/songs?flashOn=true&flashMsg=Song%%20deleted", c.Param("user_id")))
 	}
 }
