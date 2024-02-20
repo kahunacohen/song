@@ -55,7 +55,7 @@ func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 		if c.MustGet("rsp_fmt") == "json" {
 			c.JSON(http.StatusOK, song)
 		} else {
-			uri := fmt.Sprintf("/users/%s/songs/%d?confirmation=saved", userID, song.Id)
+			uri := fmt.Sprintf("/users/%s/songs/%d?flashOn=true&flashMsg=Song%%20saved", userID, song.Id)
 			if c.Request.Method == "POST" {
 				// We are receiving from old-school form where method=POST
 				// is not supported by browsers, so redirect to same page
