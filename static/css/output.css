@@ -814,6 +814,11 @@ button.btn:hover {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+tbody.htmx-swapping tr {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
 .hover\:bg-gray-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));

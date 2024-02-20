@@ -11,10 +11,12 @@ templ NewSong(userID string) {
         hx-vals={fmt.Sprintf("{\"user_id\": \"%s\"}", userID)}
         x-on:htmx:after-request="showModal=false; flashMsg='Song created'; flashOn=true;"
         hx-target="table tbody"
-        hx-swap="afterbegin">
+        hx-swap="afterbegin swap:3s">
             @SongFormContents(models.Song{})
             <div class="flex space-x-8">
-                <button class="btn" type="submit">Save</button>
+                <button 
+                    class="btn"
+                    type="submit">Save</button>
                 <button @click.prevent="showModal=false">Cancel</button>
             </div>
     </form>
