@@ -1,51 +1,56 @@
 package templates
 
 templ Base(title string, contents templ.Component) {
-	<!DOCTYPE html>
-	<html lang="en">
-		<head>
-			<meta charset="utf-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1"/>
-			<script type="text/javascript" src="/static/js/htmx.min.js"></script>
-			<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet"></link>
-			<link type="text/css" rel="stylesheet" href="/static/css/output.css"/>
-			<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-			<title>{title}</title>
-			<script>
-				document.addEventListener('alpine:init', () => {
-					Alpine.data("flash", () => ({			
-						init() {
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+            <script type="text/javascript" src="/static/js/htmx.min.js"></script>
+            <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet"></link>
+            <link type="text/css" rel="stylesheet" href="/static/css/output.css"/>
+            <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+            <title>{title}</title>
+            <script>
+                document.addEventListener('alpine:init', () => {
+                    Alpine.data("flash", () => ({
+                        init() {
+                            const searchParams = new URLSearchParams(window.location.search);
+                            const onParam = searchParams.get("flashOn");
+                            const msgParam = searchParams.get("flashMsg");
+                            if (onParam && msgParam) {
+                                this.flashOn = true;
+                                this.flashMsg = msgParam;
+                                this.off();
+                            } else {
+                                this.$watch("flashOn", (on) => {
+                                    if (on) {
+                                        this.off();
+                                    }
+                                });
+                            }
+                        },
+                        off() {
+                            setTimeout(() => {
+                                this.flashOn = false;
+                                this.flashMsg = "";
+								this.removeSearchParams();
+                            }, 3500);
+                        },
+						removeSearchParams() {
 							const searchParams = new URLSearchParams(window.location.search);
-							const onParam = searchParams.get("flashOn");
-							const msgParam = searchParams.get("flashMsg");
-							if (onParam && msgParam) {
-								setTimeout(() => {
-									this.flashOn = true;
-									this.flashMsg = msgParam;
-									setTimeout(() => {
-										this.flashOn = false;
-										this.flashMsg = "";
-										searchParams.delete("flashOn");
-										searchParams.delete("flashMsg");
-									}, 3500);
-								}, 1000);
-							} else {
-								this.$watch("flashOn", (on) => {
-									if (on) {
-										setTimeout(() => {
-											this.flashOn = false;
-											this.flashMsg = "";
-										}, 3500);
-									}
-								});
+							if (searchParams.has("flashOn") && searchParams.has("flashMsg")) {
+								searchParams.delete("flashOn");
+								searchParams.delete("flashMsg");
+								window.history.replaceState({}, '', `${window.location.pathname}?${searchParams}`);
 							}
 						}
-					}));
-				});
-			</script>
-		</head>
-		<body class="m-4" x-data="{flashOn: false, flashMsg: ''}">
-			@contents
-		</body>
-	</html>
+                    }));
+                });
+            </script>
+        </head>
+        <body class="m-4" x-data="{flashOn: false, flashMsg: ''}">
+            @contents
+        </body>
+    </html>
 }
