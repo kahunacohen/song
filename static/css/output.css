@@ -814,10 +814,38 @@ button.btn:hover {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-tbody.htmx-swapping tr {
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
+@keyframes highlightFade {
+  0% {
+    background-color: white;
+  }
+
+  40% {
+    background-color: #FFFFCC;
+  }
+
+  /* Slightly More Yellow */
+
+  60% {
+    background-color: #FFFFCC;
+  }
+
+  /* Pale Yellow stay */
+
+  100% {
+    background-color: white;
+  }
+
+  /* Pale Yellow fade out */
 }
+
+table#songs tbody.htmx-settling > tr:first-child {
+  animation: highlightFade 3s ease-in-out infinite;
+}
+
+/* tbody.htmx-swapping > tr:first-child {
+    opacity: 0; 
+    transition: opacity 1s ease-in-out;
+} */
 
 .hover\:bg-gray-100:hover {
   --tw-bg-opacity: 1;

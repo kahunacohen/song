@@ -22,7 +22,16 @@
         @apply font-semibold text-white py-2 px-4 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-900 rounded-md shadow-md hover:shadow-lg
     }
 }
-tbody.htmx-swapping tr {
+@keyframes highlightFade {
+    0% { background-color: white; }
+    40% { background-color: #FFFFCC; } /* Slightly More Yellow */
+    60% { background-color: #FFFFCC; } /* Pale Yellow stay */
+    100% { background-color: white; } /* Pale Yellow fade out */
+  }
+table#songs tbody.htmx-settling > tr:first-child {
+    animation: highlightFade 3s ease-in-out infinite;
+}
+/* tbody.htmx-swapping > tr:first-child {
     opacity: 0; 
     transition: opacity 1s ease-in-out;
-}
+} */
