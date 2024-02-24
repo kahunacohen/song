@@ -17,7 +17,7 @@ func ReadSongs(conn *pgx.Conn) gin.HandlerFunc {
 		userIDAsInt, _ := strconv.Atoi(userID)
 		songs, err := models.GetSongsByUser(conn, userIDAsInt)
 		if err != nil {
-			fmt.Println("error")
+			fmt.Println(err)
 		}
 		if c.MustGet("rsp_fmt") == "json" {
 			c.JSON(http.StatusOK, songs)
