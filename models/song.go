@@ -11,7 +11,7 @@ import (
 type Song struct {
 	CreatedAt time.Time `json:"created_at"`
 	Capo      int
-	Composer  string    `json:"composer"`
+	Artist    string    `json:"artist"`
 	Genre     string    `form:"genre" json:"genre"`
 	Lyrics    string    `form:"lyrics" binding:"required" json:"lyrics"`
 	Id        int       `form:"id" json:"id"`
@@ -31,7 +31,7 @@ func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
 	var songs []Song
 	for rows.Next() {
 		var song Song
-		if err := rows.Scan(&song.Id, &song.Title, &song.Genre, &song.UserID, &song.Composer); err != nil {
+		if err := rows.Scan(&song.Id, &song.Title, &song.Genre, &song.UserID, &song.Artist); err != nil {
 			return nil, fmt.Errorf("error scanning row: %v", err)
 		}
 		songs = append(songs, song)
@@ -42,10 +42,10 @@ func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
 }
 
 func GetSongByID(conn *pgx.Conn, id int) (*Song, error) {
-	query := "SELECT id, title, genre, lyrics, composer FROM songs WHERE id = $1;"
+	query := "SELECT id, title, genre, lyrics, artist_id FROM songs WHERE id = $1;"
 	row := conn.QueryRow(context.Background(), query, id)
 	var song Song
-	if err := row.Scan(&song.Id, &song.Title, &song.Genre, &song.Lyrics, &song.Composer); err != nil {
+	if err := row.Scan(&song.Id, &song.Title, &song.Genre, &song.Lyrics, &song.Artist); err != nil {
 		return nil, fmt.Errorf("error scanning row: %v", err)
 	}
 	return &song, nil
@@ -60,7 +60,7 @@ func UpdateSong(conn *pgx.Conn, song *Song) error {
 }
 func CreateSong(conn *pgx.Conn, song *Song) error {
 	var id int
-	query := "INSERT INTO songs (title, lyrics, user_id, genre, composer) VALUES($1, $2, $3, $4, $5) RETURNING id"
+	query := "INSERT INTO songs (title, lyrics, user_id, genre, artist_id) VALUES($1, $2, $3, $4, $5) RETURNING id"
 	err := conn.QueryRow(context.Background(), query, song.Title, song.Lyrics, song.UserID, "Rock", "Beatles").Scan(&id)
 	if err != nil {
 		return fmt.Errorf("error creating song: %v", err)
