@@ -42,7 +42,7 @@ func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
 }
 
 func GetSongByID(conn *pgx.Conn, id int) (*Song, error) {
-	query := "SELECT id, title, genre, lyrics, artist_id FROM songs WHERE id = $1;"
+	query := "SELECT songs.id, songs.title, songs.genre, songs.lyrics, artists.name FROM songs JOIN artists ON songs.artist_id = artists.id WHERE songs.id = $1;"
 	row := conn.QueryRow(context.Background(), query, id)
 	var song Song
 	if err := row.Scan(&song.Id, &song.Title, &song.Genre, &song.Lyrics, &song.Artist); err != nil {
