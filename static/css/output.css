@@ -648,6 +648,10 @@ button.btn:hover {
   margin-right: auto;
 }
 
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
 .mb-3 {
   margin-bottom: 0.75rem;
 }
@@ -678,6 +682,10 @@ button.btn:hover {
 
 .min-h-full {
   min-height: 100%;
+}
+
+.w-1\/4 {
+  width: 25%;
 }
 
 .w-full {

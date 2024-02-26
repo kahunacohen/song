@@ -27,7 +27,6 @@ func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
 		fmt.Println("Error executing query:", err)
 		return nil, err
 	}
-	fmt.Println(rows)
 	var songs []Song
 	for rows.Next() {
 		var song Song
