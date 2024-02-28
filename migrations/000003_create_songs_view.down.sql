@@ -1,0 +1,1 @@
+DROP VIEW songs_with_artist;
