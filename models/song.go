@@ -21,7 +21,7 @@ type Song struct {
 }
 
 func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
-	query := "SELECT songs.id, songs.title, songs.genre, songs.user_id, artists.name FROM songs JOIN artists ON songs.artist_id = artists.id WHERE user_id = $1 ORDER BY title;"
+	query := "SELECT song_id, title, genre, user_id, artist_name FROM songs_by_user WHERE user_id = $1 ORDER BY title;"
 	rows, err := conn.Query(context.Background(), query, userID)
 	if err != nil {
 		fmt.Println("Error executing query:", err)
@@ -41,7 +41,7 @@ func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
 }
 
 func GetSongByID(conn *pgx.Conn, id int) (*Song, error) {
-	query := "SELECT songs.id, songs.title, songs.genre, songs.lyrics, artists.name FROM songs JOIN artists ON songs.artist_id = artists.id WHERE songs.id = $1;"
+	query := "SELECT song_id, title, genre, lyrics, artist_name FROM songs_by_user WHERE song_id = $1;"
 	row := conn.QueryRow(context.Background(), query, id)
 	var song Song
 	if err := row.Scan(&song.Id, &song.Title, &song.Genre, &song.Lyrics, &song.Artist); err != nil {
