@@ -465,7 +465,7 @@ label {
   font-weight: 700;
 }
 
-input[type=text] {
+#new-song-modal input[type=text] {
   margin-top: 0.25rem;
   width: 100%;
   border-radius: 0.375rem;
@@ -475,7 +475,7 @@ input[type=text] {
   padding: 0.5rem;
 }
 
-input[type=text]:focus {
+#new-song-modal input[type=text]:focus {
   --tw-border-opacity: 1;
   border-color: rgb(99 102 241 / var(--tw-border-opacity));
   outline: 2px solid transparent;

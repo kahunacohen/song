@@ -15,7 +15,7 @@
     label {
         @apply font-bold;
     }
-    input[type=text] {
+    #new-song-modal input[type=text] {
         @apply mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500;
     }
     button.btn {
