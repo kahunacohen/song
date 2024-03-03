@@ -40,6 +40,10 @@ func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
 	return songs, nil
 }
 
+func SearchSongs(conn *pgx.Conn, userID int, q string) ([]Song, error) {
+	return []Song{{}}, nil
+}
+
 func GetSongByID(conn *pgx.Conn, id int) (*Song, error) {
 	query := "SELECT song_id, title, genre, lyrics, artist_name FROM songs_by_user WHERE song_id = $1;"
 	row := conn.QueryRow(context.Background(), query, id)

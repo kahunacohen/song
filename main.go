@@ -41,6 +41,7 @@ func main() {
 	// /songs/
 	router.GET("/api/v1/users/:user_id/songs", controllers.ReadSongs(conn))
 	router.GET("/users/:user_id/songs", controllers.ReadSongs(conn))
+	router.GET("/users/:user_id/songs/search", controllers.SearchSongs(conn))
 
 	router.GET("/api/v1/users/:user_id/songs/:song_id", controllers.ReadSong(conn))
 	router.PUT("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn))

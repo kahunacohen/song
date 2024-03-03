@@ -30,6 +30,26 @@ func ReadSongs(conn *pgx.Conn) gin.HandlerFunc {
 	}
 }
 
+func SearchSongs(conn *pgx.Conn) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		fmt.Println("HEY!!!")
+		userID := c.Param("user_id")
+		userIDAsInt, _ := strconv.Atoi(userID)
+		q := c.Query("q")
+		if q == "" {
+			fmt.Println("error")
+			return
+		}
+		songs, err := models.SearchSongs(conn, userIDAsInt, q)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(q)
+		fmt.Println(songs)
+
+	}
+}
+
 func NewSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		templates.NewSong(c.Param("user_id")).Render(c, c.Writer)
