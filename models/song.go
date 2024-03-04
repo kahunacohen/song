@@ -41,7 +41,20 @@ func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
 }
 
 func SearchSongs(conn *pgx.Conn, userID int, q string) ([]Song, error) {
-	return []Song{{}}, nil
+	query := "SELECT song_id, title, genre, artist_name FROM songs_by_user WHERE user_id = $1 AND CONCAT(title, ' ', artist_name) ILIKE '%' || $2 || '%';"
+	var songs []Song
+	rows, err := conn.Query(context.Background(), query, userID, q)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+	}
+	for rows.Next() {
+		var song Song
+		if err := rows.Scan(&song.Id, &song.Title, &song.Genre, &song.Artist); err != nil {
+			return nil, fmt.Errorf("error scanning row: %v", err)
+		}
+		songs = append(songs, song)
+	}
+	return songs, nil
 }
 
 func GetSongByID(conn *pgx.Conn, id int) (*Song, error) {
