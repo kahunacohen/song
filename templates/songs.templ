@@ -32,9 +32,7 @@ templ Songs(userID string, songs []models.Song) {
 					</tr>
 				</thead>
 				<tbody>
-					for _, song := range songs {
-						@SongRow(song)
-					}
+					@songRows(songs)
 				</tbody>
 			</table>
 		</div>
