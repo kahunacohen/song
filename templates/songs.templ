@@ -27,7 +27,7 @@ templ Songs(userID string, songs []models.Song, q string) {
 			<form action={templ.SafeURL(fmt.Sprintf("/users/%s/songs/search", userID))}>
 				<input class="w-1/4 mb-2" type="text" name="q" placeholder="Search"
 					hx-get={fmt.Sprintf("/users/%s/songs/search", userID)}
-					hx-trigger="search, keyup delay:400ms changed"
+					hx-trigger="search, keyup delay:250ms changed"
 					hx-target="tbody"
 					value={q}
 					></input>
