@@ -20,9 +20,9 @@ type Song struct {
 	UserID    int       `form:"user_id" json:"user_id"`
 }
 
-func GetSongsByUser(conn *pgx.Conn, userID int) ([]Song, error) {
-	query := "SELECT song_id, title, genre, user_id, artist_name FROM songs_by_user WHERE user_id = $1 ORDER BY title;"
-	rows, err := conn.Query(context.Background(), query, userID)
+func GetSongsByUser(conn *pgx.Conn, userID int, offset int) ([]Song, error) {
+	query := "SELECT song_id, title, genre, user_id, artist_name FROM songs_by_user WHERE user_id = $1 ORDER BY title OFFSET $2 LIMIT 10;"
+	rows, err := conn.Query(context.Background(), query, userID, offset)
 	if err != nil {
 		fmt.Println("Error executing query:", err)
 		return nil, err

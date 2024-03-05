@@ -15,7 +15,12 @@ func ReadSongs(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.Param("user_id")
 		userIDAsInt, _ := strconv.Atoi(userID)
-		songs, err := models.GetSongsByUser(conn, userIDAsInt)
+		offsetParam := c.Query("offset")
+		offset, err := strconv.Atoi(offsetParam)
+		if err != nil {
+			offset = 0
+		}
+		songs, err := models.GetSongsByUser(conn, userIDAsInt, offset)
 		if err != nil {
 			fmt.Println(err)
 		}
