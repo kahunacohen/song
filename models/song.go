@@ -36,7 +36,6 @@ func GetSongsByUser(conn *pgx.Conn, userID int, offset int) ([]Song, error) {
 		songs = append(songs, song)
 	}
 	defer rows.Close()
-	fmt.Println(songs)
 	return songs, nil
 }
 
