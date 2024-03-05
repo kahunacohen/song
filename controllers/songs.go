@@ -24,7 +24,7 @@ func ReadSongs(conn *pgx.Conn) gin.HandlerFunc {
 		} else {
 			templates.Render(c, templates.Base(
 				"My Songs",
-				templates.Songs(userID, songs),
+				templates.Songs(userID, songs, c.Query("q")),
 			))
 		}
 	}
@@ -32,7 +32,6 @@ func ReadSongs(conn *pgx.Conn) gin.HandlerFunc {
 
 func SearchSongs(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		fmt.Println("HEY!!!")
 		userID := c.Param("user_id")
 		userIDAsInt, _ := strconv.Atoi(userID)
 		q := c.Query("q")

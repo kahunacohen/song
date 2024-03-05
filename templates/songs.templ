@@ -5,7 +5,7 @@ import (
 "github.com/kahunacohen/songs/models"
 )
 
-templ Songs(userID string, songs []models.Song) {
+templ Songs(userID string, songs []models.Song, q string) {
 	@Flash()
 	<div>
 		<div x-data="{showModal: false}">
@@ -22,10 +22,15 @@ templ Songs(userID string, songs []models.Song) {
 				x-on:click="showModal=true"
 				>Add new song
 			</button>
+
+			// Add form here so that we get the q param in the url when we press enter
 			<form action={templ.SafeURL(fmt.Sprintf("/users/%s/songs/search", userID))}>
-			<input class="w-1/4 mb-2" type="text" name="q" placeholder="Search"
-				hx-get={fmt.Sprintf("/users/%s/songs/search", userID)}
-				value="beatles"></input>
+				<input class="w-1/4 mb-2" type="text" name="q" placeholder="Search"
+					hx-get={fmt.Sprintf("/users/%s/songs/search", userID)}
+					hx-trigger="search, keyup delay:400ms changed"
+					hx-target="tbody"
+					value={q}
+					></input>
 			</form>
 			<table id="songs" class="min-w-full bg-white border border-gray-300">
 				<thead>
