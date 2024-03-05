@@ -44,12 +44,7 @@ func SearchSongs(conn *pgx.Conn) gin.HandlerFunc {
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Println(songs)
-		templates.Render(c, templates.Base(
-			"My Songs",
-			templates.Songs(userID, songs),
-		))
-
+		templates.Render(c, templates.SongRows(songs))
 	}
 }
 

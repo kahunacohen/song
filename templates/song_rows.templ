@@ -2,7 +2,7 @@ package templates
 
 import "github.com/kahunacohen/songs/models"
 
-templ songRows(songs []models.Song) {
+templ SongRows(songs []models.Song) {
     for _, song := range songs {
 	    @SongRow(song)
 	}
