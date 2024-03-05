@@ -659,8 +659,20 @@ button.btn:hover {
   margin-bottom: 1rem;
 }
 
+.ml-4 {
+  margin-left: 1rem;
+}
+
+.mr-3 {
+  margin-right: 0.75rem;
+}
+
 .mt-3 {
   margin-top: 0.75rem;
+}
+
+.inline {
+  display: inline;
 }
 
 .flex {
@@ -697,6 +709,10 @@ button.btn:hover {
 
 .max-w-3xl {
   max-width: 48rem;
+}
+
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .resize-none {

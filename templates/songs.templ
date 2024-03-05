@@ -24,13 +24,15 @@ templ Songs(userID string, songs []models.Song, q string) {
 			</button>
 
 			// Add form here so that we get the q param in the url when we press enter
-			<form action={templ.SafeURL(fmt.Sprintf("/users/%s/songs/search", userID))}>
-				<input class="w-1/4 mb-2" type="text" name="q" placeholder="Search"
+			<form class="inline ml-4" id="search" action={templ.SafeURL(fmt.Sprintf("/users/%s/songs/search", userID))}>
+				<input class="w-1/4 mb-2 mr-3" type="text" name="q" placeholder="Search"
 					hx-get={fmt.Sprintf("/users/%s/songs/search", userID)}
 					hx-trigger="search, keyup delay:250ms changed"
 					hx-target="tbody"
+					hx-indicator="#search-spinner"
 					value={q}
 					></input>
+				@Spinner("search-spinner")
 			</form>
 			<table id="songs" class="min-w-full bg-white border border-gray-300">
 				<thead>
