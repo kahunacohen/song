@@ -22,7 +22,11 @@ templ Songs(userID string, songs []models.Song) {
 				x-on:click="showModal=true"
 				>Add new song
 			</button>
-			<input class="w-1/4 mb-2" type="text" placeholder="Search"></input>
+			<form action={templ.SafeURL(fmt.Sprintf("/users/%s/songs/search", userID))}>
+			<input class="w-1/4 mb-2" type="text" name="q" placeholder="Search"
+				hx-get={fmt.Sprintf("/users/%s/songs/search", userID)}
+				value="beatles"></input>
+			</form>
 			<table id="songs" class="min-w-full bg-white border border-gray-300">
 				<thead>
 					<tr class="bg-gray-200">
