@@ -20,23 +20,29 @@ type Song struct {
 	UserID    int       `form:"user_id" json:"user_id"`
 }
 
-func GetSongsByUser(conn *pgx.Conn, userID int, offset int) ([]Song, error) {
+func GetSongsByUser(conn *pgx.Conn, userID int, offset int) ([]Song, int, error) {
 	query := "SELECT song_id, title, genre, user_id, artist_name FROM songs_by_user WHERE user_id = $1 ORDER BY title OFFSET $2 LIMIT 10;"
 	rows, err := conn.Query(context.Background(), query, userID, offset)
 	if err != nil {
 		fmt.Println("Error executing query:", err)
-		return nil, err
+		return nil, 0, err
 	}
 	var songs []Song
 	for rows.Next() {
 		var song Song
 		if err := rows.Scan(&song.Id, &song.Title, &song.Genre, &song.UserID, &song.Artist); err != nil {
-			return nil, fmt.Errorf("error scanning row: %v", err)
+			return nil, 0, fmt.Errorf("error scanning row: %v", err)
 		}
 		songs = append(songs, song)
 	}
+	// Fetch total count of songs for the user
+	var totalCount int
+	if err := conn.QueryRow(context.Background(), "SELECT COUNT(*) FROM songs_by_user WHERE user_id = $1", userID).Scan(&totalCount); err != nil {
+		return nil, 0, fmt.Errorf("error fetching total count: %v", err)
+	}
+	fmt.Println(totalCount)
 	defer rows.Close()
-	return songs, nil
+	return songs, totalCount, nil
 }
 
 func SearchSongs(conn *pgx.Conn, userID int, q string) ([]Song, error) {

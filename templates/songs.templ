@@ -5,7 +5,7 @@ import (
 "github.com/kahunacohen/songs/models"
 )
 
-templ Songs(userID string, songs []models.Song, q string) {
+templ Songs(userID string, songs []models.Song, totalCount int, q string) {
 	@Flash()
 	<div>
 		<div x-data="{showModal: false}">
@@ -46,6 +46,9 @@ templ Songs(userID string, songs []models.Song, q string) {
 					@SongRows(songs)
 				</tbody>
 			</table>
+			<ul id="pager">
+
+			</ul>
 		</div>
 	</div>
 }

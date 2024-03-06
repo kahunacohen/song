@@ -20,7 +20,7 @@ func ReadSongs(conn *pgx.Conn) gin.HandlerFunc {
 		if err != nil {
 			offset = 0
 		}
-		songs, err := models.GetSongsByUser(conn, userIDAsInt, offset)
+		songs, totalCount, err := models.GetSongsByUser(conn, userIDAsInt, offset)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -29,7 +29,7 @@ func ReadSongs(conn *pgx.Conn) gin.HandlerFunc {
 		} else {
 			templates.Render(c, templates.Base(
 				"My Songs",
-				templates.Songs(userID, songs, c.Query("q")),
+				templates.Songs(userID, songs, totalCount, c.Query("q")),
 			))
 		}
 	}
