@@ -35,7 +35,6 @@ func GetSongsByUser(conn *pgx.Conn, userID int, offset int) ([]Song, int, error)
 		}
 		songs = append(songs, song)
 	}
-	// Fetch total count of songs for the user
 	var totalCount int
 	if err := conn.QueryRow(context.Background(), "SELECT COUNT(*) FROM songs_by_user WHERE user_id = $1", userID).Scan(&totalCount); err != nil {
 		return nil, 0, fmt.Errorf("error fetching total count: %v", err)
@@ -45,10 +44,11 @@ func GetSongsByUser(conn *pgx.Conn, userID int, offset int) ([]Song, int, error)
 	return songs, totalCount, nil
 }
 
-func SearchSongs(conn *pgx.Conn, userID int, q string) ([]Song, error) {
-	query := "SELECT song_id, title, genre, artist_name FROM songs_by_user WHERE user_id = $1 AND CONCAT(title, ' ', artist_name) ILIKE '%' || $2 || '%';"
+func SearchSongs(conn *pgx.Conn, userID int, q string, page int) ([]Song, error) {
+	offset := (page - 1) * 10
+	query := "SELECT song_id, title, genre, artist_name FROM songs_by_user WHERE user_id = $1 AND CONCAT(title, ' ', artist_name) ILIKE '%' || $2 || '%' LIMIT 10 OFFSET $3;"
 	var songs []Song
-	rows, err := conn.Query(context.Background(), query, userID, q)
+	rows, err := conn.Query(context.Background(), query, userID, q, offset)
 	if err != nil {
 		fmt.Printf("error: %v\n", err)
 	}

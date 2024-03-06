@@ -3,6 +3,8 @@ package templates
 import (
 "fmt"
 "github.com/kahunacohen/songs/models"
+	"math"
+	"strconv"
 )
 
 templ Songs(userID string, songs []models.Song, totalCount int, q string) {
@@ -46,8 +48,10 @@ templ Songs(userID string, songs []models.Song, totalCount int, q string) {
 					@SongRows(songs)
 				</tbody>
 			</table>
-			<ul id="pager">
-
+			<ul class="inline" id="pager">
+				for i := 0; i < int(math.Ceil(float64(totalCount)/10.0)); i++ {
+					<li class="inline-block mr-2"><a href="#">{strconv.Itoa(i+1)}</a></li>
+				}		
 			</ul>
 		</div>
 	</div>

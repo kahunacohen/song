@@ -40,7 +40,12 @@ func SearchSongs(conn *pgx.Conn) gin.HandlerFunc {
 		userID := c.Param("user_id")
 		userIDAsInt, _ := strconv.Atoi(userID)
 		q := c.Query("q")
-		songs, err := models.SearchSongs(conn, userIDAsInt, q)
+		page := c.Query("page")
+		pageInt, err := strconv.Atoi(page)
+		if err != nil {
+			pageInt = 1
+		}
+		songs, err := models.SearchSongs(conn, userIDAsInt, q, pageInt)
 		if err != nil {
 			fmt.Println(err)
 		}
