@@ -11,31 +11,7 @@ import (
 	"github.com/kahunacohen/songs/templates"
 )
 
-// func ReadSongs(conn *pgx.Conn) gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		userID := c.Param("user_id")
-// 		userIDAsInt, _ := strconv.Atoi(userID)
-// 		offsetParam := c.Query("offset")
-// 		offset, err := strconv.Atoi(offsetParam)
-// 		if err != nil {
-// 			offset = 0
-// 		}
-// 		songs, totalCount, err := models.GetSongsByUser(conn, userIDAsInt, offset)
-// 		if err != nil {
-// 			fmt.Println(err)
-// 		}
-// 		if c.MustGet("rsp_fmt") == "json" {
-// 			c.JSON(http.StatusOK, songs)
-// 		} else {
-// 			templates.Render(c, templates.Base(
-// 				"My Songs",
-// 				templates.Songs(userID, songs, totalCount, c.Query("q")),
-// 			))
-// 		}
-// 	}
-// }
-
-func SearchSongs(conn *pgx.Conn) gin.HandlerFunc {
+func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.Param("user_id")
 		userIDAsInt, _ := strconv.Atoi(userID)
