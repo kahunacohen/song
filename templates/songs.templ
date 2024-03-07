@@ -50,7 +50,7 @@ templ Songs(userID string, songs []models.Song, totalCount int, q string) {
 			</table>
 			<ul class="inline" id="pager">
 				for i := 0; i < int(math.Ceil(float64(totalCount)/10.0)); i++ {
-					<li class="inline-block mr-2"><a href="#">{strconv.Itoa(i+1)}</a></li>
+					<li class="inline-block mr-2"><a hx-boost="true" href="/users/1/songs/search?page=2">{strconv.Itoa(i+1)}</a></li>
 				}		
 			</ul>
 		</div>
