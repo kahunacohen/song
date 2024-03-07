@@ -11,29 +11,29 @@ import (
 	"github.com/kahunacohen/songs/templates"
 )
 
-func ReadSongs(conn *pgx.Conn) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		userID := c.Param("user_id")
-		userIDAsInt, _ := strconv.Atoi(userID)
-		offsetParam := c.Query("offset")
-		offset, err := strconv.Atoi(offsetParam)
-		if err != nil {
-			offset = 0
-		}
-		songs, totalCount, err := models.GetSongsByUser(conn, userIDAsInt, offset)
-		if err != nil {
-			fmt.Println(err)
-		}
-		if c.MustGet("rsp_fmt") == "json" {
-			c.JSON(http.StatusOK, songs)
-		} else {
-			templates.Render(c, templates.Base(
-				"My Songs",
-				templates.Songs(userID, songs, totalCount, c.Query("q")),
-			))
-		}
-	}
-}
+// func ReadSongs(conn *pgx.Conn) gin.HandlerFunc {
+// 	return func(c *gin.Context) {
+// 		userID := c.Param("user_id")
+// 		userIDAsInt, _ := strconv.Atoi(userID)
+// 		offsetParam := c.Query("offset")
+// 		offset, err := strconv.Atoi(offsetParam)
+// 		if err != nil {
+// 			offset = 0
+// 		}
+// 		songs, totalCount, err := models.GetSongsByUser(conn, userIDAsInt, offset)
+// 		if err != nil {
+// 			fmt.Println(err)
+// 		}
+// 		if c.MustGet("rsp_fmt") == "json" {
+// 			c.JSON(http.StatusOK, songs)
+// 		} else {
+// 			templates.Render(c, templates.Base(
+// 				"My Songs",
+// 				templates.Songs(userID, songs, totalCount, c.Query("q")),
+// 			))
+// 		}
+// 	}
+// }
 
 func SearchSongs(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -41,15 +41,23 @@ func SearchSongs(conn *pgx.Conn) gin.HandlerFunc {
 		userIDAsInt, _ := strconv.Atoi(userID)
 		q := c.Query("q")
 		page := c.Query("page")
+		content := c.Query("ct")
 		pageInt, err := strconv.Atoi(page)
 		if err != nil {
 			pageInt = 1
 		}
-		songs, err := models.SearchSongs(conn, userIDAsInt, q, pageInt)
+		songs, totalCount, err := models.SearchSongs(conn, userIDAsInt, q, pageInt)
 		if err != nil {
 			fmt.Println(err)
 		}
-		templates.Render(c, templates.SongRows(songs))
+		if content == "partial" {
+			templates.Render(c, templates.SongRows(songs))
+		} else {
+			templates.Render(c, templates.Base(
+				"My Songs",
+				templates.Songs(userID, songs, totalCount, c.Query("q")),
+			))
+		}
 	}
 }
 

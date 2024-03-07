@@ -28,7 +28,7 @@ templ Songs(userID string, songs []models.Song, totalCount int, q string) {
 			// Add form here so that we get the q param in the url when we press enter
 			<form class="inline ml-4" id="search" action={templ.SafeURL(fmt.Sprintf("/users/%s/songs/search", userID))}>
 				<input class="w-1/4 mb-2 mr-3" type="text" name="q" placeholder="Search"
-					hx-get={fmt.Sprintf("/users/%s/songs/search", userID)}
+					hx-get={fmt.Sprintf("/users/%s/songs?ct=partial", userID)}
 					hx-trigger="search, keyup delay:250ms changed"
 					hx-target="tbody"
 					hx-indicator="#search-spinner"
