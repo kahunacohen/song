@@ -26,8 +26,9 @@ func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 		if err != nil {
 			fmt.Println(err)
 		}
+
 		if content == "partial" {
-			templates.Render(c, templates.SongRows(songs))
+			templates.Render(c, templates.SongTable(songs, totalCount))
 		} else {
 			templates.Render(c, templates.Base(
 				"My Songs",

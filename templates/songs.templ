@@ -3,8 +3,6 @@ package templates
 import (
 "fmt"
 "github.com/kahunacohen/songs/models"
-	"math"
-	"strconv"
 )
 
 templ Songs(userID string, songs []models.Song, totalCount int, q string) {
@@ -26,33 +24,19 @@ templ Songs(userID string, songs []models.Song, totalCount int, q string) {
 			</button>
 
 			// Add form here so that we get the q param in the url when we press enter
-			<form class="inline ml-4" id="search" action={templ.SafeURL(fmt.Sprintf("/users/%s/songs/search", userID))}>
+			<form class="inline ml-4" id="search" action={templ.SafeURL(fmt.Sprintf("/users/%s/songs", userID))}>
 				<input class="w-1/4 mb-2 mr-3" type="text" name="q" placeholder="Search"
 					hx-get={fmt.Sprintf("/users/%s/songs?ct=partial", userID)}
 					hx-trigger="search, keyup delay:250ms changed"
-					hx-target="tbody"
+					hx-target="#song-table"
 					hx-indicator="#search-spinner"
 					value={q}
 					></input>
 				@Spinner("search-spinner")
 			</form>
-			<table id="songs" class="min-w-full bg-white border border-gray-300">
-				<thead>
-					<tr class="bg-gray-200">
-						<th class="py-2 px-4 text-left">Title</th>
-						<th class="py-2 px-4 text-left">Artist</th>
-						<th class="py-2 px-4 text-left">Genre</th>
-					</tr>
-				</thead>
-				<tbody>
-					@SongRows(songs)
-				</tbody>
-			</table>
-			<ul class="inline" id="pager">
-				for i := 0; i < int(math.Ceil(float64(totalCount)/10.0)); i++ {
-					<li class="inline-block mr-2"><a hx-boost="true" href="/users/1/songs/search?page=2">{strconv.Itoa(i+1)}</a></li>
-				}		
-			</ul>
+				<div id="song-table">
+					@SongTable(songs, totalCount)
+				</div>
 		</div>
 	</div>
 }

@@ -4,6 +4,11 @@ import "github.com/kahunacohen/songs/models"
 
 templ SongRows(songs []models.Song) {
     for _, song := range songs {
-	    @SongRow(song)
+	   @SongRow(song)
 	}
+	<template>
+		<div hx-swap-oob="true" id="pager">Swapped!!!!!</div>
+	</template>
+
+
 }
