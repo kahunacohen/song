@@ -4,6 +4,7 @@ import (
     "github.com/kahunacohen/songs/models"
     "math"
 	"strconv"
+    "fmt"
 )
 
 templ SongTable(songs []models.Song, totalCount int) {
@@ -23,7 +24,7 @@ templ SongTable(songs []models.Song, totalCount int) {
 			</table>
 			<ul class="inline" id="pager">
 				for i := 0; i < int(math.Ceil(float64(totalCount)/10.0)); i++ {
-					<li class="inline-block mr-2"><a hx-boost="true" href="/users/1/songs/search?page=2">{strconv.Itoa(i+1)}</a></li>
+					<li class="inline-block mr-2"><a hx-boost="true" href={templ.SafeURL(fmt.Sprintf("/users/1/songs?page=%d", i+1))}>{strconv.Itoa(i+1)}</a></li>
 				}		
 			</ul>
 }
