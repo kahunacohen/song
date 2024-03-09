@@ -5,10 +5,10 @@ import (
 "github.com/kahunacohen/songs/models"
 )
 
-templ Songs(userID string, songs []models.Song, totalCount int, q string) {
+templ Songs(userID string, songs []models.Song, totalCount int, page int, q string) {
 	@Flash()
 	<div>
-		<div x-data="{showModal: false}">
+		<div x-cloak x-data="{showModal: false}">
 
 			<div x-show="showModal" id="new-song-modal" class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50">
 				<div class="inside max-w-3xl px-6 py-4 mx-auto text-left bg-white rounded shadow-lg"></div>
@@ -35,7 +35,7 @@ templ Songs(userID string, songs []models.Song, totalCount int, q string) {
 				@Spinner("search-spinner")
 			</form>
 				<div id="song-table">
-					@SongTable(songs, totalCount)
+					@SongTable(songs, totalCount, page)
 				</div>
 		</div>
 	</div>

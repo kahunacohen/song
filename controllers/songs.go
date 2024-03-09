@@ -28,11 +28,13 @@ func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 		}
 
 		if content == "partial" {
-			templates.Render(c, templates.SongTable(songs, totalCount))
+			fmt.Printf("page: %d\n", pageInt)
+
+			templates.Render(c, templates.SongTable(songs, totalCount, pageInt))
 		} else {
 			templates.Render(c, templates.Base(
 				"My Songs",
-				templates.Songs(userID, songs, totalCount, c.Query("q")),
+				templates.Songs(userID, songs, totalCount, pageInt, c.Query("q")),
 			))
 		}
 	}

@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 @layer base {
+    [x-cloak] { display: none !important; }
+
     h2 {
         @apply text-xl;
         @apply font-bold;
@@ -20,6 +22,12 @@
     }
     button.btn {
         @apply font-semibold text-white py-2 px-4 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-900 rounded-md shadow-md hover:shadow-lg
+    }
+    ul#pager li a.active {
+        @apply px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600
+    }
+    ul#pager li a {
+        @apply px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300
     }
 }
 @keyframes highlightFade {
