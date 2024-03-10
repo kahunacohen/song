@@ -56,7 +56,8 @@ func CreateSong(conn *pgx.Conn) gin.HandlerFunc {
 			fmt.Println(err)
 			return
 		}
-		templates.SongRow(*song).Render(c, c.Writer)
+		c.Header("HX-Redirect", fmt.Sprintf("/users/%s/songs?flashOn=true&flashMsg=Song%%20added", c.Param("user_id")))
+
 	}
 }
 func DeleteSong(conn *pgx.Conn) gin.HandlerFunc {
