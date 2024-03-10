@@ -52,14 +52,13 @@ func SearchSongs(conn *pgx.Conn, userID int, q string, page int) ([]Song, int, e
 	var totalCount int
 	var err error
 	if q == "" {
-		query = "SELECT song_id, title, genre, artist_name FROM songs_by_user WHERE user_id = $1 LIMIT 10 OFFSET $2;"
+		query = "SELECT song_id, user_id, title, genre, artist_name FROM songs_by_user WHERE user_id = $1 LIMIT 10 OFFSET $2;"
 		rows, err = conn.Query(context.Background(), query, userID, offset)
 		if err != nil {
 			fmt.Printf("error: %v\n", err)
 		}
-
 	} else {
-		query = "SELECT song_id, title, genre, artist_name FROM songs_by_user WHERE user_id = $1 AND CONCAT(title, ' ', artist_name) ILIKE '%' || $2 || '%' LIMIT 10 OFFSET $3;"
+		query = "SELECT song_id, user_id, title, genre, artist_name FROM songs_by_user WHERE user_id = $1 AND CONCAT(title, ' ', artist_name) ILIKE '%' || $2 || '%' LIMIT 10 OFFSET $3;"
 		rows, err = conn.Query(context.Background(), query, userID, q, offset)
 		if err != nil {
 			fmt.Printf("error: %v\n", err)
@@ -67,7 +66,7 @@ func SearchSongs(conn *pgx.Conn, userID int, q string, page int) ([]Song, int, e
 	}
 	for rows.Next() {
 		var song Song
-		if err := rows.Scan(&song.Id, &song.Title, &song.Genre, &song.Artist); err != nil {
+		if err := rows.Scan(&song.Id, &song.UserID, &song.Title, &song.Genre, &song.Artist); err != nil {
 			return nil, 0, fmt.Errorf("error scanning row: %v", err)
 		}
 		songs = append(songs, song)
