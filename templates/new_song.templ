@@ -9,9 +9,7 @@ templ NewSong(userID string) {
     <form method="post" 
         hx-post={fmt.Sprintf("/users/%s/songs/new", userID)}
         hx-vals={fmt.Sprintf("{\"user_id\": \"%s\"}", userID)}
-        x-on:htmx:after-request="showModal=false"
-        hx-target="table tbody"
-        hx-swap="afterbegin settle:3s">
+        x-on:htmx:after-request="showModal=false">
             @SongFormContents(models.Song{})
             <div class="flex space-x-8">
                 <button 

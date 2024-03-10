@@ -20,30 +20,6 @@ type Song struct {
 	UserID    int       `form:"user_id" json:"user_id"`
 }
 
-func GetSongsByUser(conn *pgx.Conn, userID int, offset int) ([]Song, int, error) {
-	query := "SELECT song_id, title, genre, user_id, artist_name FROM songs_by_user WHERE user_id = $1 ORDER BY title OFFSET $2 LIMIT 10;"
-	rows, err := conn.Query(context.Background(), query, userID, offset)
-	if err != nil {
-		fmt.Println("Error executing query:", err)
-		return nil, 0, err
-	}
-	var songs []Song
-	for rows.Next() {
-		var song Song
-		if err := rows.Scan(&song.Id, &song.Title, &song.Genre, &song.UserID, &song.Artist); err != nil {
-			return nil, 0, fmt.Errorf("error scanning row: %v", err)
-		}
-		songs = append(songs, song)
-	}
-	var totalCount int
-	if err := conn.QueryRow(context.Background(), "SELECT COUNT(*) FROM songs_by_user WHERE user_id = $1", userID).Scan(&totalCount); err != nil {
-		return nil, 0, fmt.Errorf("error fetching total count: %v", err)
-	}
-	fmt.Println(totalCount)
-	defer rows.Close()
-	return songs, totalCount, nil
-}
-
 func SearchSongs(conn *pgx.Conn, userID int, q string, page int) ([]Song, int, error) {
 	offset := (page - 1) * 10
 	var query string
@@ -52,13 +28,13 @@ func SearchSongs(conn *pgx.Conn, userID int, q string, page int) ([]Song, int, e
 	var totalCount int
 	var err error
 	if q == "" {
-		query = "SELECT song_id, user_id, title, genre, artist_name FROM songs_by_user WHERE user_id = $1 LIMIT 10 OFFSET $2;"
+		query = "SELECT song_id, user_id, title, genre, artist_name FROM songs_by_user WHERE user_id = $1 ORDER BY title LIMIT 10 OFFSET $2;"
 		rows, err = conn.Query(context.Background(), query, userID, offset)
 		if err != nil {
 			fmt.Printf("error: %v\n", err)
 		}
 	} else {
-		query = "SELECT song_id, user_id, title, genre, artist_name FROM songs_by_user WHERE user_id = $1 AND CONCAT(title, ' ', artist_name) ILIKE '%' || $2 || '%' LIMIT 10 OFFSET $3;"
+		query = "SELECT song_id, user_id, title, genre, artist_name FROM songs_by_user WHERE user_id = $1 AND CONCAT(title, ' ', artist_name) ILIKE '%' || $2 || '%' ORDER BY title LIMIT 10 OFFSET $3;"
 		rows, err = conn.Query(context.Background(), query, userID, q, offset)
 		if err != nil {
 			fmt.Printf("error: %v\n", err)
@@ -102,8 +78,9 @@ func UpdateSong(conn *pgx.Conn, song *Song) error {
 }
 func CreateSong(conn *pgx.Conn, song *Song) error {
 	var id int
-	query := "INSERT INTO songs (title, lyrics, user_id, genre, artist_id) VALUES($1, $2, $3, $4, $5) RETURNING id"
-	err := conn.QueryRow(context.Background(), query, song.Title, song.Lyrics, song.UserID, "Rock", "Beatles").Scan(&id)
+	fmt.Println(song.Genre)
+	query := "INSERT INTO songs (title, lyrics, user_id, genre_id, artist_id) VALUES($1, $2, $3, $4, $5) RETURNING id"
+	err := conn.QueryRow(context.Background(), query, song.Title, song.Lyrics, song.UserID, 1, 2).Scan(&id)
 	if err != nil {
 		return fmt.Errorf("error creating song: %v", err)
 	}
