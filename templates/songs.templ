@@ -22,6 +22,7 @@ templ Songs(userID string, songs []models.Song, totalCount int, page int, q stri
 			<input class="w-1/4 mb-2 mr-3" type="text" name="q" placeholder="Search"
 				hx-get={fmt.Sprintf("/users/%s/songs?ct=partial", userID)}
 				hx-trigger="search, keyup delay:250ms changed"
+				hx-on::after-request="setQueryString('q', this.value, 'page')"
 				hx-target="#song-table"
 				hx-indicator="#search-spinner"
 				value={q}

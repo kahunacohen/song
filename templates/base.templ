@@ -12,7 +12,19 @@ templ Base(title string, contents templ.Component) {
             <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
             <title>{title}</title>
             <script>
-
+                /**
+                 * Replaces the query string with the name and value.
+                 * Supply optional arguments with the query strings you'd like
+                 * to delete once the new query string is set.
+                */
+                function setQueryString(name, value, ...keysToDelete) {
+                    const url = new URL(document.location.href);
+                    url.searchParams.set(name, value);
+                    for (const ktd of keysToDelete) {
+                        url.searchParams.delete(ktd);
+                    }
+                    history.replaceState(null, '', url);
+                }
                 document.addEventListener('alpine:init', () => {
 					htmx.config.useTemplateFragments = true;
 
