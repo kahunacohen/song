@@ -11,7 +11,6 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/kahunacohen/songs/controllers"
 	"github.com/kahunacohen/songs/templates"
-	// "github.com/kahunacohen/songs/controllers"
 )
 
 func initDB(ctx context.Context) (*pgx.Conn, error) {
