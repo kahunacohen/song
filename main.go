@@ -10,8 +10,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
 	"github.com/kahunacohen/songctls/ctls"
-	"github.com/kahunacohen/songctls/mdls"
 	"github.com/kahunacohen/songs/controllers"
+	"github.com/kahunacohen/songs/responders"
 	"github.com/kahunacohen/songs/templates"
 )
 
@@ -41,16 +41,7 @@ func main() {
 	})
 
 	// /songs/
-	router.GET("/users/:user_id/songs", ctls.ListSongs(conn, func(context *gin.Context, userID string, songs []mdls.Song, totalCount, page int, searchTerm string, partial bool) {
-		if partial {
-			templates.Render(context, templates.SongTable(songs, totalCount, page))
-		} else {
-			templates.Render(context, templates.Base(
-				"My Songs",
-				templates.Songs(userID, songs, totalCount, page, searchTerm),
-			))
-		}
-	}))
+	router.GET("/users/:user_id/songs", ctls.ListSongs(conn, responders.SongList))
 	router.GET("/api/v1/users/:user_id/songs/:song_id", controllers.ReadSong(conn))
 	router.PUT("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn))
 	router.GET("/users/:user_id/songs/new", controllers.NewSong(conn))
