@@ -2,10 +2,10 @@ package templates
 
 import (
     "fmt"
-    "github.com/kahunacohen/songs/models"
+    "github.com/kahunacohen/songctls/mdls"
 )
 
-templ SongRow(song models.Song) {
+templ SongRow(song mdls.Song) {
     <tr class="hover:bg-gray-100">
         <td class="py-2 px-4 border-b">
             <a hx-boost="true" href={templ.URL(fmt.Sprintf("/users/%d/songs/%d", song.UserID, song.Id))}>
