@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	foo "github.com/kahunacohen/song-controllers"
+	//foo "github.com/kahunacohen/song-controllers"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
@@ -15,8 +15,6 @@ import (
 
 func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		foo.SayHi()
-
 		userID := c.Param("user_id")
 		userIDAsInt, _ := strconv.Atoi(userID)
 		q := c.Query("q")

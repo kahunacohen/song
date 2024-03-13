@@ -9,6 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
+	"github.com/kahunacohen/songctls/ctls"
 	"github.com/kahunacohen/songs/controllers"
 	"github.com/kahunacohen/songs/templates"
 )
@@ -24,6 +25,7 @@ func initDB(ctx context.Context) (*pgx.Conn, error) {
 }
 
 func main() {
+	fmt.Println(ctls.ListSongs)
 	ctx := context.Background()
 	conn, err := initDB(ctx)
 	if err != nil {

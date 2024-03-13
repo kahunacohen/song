@@ -6,7 +6,7 @@ require (
 	github.com/a-h/templ v0.2.513
 	github.com/gin-gonic/gin v1.9.1
 	github.com/jackc/pgx/v5 v5.5.1
-	github.com/kahunacohen/song-controllers v0.1.0
+	github.com/kahunacohen/songctls v0.6.0
 )
 
 require (
@@ -21,6 +21,7 @@ require (
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
+	github.com/jackc/pgx v3.6.2+incompatible // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.6 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
@@ -29,6 +30,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rogpeppe/go-internal v1.10.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
