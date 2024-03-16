@@ -1,5 +1,4 @@
-FROM golang:1.21.5-alpine
-
+FROM golang:1.22-alpine
 ENV GOOS="linux"
 ENV CGO_ENABLED=0
 
@@ -10,7 +9,6 @@ RUN apk add --no-cache git
 
 # Install golang-migrate CLI
 RUN go install -tags 'postgres' -ldflags="-X github.com/golang-migrate/migrate/v4/cmd/migrate.Version=$(git describe --tags)" github.com/golang-migrate/migrate/v4/cmd/migrate@latest
-
 WORKDIR /app/
 EXPOSE 8080
 EXPOSE 2345
@@ -21,6 +19,7 @@ RUN go mod download
 
 # Copy the rest of the application source code
 COPY . .
+
 
 # Use an environment variable for the database connection string
 ENV DATABASE_URL="postgresql://postgres:password@host:5432/songs?sslmode=disable"

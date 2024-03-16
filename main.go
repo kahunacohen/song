@@ -26,7 +26,7 @@ func initDB(ctx context.Context) (*pgx.Conn, error) {
 }
 
 func main() {
-	fmt.Println(ctls.ListSongs)
+	fmt.Println("MAIN")
 	ctx := context.Background()
 	conn, err := initDB(ctx)
 	if err != nil {
@@ -42,7 +42,6 @@ func main() {
 
 	// /songs/
 	router.GET("/users/:user_id/songs", ctls.ListSongs(conn, responders.SongList))
-	router.GET("/api/v1/users/:user_id/songs/:song_id", controllers.ReadSong(conn))
 	router.PUT("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn))
 	router.GET("/users/:user_id/songs/new", controllers.NewSong(conn))
 	router.POST("/users/:user_id/songs/new", controllers.CreateSong(conn))
@@ -50,7 +49,7 @@ func main() {
 	// /songs/id
 	// For put form method. Browsers don't like action=put
 	router.POST("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn))
-	router.GET("/users/:user_id/songs/:song_id", controllers.ReadSong(conn))
+	router.GET("/users/:user_id/songs/:song_id", ctls.ReadSong(conn, responders.ReadSong))
 	router.DELETE("/users/:user_id/songs/:song_id", controllers.DeleteSong(conn))
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
