@@ -32,3 +32,7 @@ func ReadSong(context *gin.Context, mode string, song mdls.Song, uri string, edi
 		templates.Song(song, uri, editModeUri, mode == "edit"),
 	))
 }
+
+func UpdateSong(c *gin.Context, song mdls.Song) {
+	templates.Render(c, templates.SongFormContents(song))
+}

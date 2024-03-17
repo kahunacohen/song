@@ -13,35 +13,6 @@ import (
 	"github.com/kahunacohen/songs/templates"
 )
 
-// func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		userID := c.Param("user_id")
-// 		userIDAsInt, _ := strconv.Atoi(userID)
-// 		q := c.Query("q")
-// 		page := c.Query("page")
-// 		content := c.Query("ct")
-// 		pageInt, err := strconv.Atoi(page)
-// 		if err != nil {
-// 			pageInt = 1
-// 		}
-// 		songs, totalCount, err := models.SearchSongs(conn, userIDAsInt, q, pageInt)
-// 		if err != nil {
-// 			fmt.Println(err)
-// 		}
-
-// 		if content == "partial" {
-// 			fmt.Printf("page: %d\n", pageInt)
-
-// 			templates.Render(c, templates.SongTable(songs, totalCount, pageInt))
-// 		} else {
-// 			templates.Render(c, templates.Base(
-// 				"My Songs",
-// 				templates.Songs(userID, songs, totalCount, pageInt, c.Query("q")),
-// 			))
-// 		}
-// 	}
-// }
-
 func NewSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		templates.NewSong(c.Param("user_id")).Render(c, c.Writer)

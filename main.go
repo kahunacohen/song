@@ -42,7 +42,7 @@ func main() {
 
 	// /songs/
 	router.GET("/users/:user_id/songs", ctls.ListSongs(conn, responders.SongList))
-	router.PUT("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn))
+	router.PUT("/users/:user_id/songs/:song_id", ctls.UpdateSong(conn, responders.UpdateSong))
 	router.GET("/users/:user_id/songs/new", controllers.NewSong(conn))
 	router.POST("/users/:user_id/songs/new", controllers.CreateSong(conn))
 
