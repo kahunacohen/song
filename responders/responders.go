@@ -4,11 +4,11 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kahunacohen/songctls/mdls"
+	"github.com/kahunacohen/songctls/models"
 	"github.com/kahunacohen/songs/templates"
 )
 
-func SongList(context *gin.Context, userID string, songs []mdls.Song, totalCount, page int, searchTerm string, partial bool) {
+func SongList(context *gin.Context, userID string, songs []models.Song, totalCount, page int, searchTerm string, partial bool) {
 	if partial {
 		templates.Render(context, templates.SongTable(songs, totalCount, page))
 	} else {
@@ -19,7 +19,7 @@ func SongList(context *gin.Context, userID string, songs []mdls.Song, totalCount
 	}
 }
 
-func ReadSong(context *gin.Context, mode string, song mdls.Song, uri string, editModeUri string) {
+func ReadSong(context *gin.Context, mode string, song models.Song, uri string, editModeUri string) {
 	fmt.Println("RESPOND")
 	templates.Render(context, templates.Base(
 		func() string {
@@ -33,6 +33,6 @@ func ReadSong(context *gin.Context, mode string, song mdls.Song, uri string, edi
 	))
 }
 
-func UpdateSong(c *gin.Context, song mdls.Song) {
+func UpdateSong(c *gin.Context, song models.Song) {
 	templates.Render(c, templates.SongFormContents(song))
 }

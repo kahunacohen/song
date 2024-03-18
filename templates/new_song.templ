@@ -2,7 +2,7 @@ package templates
 
 import (
     "fmt"
-    "github.com/kahunacohen/songctls/mdls"
+    "github.com/kahunacohen/songctls/models"
 )
 
 templ NewSong(userID string) {
@@ -10,7 +10,7 @@ templ NewSong(userID string) {
         hx-post={fmt.Sprintf("/users/%s/songs/new", userID)}
         hx-vals={fmt.Sprintf("{\"user_id\": \"%s\"}", userID)}
         x-on:htmx:after-request="showModal=false">
-            @SongFormContents(mdls.Song{})
+            @SongFormContents(models.Song{})
             <div class="flex space-x-8">
                 <button 
                     class="btn"

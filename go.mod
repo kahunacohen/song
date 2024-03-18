@@ -6,7 +6,7 @@ require (
 	github.com/a-h/templ v0.2.513
 	github.com/gin-gonic/gin v1.9.1
 	github.com/jackc/pgx/v5 v5.5.5
-	github.com/kahunacohen/songctls v0.17.0
+	github.com/kahunacohen/songctls v0.18.0
 )
 
 require (

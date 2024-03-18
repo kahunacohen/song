@@ -1,11 +1,11 @@
 package templates
 
 import (
-    "github.com/kahunacohen/songctls/mdls"
+    "github.com/kahunacohen/songctls/models"
     "strconv"
 )
 
-templ SongFormContents(song mdls.Song) {
+templ SongFormContents(song models.Song) {
     if song.Title != "" {
         // If the template is called with an existing song, dynamically modify the heading and title 
         <span style="display:none;" hx-swap-oob="innerHTML:h2,title" style="border:1px solid red">Edit "{song.Title}"</span>

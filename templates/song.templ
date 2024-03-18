@@ -1,10 +1,10 @@
 package templates
 
 import (
-    "github.com/kahunacohen/songctls/mdls"
+    "github.com/kahunacohen/songctls/models"
 )
 
-templ Song(song mdls.Song, uri string, uriEditMode string, editMode bool) {
+templ Song(song models.Song, uri string, uriEditMode string, editMode bool) {
     <div id="wrapper">
     @Flash()
 
