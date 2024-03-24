@@ -38,7 +38,7 @@ templ Song(song models.Song, uri string, uriEditMode string, editMode bool) {
             <div>
             <h2 class="mb-3">{song.Title}</h2>
             <span>{song.Artist}</span>
-            <div>{song.Lyrics}</div>
+            <div>@templ.Raw(song.Html())</div>
             <button 
                 hx-get={uriEditMode} 
                 hx-swap="innerHTML" 

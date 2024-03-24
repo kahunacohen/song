@@ -40,4 +40,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-// replace github.com/kahunacohen/songctls => ./songctls
+replace github.com/kahunacohen/songctls => /Users/cohenaa/Repos/song-app/songctls/
