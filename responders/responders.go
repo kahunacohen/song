@@ -35,3 +35,14 @@ func ReadSong(context *gin.Context, mode string, song models.Song, uri string, e
 func UpdateSong(c *gin.Context, song models.Song) {
 	templates.Render(c, templates.SongFormContents(song))
 }
+
+func ArtistList(context *gin.Context, userID string, artists []models.Artist, totalCount, page int, searchTerm string, partial bool) {
+	if partial {
+		templates.Render(context, templates.ArtistTable(artists, totalCount, page))
+	} else {
+		templates.Render(context, templates.Base(
+			"My Songs",
+			templates.Artists(userID, artists, totalCount, page, searchTerm),
+		))
+	}
+}

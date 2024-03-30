@@ -1,0 +1,36 @@
+package templates
+
+import (
+"fmt"
+"github.com/kahunacohen/songctls/models"
+)
+
+templ Artists(userID string, artists []models.Artist, totalCount int, page int, q string) {
+	@Flash()
+	<div>
+		<button 
+			type="submit"
+			class="btn mb-4"
+			hx-get={fmt.Sprintf("/users/%s/songs/new", userID)}
+			hx-target="body"
+			hx-push-url="true"
+			>Add new artist
+		</button>
+
+		// Add form here so that we get the q param in the url when we press enter
+		<form class="inline ml-4" id="search" action={templ.SafeURL(fmt.Sprintf("/users/%s/songs", userID))}>
+			<input class="w-1/4 mb-2 mr-3" type="text" name="q" placeholder="Search"
+				hx-get={fmt.Sprintf("/users/%s/songs?ct=partial", userID)}
+				hx-trigger="search, keyup delay:250ms changed"
+				hx-on::after-request="setQueryString('q', this.value, 'page')"
+				hx-target="#song-table"
+				hx-indicator="#search-spinner"
+				value={q}
+				></input>
+			@Spinner("search-spinner")
+		</form>
+			<div id="song-table">
+				@ArtistTable(artists, totalCount, page)
+			</div>
+	</div>
+}

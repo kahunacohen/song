@@ -11,6 +11,7 @@ CREATE TABLE  users (
 CREATE TABLE artists (
     id SERIAL PRIMARY KEY,
     "name" VARCHAR(255) NOT NULL,
+    user_id INT REFERENCES users(id) ON DELETE CASCADE NOT NULL,
     created_at TIMESTAMP DEFAULT current_timestamp,
     updated_at TIMESTAMP DEFAULT current_timestamp
 );

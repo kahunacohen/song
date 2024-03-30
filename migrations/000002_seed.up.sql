@@ -3,13 +3,13 @@ VALUES
     ('John', 'Doe', 'jdoe@example.com', 'password1'),
     ('Mary', 'Jane', 'mj@example.com', 'password2');
 
-INSERT INTO artists (name)
+INSERT INTO artists (name, user_id)
 VALUES
-    ('Simon and Garfunkel'),
-    ('Beatles'),
-    ('Bruce Springsteen'),
-    ('Woody Gurthrie'),
-    ('Traditional');
+    ('Simon and Garfunkel', 1),
+    ('Beatles', 1),
+    ('Bruce Springsteen', 2),
+    ('Woody Gurthrie', 1),
+    ('Traditional', 2);
 
 INSERT INTO genres (name)
 VALUES
