@@ -75,5 +75,8 @@ func main() {
 		c.Header("HX-Redirect", fmt.Sprintf("/users/%s/songs?flashOn=true&flashMsg=Song%%20deleted", c.Param("user_id")))
 	})
 	router.GET("/users/:user_id/artists", controllers.ListArtists(conn, responders.ArtistList))
+	router.GET("/users/:user_id/artists/new", func(c *gin.Context) {
+		templates.NewArtist(c.Param("user_id")).Render(c, c.Writer)
+	})
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }

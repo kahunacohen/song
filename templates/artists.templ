@@ -11,7 +11,7 @@ templ Artists(userID string, artists []models.Artist, totalCount int, page int, 
 		<button 
 			type="submit"
 			class="btn mb-4"
-			hx-get={fmt.Sprintf("/users/%s/songs/new", userID)}
+			hx-get={fmt.Sprintf("/users/%s/artists/new", userID)}
 			hx-target="body"
 			hx-push-url="true"
 			>Add new artist

@@ -1,0 +1,20 @@
+package templates
+
+import (
+    "github.com/kahunacohen/songctls/models"
+    "strconv"
+)
+
+templ ArtistFormContents(artist models.Artist) {
+    if artist.Name != "" {
+        // If the template is called with an existing song, dynamically modify the heading and title 
+        <span style="display:none;" hx-swap-oob="innerHTML:h2,title" style="border:1px solid red">Edit "{artist.Name}"</span>
+    }
+    <div id="song-form-contents">
+        <input type="hidden" name="id" value={strconv.Itoa(artist.Id)}/>
+        <div>
+            <label for="name">Artist</label>
+            <input class="w-full" id="name" name="name" type="text" value={artist.Name}/>
+        </div>
+    </div>
+}
