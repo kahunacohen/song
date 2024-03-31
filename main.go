@@ -78,5 +78,17 @@ func main() {
 	router.GET("/users/:user_id/artists/new", func(c *gin.Context) {
 		templates.NewArtist(c.Param("user_id")).Render(c, c.Writer)
 	})
+	router.POST("/users/:user_id/artists/new", func(c *gin.Context) {
+		var artist *models.Artist
+		if err := c.ShouldBind(&artist); err != nil {
+			fmt.Println(err)
+			return
+		}
+		if err := models.CreateArtist(conn, artist); err != nil {
+			fmt.Println(err)
+			return
+		}
+		c.Header("HX-Redirect", fmt.Sprintf("/users/%s/artists?flashOn=true&flashMsg=Artist%%20added", c.Param("user_id")))
+	})
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
