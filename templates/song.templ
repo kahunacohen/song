@@ -4,7 +4,7 @@ import (
     "github.com/kahunacohen/songctls/models"
 )
 
-templ Song(song models.Song, uri string, uriEditMode string, editMode bool) {
+templ Song(song models.Song, artists []models.Artist, uri string, uriEditMode string, editMode bool) {
     <div id="wrapper">
     @Flash()
 
@@ -14,7 +14,7 @@ templ Song(song models.Song, uri string, uriEditMode string, editMode bool) {
         post when submitting and redirecting back to view mode. Standard
         html form handles submitting, htmx handles saving. -->
         <form action={templ.SafeURL(uri)} method="post" hx-boost="true">
-            @SongFormContents(song)
+            @SongFormContents(song, artists)
             <button 
                 class="btn" 
                 hx-delete={uri} 

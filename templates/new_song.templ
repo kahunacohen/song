@@ -5,12 +5,12 @@ import (
     "github.com/kahunacohen/songctls/models"
 )
 
-templ NewSong(userID string) {
+templ NewSong(userID string, artists []models.Artist) {
     <form method="post" 
         hx-post={fmt.Sprintf("/users/%s/songs/new", userID)}
         hx-vals={fmt.Sprintf("{\"user_id\": \"%s\"}", userID)}
         x-on:htmx:after-request="showModal=false">
-            @SongFormContents(models.Song{})
+            @SongFormContents(models.Song{}, artists)
             <div class="flex space-x-8">
                 <button 
                     class="btn"

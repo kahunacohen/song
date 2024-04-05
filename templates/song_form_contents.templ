@@ -5,7 +5,7 @@ import (
     "strconv"
 )
 
-templ SongFormContents(song models.Song) {
+templ SongFormContents(song models.Song, artists[]models.Artist) {
     if song.Title != "" {
         // If the template is called with an existing song, dynamically modify the heading and title 
         <span style="display:none;" hx-swap-oob="innerHTML:h2,title" style="border:1px solid red">Edit "{song.Title}"</span>
@@ -21,6 +21,12 @@ templ SongFormContents(song models.Song) {
         <div class="form-group">
             <label class="mt-3" for="lyrics">Lyrics</label>
             <textarea id="lyrics" name="lyrics" class="resize-none border rounded-md p-2 min-h-full w-full" rows="4" value="{song.Lyrics}">{song.Lyrics}</textarea>
+        </div>
+        <div class="form-group">
+            <label class="mt-3" for="artist">Artist</label>
+            <select id="artist" name="lyrics" class="resize-none border rounded-md p-2 min-h-full w-full" rows="4" value="{song.Artist}">{song.Artist}
+                <option>foo</option>
+            </select>
         </div>
     </div>
 }

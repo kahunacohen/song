@@ -19,7 +19,7 @@ func SongList(context *gin.Context, userID string, songs []models.Song, totalCou
 	}
 }
 
-func ReadSong(context *gin.Context, mode string, song models.Song, uri string, editModeUri string) {
+func ReadSong(context *gin.Context, mode string, song models.Song, artists []models.Artist, uri string, editModeUri string) {
 	templates.Render(context, templates.Base(
 		func() string {
 			if mode == "edit" {
@@ -28,12 +28,12 @@ func ReadSong(context *gin.Context, mode string, song models.Song, uri string, e
 				return song.Title
 			}
 		}(),
-		templates.Song(song, uri, editModeUri, mode == "edit"),
+		templates.Song(song, artists, uri, editModeUri, mode == "edit"),
 	))
 }
 
-func UpdateSong(c *gin.Context, song models.Song) {
-	templates.Render(c, templates.SongFormContents(song))
+func UpdateSong(c *gin.Context, song models.Song, artists []models.Artist) {
+	templates.Render(c, templates.SongFormContents(song, artists))
 }
 
 func ArtistList(context *gin.Context, userID string, artists []models.Artist, totalCount, page int, searchTerm string, partial bool) {

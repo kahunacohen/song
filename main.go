@@ -45,7 +45,8 @@ func main() {
 	router.GET("/users/:user_id/songs", controllers.ListSongs(conn, responders.SongList))
 	router.PUT("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn, responders.UpdateSong))
 	router.GET("/users/:user_id/songs/new", func(c *gin.Context) {
-		templates.NewSong(c.Param("user_id")).Render(c, c.Writer)
+		var artists []models.Artist
+		templates.NewSong(c.Param("user_id"), artists).Render(c, c.Writer)
 	})
 	router.POST("/users/:user_id/songs/new", func(c *gin.Context) {
 		var song *models.Song
