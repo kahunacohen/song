@@ -56,6 +56,7 @@ func main() {
 			fmt.Println(err)
 			return
 		}
+		fmt.Printf("artist id")
 		if err := models.CreateSong(conn, song); err != nil {
 			fmt.Println(err)
 			return
