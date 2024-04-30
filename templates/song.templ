@@ -36,6 +36,7 @@ templ Song(song models.Song, artists []models.Artist, uri string, uriEditMode st
     } else {
         <div>
             <div>
+            <pre>{song.Title}</pre>
             <h2 class="mb-3">{song.Title}</h2>
             <span>{song.Artist}</span>
             <div>@templ.Raw(song.Html())</div>
