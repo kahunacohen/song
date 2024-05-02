@@ -20,6 +20,8 @@ func SongList(context *gin.Context, userID string, songs []models.Song, totalCou
 }
 
 func ReadSong(context *gin.Context, mode string, song models.Song, artists []models.Artist, uri string, editModeUri string) {
+	fmt.Println(song.Lyrics)
+	fmt.Println(song.Title)
 	templates.Render(context, templates.Base(
 		func() string {
 			if mode == "edit" {
