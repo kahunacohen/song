@@ -93,6 +93,9 @@ func main() {
 			fmt.Println(err)
 			return
 		}
+		fmt.Println(artist.Name)
+		artist.Name = controllers.SanitizeInput(artist.Name)
+		fmt.Println(artist.Name)
 		if err := models.CreateArtist(conn, artist); err != nil {
 			fmt.Println(err)
 			return
