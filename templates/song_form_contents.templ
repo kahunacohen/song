@@ -26,7 +26,7 @@ templ SongFormContents(song models.Song, artists[]models.Artist) {
             <select id="artist" name="artist" class="resize-none border rounded-md p-2 min-h-full w-full" rows="4">
                   <option>Choose an Aritst</option>
                   for _, artist := range artists {
-                    <option value={ strconv.Itoa(artist.Id)}>{ artist.Name }</option>
+                    <option selected?={artist.Name == song.Artist} value={ strconv.Itoa(artist.Id)}>{ artist.Name }</option>
                   }
             </select>
         </div>
