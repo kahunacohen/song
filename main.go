@@ -11,9 +11,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
-	"github.com/kahunacohen/songctls/controllers"
-	"github.com/kahunacohen/songctls/models"
-	"github.com/kahunacohen/songs/responders"
+	"github.com/kahunacohen/songs/controllers"
+	"github.com/kahunacohen/songs/models"
 	"github.com/kahunacohen/songs/templates"
 )
 
@@ -42,8 +41,8 @@ func main() {
 	})
 
 	// /songs/
-	router.GET("/users/:user_id/songs", controllers.ListSongs(conn, responders.SongList))
-	router.PUT("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn, responders.UpdateSong))
+	router.GET("/users/:user_id/songs", controllers.ListSongs(conn))
+	router.PUT("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn))
 
 	// This route is specific to the web app, so it's defined inline here.
 	router.GET("/users/:user_id/songs/new", func(c *gin.Context) {
@@ -68,8 +67,8 @@ func main() {
 		}
 		c.Header("HX-Redirect", fmt.Sprintf("/users/%s/songs?flashOn=true&flashMsg=Song%%20added", c.Param("user_id")))
 	})
-	router.POST("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn, responders.UpdateSong))
-	router.GET("/users/:user_id/songs/:song_id", controllers.ReadSong(conn, responders.ReadSong))
+	router.POST("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn))
+	router.GET("/users/:user_id/songs/:song_id", controllers.ReadSong(conn))
 	router.DELETE("/users/:user_id/songs/:song_id", func(c *gin.Context) {
 		songID := c.Param("song_id")
 		songAsInt, err := strconv.Atoi(songID)
@@ -83,7 +82,7 @@ func main() {
 		}
 		c.Header("HX-Redirect", fmt.Sprintf("/users/%s/songs?flashOn=true&flashMsg=Song%%20deleted", c.Param("user_id")))
 	})
-	router.GET("/users/:user_id/artists", controllers.ListArtists(conn, responders.ArtistList))
+	router.GET("/users/:user_id/artists", controllers.ListArtists(conn))
 	router.GET("/users/:user_id/artists/new", func(c *gin.Context) {
 		templates.NewArtist(c.Param("user_id")).Render(c, c.Writer)
 	})

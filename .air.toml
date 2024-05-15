@@ -1,6 +1,6 @@
 # This is the config file for air, which allows hot re-compiles
 # of the server code when in development mode. See README.md.
-root = "/Users/cohenaa/Repos/song-app/"
+#root = "/Users/cohenaa/Repos/song-app/"
 testdata_dir = "testdata"
 tmp_dir = "tmp"
 

@@ -6,7 +6,6 @@ require (
 	github.com/a-h/templ v0.2.513
 	github.com/gin-gonic/gin v1.9.1
 	github.com/jackc/pgx/v5 v5.5.5
-	github.com/kahunacohen/songctls v0.18.0
 )
 
 require (
@@ -39,5 +38,3 @@ require (
 	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/kahunacohen/songctls => /Users/cohenaa/Repos/song-app/songctls/
