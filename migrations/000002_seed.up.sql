@@ -22,16 +22,8 @@ VALUES
     ('Lucy in the Sky with Diamonds', 'D', 3, '[A]Picture your[A7]self on a [D]boat on a [DM]river', 1, 2, 1),
     ('The Boxer', NULL, NULL, '[C]I am just a poor boy\nThough my story''s seldom [AM]told', 1, 1, 2),
     ('This Land is Your Land', NULL, 2, '[C]This', 1, 4, 2),
-    ('Abc', NULL, 2, '[C]This', 1, 4, 2),
-    ('Def', NULL, 2, '[C]This', 1, 4, 2),
-    ('Fgh', NULL, 2, '[C]This', 1, 4, 2),
-    ('Ijk', NULL, 2, '[C]This', 1, 4, 2),
-    ('Lmn', NULL, 2, '[C]This', 1, 4, 2),
-    ('Opq', NULL, 2, '[C]This', 1, 4, 2),
-    ('Rst', NULL, 2, '[C]This', 1, 4, 2),
-    ('Xyz', NULL, 2, '[C]This', 1, 4, 2),
-    ('Drf', NULL, 2, '[C]This', 1, 4, 2),
-    ('Mop', NULL, 2, '[C]This', 1, 4, 2),
-    ('Penny Lane', NULL, NULL, '[C]Penny Lane', 2, 2, 1),
-    ('Born in the USA', NULL, NULL, '[C]Born', 2, 3, 1),
-    ('Amazing Grace', 'C', NULL, '[C]Amazing', 2, 5, 2);
+    ('I Want to Hold Your Hand', "G", null, `[G]Oh yeah, I'll tell you [D]something [EM] I think you'll under[B]stand
+     When [G]I say that [D]something [EM]I wanna hold your [B7]hand
+     [Chorus]
+     [C]I wanna [D]hold your [G]hand
+     [C]I wanna [D]hold your [G]hand`, 1, 2, 1),
