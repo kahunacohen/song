@@ -33,6 +33,14 @@ func main() {
 		log.Fatalf("failed to intialize db: %v", err)
 	}
 	defer conn.Close(ctx)
+	// queries := mdls.New(conn)
+	// song, _ := queries.GetSong(ctx, 1)
+	// fmt.Println(song.ArtistName)
+	// err = queries.UpdateSong(ctx, mdls.UpdateSongParams{ID: 2, Title: "foobar!"})
+	if err != nil {
+		log.Fatal("CRAP")
+	}
+
 	router := gin.Default()
 	router.Static("/static", "./static")
 	router.Use(ResponseFormatMiddleware)

@@ -2,16 +2,18 @@ package templates
 
 import (
     "github.com/kahunacohen/songs/models"
+        "github.com/kahunacohen/songs/mdls"
+
     "strconv"
 )
 
-templ SongFormContents(song models.Song, artists[]models.Artist) {
+templ SongFormContents(song mdls.GetSongRow, artists[]models.Artist) {
     if song.Title != "" {
         // If the template is called with an existing song, dynamically modify the heading and title 
         <span style="display:none;" hx-swap-oob="innerHTML:h2,title" style="border:1px solid red">Edit "{song.Title}"</span>
     }
     <div id="song-form-contents">
-        <input type="hidden" name="id" value={strconv.Itoa(song.Id)}/>
+        <input type="hidden" name="id" value={strconv.Itoa(int(song.SongID))}/>
         <input type="hidden" name="genre" value="Rock"/>
         <div>
             <label for="title">Title</label>
@@ -26,7 +28,7 @@ templ SongFormContents(song models.Song, artists[]models.Artist) {
             <select id="artist" name="artist" class="resize-none border rounded-md p-2 min-h-full w-full" rows="4">
                   <option>Choose an Aritst</option>
                   for _, artist := range artists {
-                    <option selected?={artist.Name == song.Artist} value={ strconv.Itoa(artist.Id)}>{ artist.Name }</option>
+                    <option selected?={artist.Name == song.ArtistName} value={ strconv.Itoa(artist.Id)}>{ artist.Name }</option>
                   }
             </select>
         </div>
