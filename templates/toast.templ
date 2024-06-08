@@ -5,14 +5,15 @@ package templates
 // Usage:
 // In a parent DOM node, initialize the component with the x-data="Toast('your message')"
 // As a child of the parent node, render this template Like so: @Toast()
-// Where you want to trigger Toast, call: showToast(). E.g. 
-// <button 
-//   hx-put="..." 
+// Where you want to trigger Toast, call: showToast(). E.g.
+// <button
+//   hx-put="..."
 //   x-on:htmx:after-request="showToast()">..</button>
 templ Toast() {
-    <div 
-        class="absolute top-2 left-1/2 py-3 px-5 shadow-md bg-green-200 text-alert-success border-custom-alert-success"
-        x-transition x-show="visible" 
-        x-text="message">
-    </div>
+	<div
+		class="absolute top-2 left-1/2 py-3 px-5 shadow-md bg-green-200 text-alert-success border-custom-alert-success"
+		x-transition
+		x-show="visible"
+		x-text="message"
+	></div>
 }

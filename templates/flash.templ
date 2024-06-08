@@ -1,12 +1,13 @@
 package templates
 
 templ Flash() {
-    <div>
-	    <div
-            class="absolute top-2 left-1/2 py-3 px-5 shadow-md bg-green-200 text-alert-success border-custom-alert-success"
-            x-data="flash"
-            x-show="flashOn"
-            x-transition
-            x-text="flashMsg"></div>
+	<div>
+		<div
+			class="absolute top-2 left-1/2 py-3 px-5 shadow-md bg-green-200 text-alert-success border-custom-alert-success"
+			x-data="flash"
+			x-show="flashOn"
+			x-transition
+			x-text="flashMsg"
+		></div>
 	</div>
 }

@@ -1,54 +1,61 @@
 package templates
 
 import (
-    "github.com/kahunacohen/songs/models"
-        "github.com/kahunacohen/songs/mdls"
-
+	"github.com/kahunacohen/songs/models"
+	"github.com/kahunacohen/songs/mdls"
 )
 
 templ Song(song mdls.GetSongRow, artists []models.Artist, uri string, uriEditMode string, editMode bool) {
-    <div id="wrapper">
-    @Flash()
-
-    if editMode {
-        <h2 class="mb-3">Edit "{song.Title}"</h2>       
-        <!-- form can save (stay in edit mode) and put 
+	<div id="wrapper">
+		@Flash()
+		if editMode {
+			<h2 class="mb-3">Edit "{ song.Title }"</h2>
+			<!-- form can save (stay in edit mode) and put 
         post when submitting and redirecting back to view mode. Standard
         html form handles submitting, htmx handles saving. -->
-        <form action={templ.SafeURL(uri)} method="post" hx-boost="true">
-            @SongFormContents(song, artists)
-            <button 
-                class="btn" 
-                hx-delete={uri} 
-                x-on:htmx:after-request="flashOn=true;flashMsg='Song deleted'"
-                type="submit">
-                Delete</button>
-            <button
-                class="btn"
-                hx-put={uri}
-                hx-target="#song-form-contents"
-                x-on:htmx:after-request="flashOn=true;flashMsg='Song saved'"
-                type="submit">Save and continue editing
-            </button>
-            <button
-                class="btn"
-                type="submit">Save
-            </button>
-        </form>
-    } else {
-        <div>
-            <div>
-            <h2 class="mb-3">@templ.Raw(song.Title)</h2>
-            <span>{song.Artist}</span>
-            <div>@templ.Raw(song.Html())</div>
-            <button 
-                hx-get={uriEditMode} 
-                hx-swap="innerHTML" 
-                hx-target="body"
-                hx-push-url="true" 
-                class="btn btn-primary">Edit</button>
-                </div>
-        </div>
-    }
-    </div>
+			<form action={ templ.SafeURL(uri) } method="post" hx-boost="true">
+				@SongFormContents(song, artists)
+				<button
+					class="btn"
+					hx-delete={ uri }
+					x-on:htmx:after-request="flashOn=true;flashMsg='Song deleted'"
+					type="submit"
+				>
+					Delete
+				</button>
+				<button
+					class="btn"
+					hx-put={ uri }
+					hx-target="#song-form-contents"
+					x-on:htmx:after-request="flashOn=true;flashMsg='Song saved'"
+					type="submit"
+				>
+					Save and continue editing
+				</button>
+				<button
+					class="btn"
+					type="submit"
+				>
+					Save
+				</button>
+			</form>
+		} else {
+			<div>
+				<div>
+					<h2 class="mb-3">@templ.Raw(song.Title)
+</h2>
+					<span>{ song.Artist }</span>
+					<div>@templ.Raw(song.Html())
+</div>
+					<button
+						hx-get={ uriEditMode }
+						hx-swap="innerHTML"
+						hx-target="body"
+						hx-push-url="true"
+						class="btn btn-primary"
+					>Edit</button>
+				</div>
+			</div>
+		}
+	</div>
 }

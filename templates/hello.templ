@@ -2,10 +2,10 @@ package templates
 
 templ Hello() {
 	<html>
-	<head>
-		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-		<link type="text/css" rel="stylesheet" href="/static/css/output.css"/>
-		<script>
+		<head>
+			<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+			<link type="text/css" rel="stylesheet" href="/static/css/output.css"/>
+			<script>
 		document.addEventListener('alpine:init', () => {
 			Alpine.store("flash", {
 					msg: "",
@@ -26,10 +26,10 @@ templ Hello() {
 			}))
     	})
 		</script>
-	</head>
-	<body>
-		@Flash()
-		<button x-data @click="$store.flash.on=true; $store.flash.msg='Saved'">show flash</button>
-	</body>
+		</head>
+		<body>
+			@Flash()
+			<button x-data @click="$store.flash.on=true; $store.flash.msg='Saved'">show flash</button>
+		</body>
 	</html>
 }

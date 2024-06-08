@@ -1,16 +1,16 @@
 package templates
 
 import (
-    "fmt"
-    "github.com/kahunacohen/songs/models"
+	"fmt"
+	"github.com/kahunacohen/songs/models"
 )
 
 templ ArtistRow(artist models.Artist) {
-    <tr class="hover:bg-gray-100">
-        <td class="py-2 px-4 border-b">
-            <a hx-boost="true" href={templ.URL(fmt.Sprintf("/users/%d/songs/?q=%s", artist.UserID, artist.Name))}>
-                {artist.Name}
-            </a>
-        </td>
-    </tr>
+	<tr class="hover:bg-gray-100">
+		<td class="py-2 px-4 border-b">
+			<a hx-boost="true" href={ templ.URL(fmt.Sprintf("/users/%d/songs/?q=%s", artist.UserID, artist.Name)) }>
+				{ artist.Name }
+			</a>
+		</td>
+	</tr>
 }

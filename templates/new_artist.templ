@@ -1,21 +1,24 @@
 package templates 
 
 import (
-    "fmt"
-    "github.com/kahunacohen/songs/models"
+	"fmt"
+	"github.com/kahunacohen/songs/models"
 )
 
 templ NewArtist(userID string) {
-    <form method="post" 
-        hx-post={fmt.Sprintf("/users/%s/artists/new", userID)}
-        hx-vals={fmt.Sprintf("{\"user_id\": \"%s\"}", userID)}
-        x-on:htmx:after-request="showModal=false">
-            @ArtistFormContents(models.Artist{})
-            <div class="flex space-x-8">
-                <button 
-                    class="btn"
-                    type="submit">Save</button>
-                <button @click.prevent="showModal=false">Cancel</button>
-            </div>
-    </form>
+	<form
+		method="post"
+		hx-post={ fmt.Sprintf("/users/%s/artists/new", userID) }
+		hx-vals={ fmt.Sprintf("{\"user_id\": \"%s\"}", userID) }
+		x-on:htmx:after-request="showModal=false"
+	>
+		@ArtistFormContents(models.Artist{})
+		<div class="flex space-x-8">
+			<button
+				class="btn"
+				type="submit"
+			>Save</button>
+			<button @click.prevent="showModal=false">Cancel</button>
+		</div>
+	</form>
 }
