@@ -44,7 +44,7 @@ templ Song(song mdls.GetSongRow, artists []models.Artist, uri string, uriEditMod
 				<div>
 					<h2 class="mb-3">@templ.Raw(song.Title)
 </h2>
-					<span>{ song.Artist }</span>
+					<span>{ song.ArtistName }</span>
 					<div>@templ.Raw(song.Html())
 </div>
 					<button
