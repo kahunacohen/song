@@ -10,6 +10,7 @@ import (
 	"github.com/kahunacohen/songs/mdls"
 	"github.com/kahunacohen/songs/models"
 	"github.com/kahunacohen/songs/templates"
+	"github.com/kahunacohen/songs/wrapped_models"
 )
 
 func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
@@ -48,6 +49,7 @@ func ReadSong(conn *pgx.Conn) gin.HandlerFunc {
 		userIdAsInt, _ := strconv.Atoi(userID)
 		queries := mdls.New(conn)
 		song, _ := queries.GetSong(c, int32(songIDAsInt))
+		wrappedSong := wrapped_models.New(song)
 		uri := fmt.Sprintf("/users/%s/songs/%d", userID, song.SongID)
 		editModeUri := fmt.Sprintf("%s?mode=edit", uri)
 		mode := c.Query("mode")
@@ -60,7 +62,7 @@ func ReadSong(conn *pgx.Conn) gin.HandlerFunc {
 					return song.Title
 				}
 			}(),
-			templates.Song(*song, artists, uri, editModeUri, mode == "edit"),
+			templates.Song(wrappedSong, artists, uri, editModeUri, mode == "edit"),
 		))
 	}
 }
@@ -68,17 +70,17 @@ func ReadSong(conn *pgx.Conn) gin.HandlerFunc {
 func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.Param("user_id")
-		var song models.Song
+		var song mdls.GetSongRow
 		c.Bind(&song)
 		song.Title = SanitizeInput(song.Title)
 		song.Lyrics = SanitizeInput(song.Lyrics)
-		err := models.UpdateSong(conn, &song)
+		err := models.UpdateSong(conn, song)
 		if err != nil {
 			// @TODO error handling.
 			fmt.Printf("error updating song: %v\n", err)
 
 		}
-		uri := fmt.Sprintf("/users/%s/songs/%d?flashOn=true&flashMsg=Song%%20saved", userID, song.Id)
+		uri := fmt.Sprintf("/users/%s/songs/%d?flashOn=true&flashMsg=Song%%20saved", userID, song.SongID)
 		if c.Request.Method == "POST" {
 			// We are receiving from old-school form where method=POST
 			// is not supported by browsers, so redirect to same page

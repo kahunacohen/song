@@ -2,12 +2,12 @@ package templates
 
 import (
 	"github.com/kahunacohen/songs/models"
-	"github.com/kahunacohen/songs/mdls"
 
 	"strconv"
+	"github.com/kahunacohen/songs/wrapped_models"
 )
 
-templ SongFormContents(song mdls.GetSongRowWrapped, artists[]models.Artist) {
+templ SongFormContents(song wrapped_models.GetSongRowWrapped, artists[]models.Artist) {
 	if song.Title != "" {
 		// If the template is called with an existing song, dynamically modify the heading and title 
 		<span style="display:none;" hx-swap-oob="innerHTML:h2,title" style="border:1px solid red">Edit "{ song.Title }"</span>

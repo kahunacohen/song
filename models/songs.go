@@ -3,9 +3,10 @@ package models
 import (
 	"context"
 	"fmt"
-	"github.com/jackc/pgx/v5"
 	"regexp"
 	"time"
+
+	"github.com/jackc/pgx/v5"
 )
 
 type Song struct {
@@ -21,7 +22,6 @@ type Song struct {
 }
 
 func (s Song) Html() string {
-	fmt.Println("Called Html")
 	var ret string
 	chordRe := regexp.MustCompile(`\[(.+?)\]`)
 	ret = fmt.Sprintf(
