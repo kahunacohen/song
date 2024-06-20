@@ -7,21 +7,21 @@ import (
 	"github.com/kahunacohen/songs/mdls"
 )
 
-templ SongFormContents(song mdls.Song, artists[]models.Artist) {
-	if song.Title != "" {
+templ SongFormContents(song mdls.GetSongByUserRow, artists[]models.Artist) {
+	if song.SongTitle != "" {
 		// If the template is called with an existing song, dynamically modify the heading and title 
-		<span style="display:none;" hx-swap-oob="innerHTML:h2,title" style="border:1px solid red">Edit "{ song.Title }"</span>
+		<span style="display:none;" hx-swap-oob="innerHTML:h2,title" style="border:1px solid red">Edit "{ song.SongTitle }"</span>
 	}
 	<div id="song-form-contents">
-		<input type="hidden" name="id" value={ strconv.Itoa(int(song.ID)) }/>
+		<input type="hidden" name="id" value={ strconv.Itoa(int(song.SongID)) }/>
 		<input type="hidden" name="genre" value="Rock"/>
 		<div>
 			<label for="title">Title</label>
-			<input class="w-full" id="title" name="title" type="text" value={ song.Title }/>
+			<input class="w-full" id="title" name="title" type="text" value={ song.SongTitle }/>
 		</div>
 		<div class="form-group">
 			<label class="mt-3" for="lyrics">Lyrics</label>
-			<textarea id="lyrics" name="lyrics" class="resize-none border rounded-md p-2 min-h-full w-full" rows="4" value="{song.Lyrics}">{ song.Lyrics }</textarea>
+			<textarea id="lyrics" name="lyrics" class="resize-none border rounded-md p-2 min-h-full w-full" rows="4" value="{song.Lyrics}">{ song.SongLyrics }</textarea>
 		</div>
 		<div class="form-group">
 			<label class="mt-3" for="artist">Artist</label>

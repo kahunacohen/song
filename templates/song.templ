@@ -2,15 +2,14 @@ package templates
 
 import (
 	"github.com/kahunacohen/songs/models"
-	"github.com/kahunacohen/songs/wrapped_models"
 	"github.com/kahunacohen/songs/mdls"
 )
 
-templ Song(song wrapped_models.GetSongRowWrapped, artists []models.Artist, uri string, uriEditMode string, editMode bool) {
+templ Song(song mdls.GetSongByUserRow, artists []models.Artist, uri string, uriEditMode string, editMode bool) {
 	<div id="wrapper">
 		@Flash()
 		if editMode {
-			<h2 class="mb-3">Edit "{ song.Title }"</h2>
+			<h2 class="mb-3">Edit "{ song.SongTitle }"</h2>
 			<!-- form can save (stay in edit mode) and put 
         post when submitting and redirecting back to view mode. Standard
         html form handles submitting, htmx handles saving. -->
@@ -43,7 +42,7 @@ templ Song(song wrapped_models.GetSongRowWrapped, artists []models.Artist, uri s
 		} else {
 			<div>
 				<div>
-					<h2 class="mb-3">@templ.Raw(song.Title)
+					<h2 class="mb-3">@templ.Raw(song.SongTitle)
 </h2>
 					<span>{ song.ArtistName }</span>
 					<div>@templ.Raw(mdls.Html(song))

@@ -39,14 +39,12 @@ func SearchSongs(conn *pgx.Conn, userID int, q string, page int) ([]Song, int, e
 	var totalCount int
 	var err error
 	if q == "" {
-		fmt.Println("blank")
-		query = "SELECT song_id, user_id, title, genre, artist_name FROM songs_by_user WHERE user_id = $1 ORDER BY title LIMIT 10 OFFSET $2;"
+		query = "SELECT song_id, user_id, song_title, genre, artist_name FROM songs_by_user WHERE user_id = $1 ORDER BY song_title LIMIT 10 OFFSET $2;"
 		rows, err = conn.Query(context.Background(), query, userID, offset)
 		if err != nil {
 			fmt.Printf("error: %v\n", err)
 		}
 	} else {
-		fmt.Println("SHIT")
 		query = "SELECT song_id, user_id, title, genre, artist_name FROM songs_by_user WHERE user_id = $1 AND CONCAT(title, ' ', artist_name) ILIKE '%' || $2 || '%' ORDER BY title LIMIT 10 OFFSET $3;"
 		rows, err = conn.Query(context.Background(), query, userID, q, offset)
 		if err != nil {

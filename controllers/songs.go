@@ -10,7 +10,6 @@ import (
 	"github.com/kahunacohen/songs/mdls"
 	"github.com/kahunacohen/songs/models"
 	"github.com/kahunacohen/songs/templates"
-	"github.com/kahunacohen/songs/wrapped_models"
 )
 
 func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
@@ -48,8 +47,7 @@ func ReadSong(conn *pgx.Conn) gin.HandlerFunc {
 		userID := c.Param("user_id")
 		userIdAsInt, _ := strconv.Atoi(userID)
 		queries := mdls.New(conn)
-		song, _ := queries.GetSong(c, int32(songIDAsInt))
-		wrappedSong := wrapped_models.New(song)
+		song, _ := queries.GetSongByUser(c, int32(songIDAsInt))
 		uri := fmt.Sprintf("/users/%s/songs/%d", userID, song.SongID)
 		editModeUri := fmt.Sprintf("%s?mode=edit", uri)
 		mode := c.Query("mode")
@@ -57,12 +55,12 @@ func ReadSong(conn *pgx.Conn) gin.HandlerFunc {
 		templates.Render(c, templates.Base(
 			func() string {
 				if mode == "edit" {
-					return fmt.Sprintf("Edit \"%s\"", song.Title)
+					return fmt.Sprintf("Edit \"%s\"", song.SongTitle)
 				} else {
-					return song.Title
+					return song.SongTitle
 				}
 			}(),
-			templates.Song(wrappedSong, artists, uri, editModeUri, mode == "edit"),
+			templates.Song(song, artists, uri, editModeUri, mode == "edit"),
 		))
 	}
 }
@@ -92,7 +90,7 @@ func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 			c.Redirect(http.StatusSeeOther, uri)
 			return
 		}
-		var artists []models.Artist
-		templates.Render(c, templates.SongFormContents(song, artists))
+		// var artists []models.Artist
+		// templates.Render(c, templates.SongFormContents(song, artists))
 	}
 }

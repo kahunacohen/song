@@ -3,7 +3,6 @@ package templates
 import (
 	"fmt"
 	"github.com/kahunacohen/songs/models"
-	"github.com/kahunacohen/songs/wrapped_models"
 )
 
 templ NewSong(userID string, artists []models.Artist) {
@@ -13,7 +12,7 @@ templ NewSong(userID string, artists []models.Artist) {
 		hx-vals={ fmt.Sprintf("{\"user_id\": \"%s\"}", userID) }
 		x-on:htmx:after-request="showModal=false"
 	>
-		@SongFormContents(wrapped_models.GetSongRowWrapped{}, artists)
+		// @SongFormContents(wrapped_models.GetSongRowWrapped{}, artists)
 		<div class="flex space-x-8">
 			<button
 				class="btn"
