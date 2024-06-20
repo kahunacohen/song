@@ -69,18 +69,22 @@ func ReadSong(conn *pgx.Conn) gin.HandlerFunc {
 
 func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
+
+		fmt.Println("UPDATE")
 		userID := c.Param("user_id")
-		var song mdls.GetSongRow
+		var song mdls.Song
 		c.Bind(&song)
 		song.Title = SanitizeInput(song.Title)
 		song.Lyrics = SanitizeInput(song.Lyrics)
-		err := models.UpdateSong(conn, song)
+		// err := models.UpdateSong(conn, song)
+		queries := mdls.New(conn)
+		err := queries.UpdateSong(c, mdls.UpdateSongParams{Title: song.Title, Lyrics: song.Lyrics, ID: song.ID})
 		if err != nil {
 			// @TODO error handling.
 			fmt.Printf("error updating song: %v\n", err)
 
 		}
-		uri := fmt.Sprintf("/users/%s/songs/%d?flashOn=true&flashMsg=Song%%20saved", userID, song.SongID)
+		uri := fmt.Sprintf("/users/%s/songs/%d?flashOn=true&flashMsg=Song%%20saved", userID, song.ID)
 		if c.Request.Method == "POST" {
 			// We are receiving from old-school form where method=POST
 			// is not supported by browsers, so redirect to same page
