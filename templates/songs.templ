@@ -2,10 +2,10 @@ package templates
 
 import (
 	"fmt"
-	"github.com/kahunacohen/songs/models"
+	"github.com/kahunacohen/songs/mdls"
 )
 
-templ Songs(userID string, songs []models.Song, totalCount int, page int, q string) {
+templ Songs(userID string, songs []mdls.GetSongsByUserRow, totalCount int, page int, q string) {
 	@Flash()
 	<div>
 		<button

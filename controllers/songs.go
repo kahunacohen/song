@@ -14,27 +14,36 @@ import (
 
 func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		fmt.Println("LIST SONGS")
 		userID := c.Param("user_id")
 		userIDAsInt, _ := strconv.Atoi(userID)
-		q := c.Query("q")
+		// q := c.Query("q")
 		page := c.Query("page")
 		content := c.Query("ct")
 		pageInt, err := strconv.Atoi(page)
 		if err != nil {
 			pageInt = 1
 		}
-		songs, totalCount, err := models.SearchSongs(conn, userIDAsInt, q, pageInt)
+		queries := mdls.New(conn)
+		songs, err := queries.GetSongsByUser(c, mdls.GetSongsByUserParams{UserID: int32(userIDAsInt), Offset: int32(pageInt)})
+		if err != nil {
+			fmt.Println("error getting songs")
+		}
+		// songs, totalCount, err := models.SearchSongs(conn, userIDAsInt, q, pageInt)
+		totalCount, err := queries.GetTotalSongsByUser(c, int32(userIDAsInt))
+		fmt.Println(totalCount)
+		if err != nil {
+			fmt.Println("error getting total count")
+		}
 		if err != nil {
 			fmt.Println(err)
 		}
 		if content == "partial" {
 			fmt.Println("PARTIAL")
-			templates.Render(c, templates.SongTable(songs, totalCount, pageInt))
+			templates.Render(c, templates.SongTable(songs, int(totalCount), pageInt))
 		} else {
 			templates.Render(c, templates.Base(
 				"My Songs",
-				templates.Songs(userID, songs, totalCount, pageInt, c.Query("q")),
+				templates.Songs(userID, songs, int(totalCount), pageInt, c.Query("q")),
 			))
 		}
 	}

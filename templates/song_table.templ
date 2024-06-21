@@ -2,12 +2,12 @@ package templates
 
 import (
 	"fmt"
-	"github.com/kahunacohen/songs/models"
 	"math"
 	"strconv"
+	"github.com/kahunacohen/songs/mdls"
 )
 
-templ SongTable(songs []models.Song, totalCount int, page int) {
+templ SongTable(songs []mdls.GetSongsByUserRow, totalCount int, page int) {
 	<table id="songs" class="mb-4 min-w-full bg-white border border-gray-300">
 		<thead>
 			<tr class="bg-gray-200">

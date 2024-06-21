@@ -2,17 +2,17 @@ package templates
 
 import (
 	"fmt"
-	"github.com/kahunacohen/songs/models"
+	"github.com/kahunacohen/songs/mdls"
 )
 
-templ SongRow(song models.Song) {
+templ SongRow(song mdls.GetSongsByUserRow) {
 	<tr class="hover:bg-gray-100">
 		<td class="py-2 px-4 border-b">
-			<a hx-boost="true" href={ templ.URL(fmt.Sprintf("/users/%d/songs/%d", song.UserID, song.Id)) }>
-				{ song.Title }
+			<a hx-boost="true" href={ templ.URL(fmt.Sprintf("/users/%d/songs/%d", song.UserID, song.SongID)) }>
+				{ song.SongTitle }
 			</a>
 		</td>
-		<td class="py-2 px-4 border-b">{ song.Artist }</td>
+		<td class="py-2 px-4 border-b">{ song.ArtistName }</td>
 		<td class="py-2 px-4 border-b">{ song.Genre }</td>
 	</tr>
 }
