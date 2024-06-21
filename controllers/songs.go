@@ -24,13 +24,11 @@ func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 			pageInt = 1
 		}
 		queries := mdls.New(conn)
-		songs, err := queries.GetSongsByUser(c, mdls.GetSongsByUserParams{UserID: int32(userIDAsInt), Offset: int32(pageInt)})
+		songs, err := queries.GetSongsByUser(c, mdls.GetSongsByUserParams{UserID: int32(userIDAsInt), Offset: int32(pageInt - 1)})
 		if err != nil {
 			fmt.Println("error getting songs")
 		}
-		// songs, totalCount, err := models.SearchSongs(conn, userIDAsInt, q, pageInt)
 		totalCount, err := queries.GetTotalSongsByUser(c, int32(userIDAsInt))
-		fmt.Println(totalCount)
 		if err != nil {
 			fmt.Println("error getting total count")
 		}
