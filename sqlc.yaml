@@ -1,0 +1,25 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "query.sql"
+    schema: "migrations/"
+    gen:
+      go:
+        package: "mdls"
+        out: "mdls/"
+        sql_package: "pgx/v5"
+        rename:
+          songs_by_user: SongByUser
+        overrides:
+          - column: songs_by_user.song_id
+            go_struct_tag: 'form:"song_id"'
+          - column: songs_by_user.user_id
+            go_struct_tag: 'form:"user_id" json:"user_id"'
+          - column: songs_by_user.song_title
+            go_struct_tag: 'form:"song_title" json:"song_title"'
+          - column: songs_by_user.song_lyrics
+            go_struct_tag: 'form:"song_lyrics"' 
+          - column: songs_by_user.genre_id
+            go_struct_tag: 'form:"genre_id"' 
+          - column: songs_by_user.artist_id
+            go_struct_tag: 'form:"artist_id"'      

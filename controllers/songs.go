@@ -16,7 +16,47 @@ func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.Param("user_id")
 		userIDAsInt, _ := strconv.Atoi(userID)
-		// q := c.Query("q")
+		page := c.Query("page")
+		content := c.Query("ct")
+		q := c.Query("q")
+		pageInt, err := strconv.Atoi(page)
+		if err != nil {
+			pageInt = 1
+		}
+		queries := mdls.New(conn)
+		var songs []mdls.SongByUser
+		if q == "" {
+			songs, err = queries.GetSongsByUser(c, mdls.GetSongsByUserParams{UserID: int32(userIDAsInt), Offset: int32(pageInt - 1)})
+		} else {
+			songs, err = queries.SearchSongsByUser(c, mdls.SearchSongsByUserParams{UserID: int32(userIDAsInt), Column2: q, Offset: int32(pageInt - 1)})
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+		}
+		if err != nil {
+			fmt.Println("error getting songs")
+		}
+		totalCount, err := queries.GetTotalSongsByUser(c, int32(userIDAsInt))
+		if err != nil {
+			fmt.Println("error getting total count")
+		}
+		if content == "partial" {
+			templates.Render(c, templates.SongTable(songs, int(totalCount), pageInt))
+		} else {
+			templates.Render(c, templates.Base(
+				"My Songs",
+				templates.Songs(userID, songs, int(totalCount), pageInt, c.Query("q")),
+			))
+		}
+	}
+}
+
+func SearchSongsRow(conn *pgx.Conn) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		fmt.Println("HEY SEARCH!!!")
+		userID := c.Param("user_id")
+		userIDAsInt, _ := strconv.Atoi(userID)
 		page := c.Query("page")
 		content := c.Query("ct")
 		pageInt, err := strconv.Atoi(page)
@@ -32,11 +72,7 @@ func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 		if err != nil {
 			fmt.Println("error getting total count")
 		}
-		if err != nil {
-			fmt.Println(err)
-		}
 		if content == "partial" {
-			fmt.Println("PARTIAL")
 			templates.Render(c, templates.SongTable(songs, int(totalCount), pageInt))
 		} else {
 			templates.Render(c, templates.Base(
