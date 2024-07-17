@@ -7,7 +7,7 @@ import (
 	"github.com/kahunacohen/songs/mdls"
 )
 
-templ SongFormContents(song mdls.GetSongByUserRow, artists[]models.Artist) {
+templ SongFormContents(song mdls.SongByUser, artists[]models.Artist) {
 	if song.SongTitle != "" {
 		// If the template is called with an existing song, dynamically modify the heading and title 
 		<span style="display:none;" hx-swap-oob="innerHTML:h2,title" style="border:1px solid red">Edit "{ song.SongTitle }"</span>

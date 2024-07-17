@@ -8,7 +8,7 @@ import (
 	"github.com/kahunacohen/songs/mdls"
 )
 
-templ SongTable(songs []mdls.GetSongsByUserRow, totalCount int, page int) {
+templ SongTable(songs []mdls.SongByUser, totalCount int, page int) {
 	<table id="songs" class="mb-4 min-w-full bg-white border border-gray-300">
 		<thead>
 			<tr class="bg-gray-200">

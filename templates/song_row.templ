@@ -5,7 +5,7 @@ import (
 	"github.com/kahunacohen/songs/mdls"
 )
 
-templ SongRow(song mdls.GetSongsByUserRow) {
+templ SongRow(song mdls.SongByUser) {
 	<tr class="hover:bg-gray-100">
 		<td class="py-2 px-4 border-b">
 			<a hx-boost="true" href={ templ.URL(fmt.Sprintf("/users/%d/songs/%d", song.UserID, song.SongID)) }>

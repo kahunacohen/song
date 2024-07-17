@@ -5,7 +5,7 @@ import (
 	"github.com/kahunacohen/songs/mdls"
 )
 
-templ Song(song mdls.GetSongByUserRow, artists []models.Artist, uri string, uriEditMode string, editMode bool) {
+templ Song(song mdls.SongByUser, artists []models.Artist, uri string, uriEditMode string, editMode bool) {
 	<div id="wrapper">
 		@Flash()
 		if editMode {
@@ -45,7 +45,7 @@ templ Song(song mdls.GetSongByUserRow, artists []models.Artist, uri string, uriE
 					<h2 class="mb-3">@templ.Raw(song.SongTitle)
 </h2>
 					<span>{ song.ArtistName }</span>
-					<div>@templ.Raw(mdls.Html(song))
+					<div>@templ.Raw(song.Html())
 </div>
 					<button
 						hx-get={ uriEditMode }

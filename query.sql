@@ -1,8 +1,8 @@
 -- name: GetSongByUser :one
-SELECT song_id, song_title, genre_id, genre, song_lyrics, artist_id, artist_name FROM songs_by_user WHERE song_id = $1;
+SELECT * FROM songs_by_user WHERE song_id = $1;
 
 -- name: GetSongsByUser :many
-SELECT user_id, user_first_name, user_last_name, user_email, song_id, song_title, song_lyrics, genre_id, genre, artist_id, artist_name FROM songs_by_user WHERE user_id = $1 ORDER BY song_title LIMIT 10 OFFSET $2;
+SELECT * FROM songs_by_user WHERE user_id = $1 ORDER BY song_title LIMIT 10 OFFSET $2;
 
 -- name: GetTotalSongsByUser :one
 SELECT COUNT(*) FROM songs_by_user WHERE user_id = $1;
