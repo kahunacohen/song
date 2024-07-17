@@ -4,6 +4,9 @@ SELECT * FROM songs_by_user WHERE song_id = $1;
 -- name: GetSongsByUser :many
 SELECT * FROM songs_by_user WHERE user_id = $1 ORDER BY song_title LIMIT 10 OFFSET $2;
 
+-- name: GetArtistsByUser :many
+SELECT * FROM artists_by_user WHERE user_id = $1 ORDER BY artist_name LIMIT 10 OFFSET $2;
+
 -- name: GetTotalSongsByUser :one
 SELECT COUNT(*) FROM songs_by_user WHERE user_id = $1;
 

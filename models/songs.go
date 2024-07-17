@@ -3,7 +3,6 @@ package models
 import (
 	"context"
 	"fmt"
-	"regexp"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -21,16 +20,6 @@ type Song struct {
 	UserID    int       `form:"user_id" json:"user_id"`
 }
 
-func (s Song) Html() string {
-	var ret string
-	chordRe := regexp.MustCompile(`\[(.+?)\]`)
-	ret = fmt.Sprintf(
-		"<div style='position: relative;'>%s",
-		chordRe.ReplaceAllString(s.Lyrics, "<span style='position:absolute;top:-12px;font-size:90%;font-weight:bold;'>$1</span>"))
-	lineWrapperRe := regexp.MustCompile(`(?m)^.*$`)
-	ret = lineWrapperRe.ReplaceAllString(ret, "<div style='position:relative;line-height:2.5;'>$0</div>")
-	return ret
-}
 func SearchSongs(conn *pgx.Conn, userID int, q string, page int) ([]Song, int, error) {
 	offset := (page - 1) * 10
 	var query string

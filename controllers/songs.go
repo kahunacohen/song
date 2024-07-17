@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
 	"github.com/kahunacohen/songs/mdls"
-	"github.com/kahunacohen/songs/models"
 	"github.com/kahunacohen/songs/templates"
 )
 
@@ -94,7 +93,7 @@ func ReadSong(conn *pgx.Conn) gin.HandlerFunc {
 		uri := fmt.Sprintf("/users/%s/songs/%d", userID, song.SongID)
 		editModeUri := fmt.Sprintf("%s?mode=edit", uri)
 		mode := c.Query("mode")
-		artists, _, _ := models.SearchArtists(conn, userIdAsInt, nil, nil)
+		queries.GetArtistsByUser(c, mdls.GetArtistsByUserParams{UserID: int32(userIdAsInt), Offset: 0})
 		templates.Render(c, templates.Base(
 			func() string {
 				if mode == "edit" {
