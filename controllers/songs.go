@@ -53,7 +53,6 @@ func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 
 func SearchSongsRow(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		fmt.Println("HEY SEARCH!!!")
 		userID := c.Param("user_id")
 		userIDAsInt, _ := strconv.Atoi(userID)
 		page := c.Query("page")
@@ -93,7 +92,11 @@ func ReadSong(conn *pgx.Conn) gin.HandlerFunc {
 		uri := fmt.Sprintf("/users/%s/songs/%d", userID, song.SongID)
 		editModeUri := fmt.Sprintf("%s?mode=edit", uri)
 		mode := c.Query("mode")
-		queries.GetArtistsByUser(c, mdls.GetArtistsByUserParams{UserID: int32(userIdAsInt), Offset: 0})
+		artists, err := queries.GetArtistsByUser(
+			c, mdls.GetArtistsByUserParams{UserID: int32(userIdAsInt), Offset: 0})
+		if err != nil {
+			fmt.Println(err)
+		}
 		templates.Render(c, templates.Base(
 			func() string {
 				if mode == "edit" {
@@ -109,8 +112,6 @@ func ReadSong(conn *pgx.Conn) gin.HandlerFunc {
 
 func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
-
-		fmt.Println("UPDATE")
 		userID := c.Param("user_id")
 		var song mdls.Song
 		c.Bind(&song)
