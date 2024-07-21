@@ -24,17 +24,14 @@ func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 		}
 		queries := mdls.New(conn)
 		var songs []mdls.SongByUser
-		if q == "" {
-			songs, err = queries.GetSongsByUser(c, mdls.GetSongsByUserParams{UserID: int32(userIDAsInt), Offset: int32(pageInt - 1)})
-		} else {
-			songs, err = queries.SearchSongsByUser(c, mdls.SearchSongsByUserParams{UserID: int32(userIDAsInt), Column2: q, Offset: int32(pageInt - 1)})
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
+		params := mdls.GetSongsByUserParams{UserID: int32(userIDAsInt), Offset: int32(pageInt - 1)}
+		if q != "" {
+			params.Column2 = q
 		}
+		songs, err = queries.GetSongsByUser(c, params)
 		if err != nil {
-			fmt.Println("error getting songs")
+			fmt.Println(err)
+			return
 		}
 		totalCount, err := queries.GetTotalSongsByUser(c, int32(userIDAsInt))
 		if err != nil {
