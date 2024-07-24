@@ -120,7 +120,9 @@ func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 		fmt.Println(song.SongID)
 		// err := models.UpdateSong(conn, song)
 		queries := mdls.New(conn)
-		err := queries.UpdateSong(c, mdls.UpdateSongParams{Title: song.SongTitle, Lyrics: song.SongLyrics, ID: song.SongID})
+
+		fmt.Println(song.SongTitle)
+		err := queries.UpdateSong(c, mdls.UpdateSongParams{Title: song.SongTitle, Lyrics: song.SongLyrics, ID: song.SongID, ArtistID: song.ArtistID})
 		if err != nil {
 			// @TODO error handling.
 			fmt.Printf("error updating song: %v\n", err)

@@ -38,7 +38,7 @@ templ SongFormContents(song mdls.SongByUser, artists[]mdls.ArtistsByUser) {
 			<select id="artist_id" name="artist_id" class="resize-none border rounded-md p-2 min-h-full w-full" rows="4">
 				<option>Choose an Aritst</option>
 				for _, artist := range artists {
-					<option selected?={ 1== 1} value={ strconv.Itoa(int(artist.ArtistID)) }>{ artist.ArtistName }</option>
+					<option selected?={ artist.ArtistID == song.ArtistID} value={ strconv.Itoa(int(artist.ArtistID)) }>{ artist.ArtistName }</option>
 				}
 			</select>
 		</div>
