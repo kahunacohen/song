@@ -32,7 +32,7 @@ CREATE TABLE songs (
     lyrics TEXT NOT NULL,
     user_id INT REFERENCES users(id) ON DELETE CASCADE NOT NULL,
     genre_id INT REFERENCES genres(id) ON DELETE CASCADE NOT NULL,
-    artist_id INT REFERENCES artists(id),
+    artist_id INT REFERENCES artists(id) NOT NULL,
     created_at TIMESTAMP DEFAULT current_timestamp,
     updated_at TIMESTAMP DEFAULT current_timestamp
 );

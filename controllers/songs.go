@@ -26,6 +26,8 @@ func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 		var songs []mdls.SongByUser
 		params := mdls.GetSongsByUserParams{UserID: int32(userIDAsInt), Offset: int32(pageInt - 1)}
 		if q != "" {
+			// Column2 is the search query string due to some weird sqlc issue not properly naming
+			// the column.
 			params.Column2 = q
 		}
 		songs, err = queries.GetSongsByUser(c, params)
@@ -48,7 +50,7 @@ func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 	}
 }
 
-func SearchSongsRow(conn *pgx.Conn) gin.HandlerFunc {
+func SearchSongs(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.Param("user_id")
 		userIDAsInt, _ := strconv.Atoi(userID)
@@ -110,19 +112,21 @@ func ReadSong(conn *pgx.Conn) gin.HandlerFunc {
 func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.Param("user_id")
-		var song mdls.Song
+		var song mdls.SongByUser
 		c.Bind(&song)
-		song.Title = SanitizeInput(song.Title)
-		song.Lyrics = SanitizeInput(song.Lyrics)
+		fmt.Printf("title: %s, lyrics: %s, id: %d\n", song.SongTitle, song.SongLyrics, song.SongID)
+		song.SongTitle = SanitizeInput(song.SongTitle)
+		song.SongLyrics = SanitizeInput(song.SongLyrics)
+		fmt.Println(song.SongID)
 		// err := models.UpdateSong(conn, song)
 		queries := mdls.New(conn)
-		err := queries.UpdateSong(c, mdls.UpdateSongParams{Title: song.Title, Lyrics: song.Lyrics, ID: song.ID})
+		err := queries.UpdateSong(c, mdls.UpdateSongParams{Title: song.SongTitle, Lyrics: song.SongLyrics, ID: song.SongID})
 		if err != nil {
 			// @TODO error handling.
 			fmt.Printf("error updating song: %v\n", err)
-
 		}
-		uri := fmt.Sprintf("/users/%s/songs/%d?flashOn=true&flashMsg=Song%%20saved", userID, song.ID)
+		fmt.Println(song.SongID)
+		uri := fmt.Sprintf("/users/%s/songs/%d?flashOn=true&flashMsg=Song%%20saved", userID, song.SongID)
 		if c.Request.Method == "POST" {
 			// We are receiving from old-school form where method=POST
 			// is not supported by browsers, so redirect to same page

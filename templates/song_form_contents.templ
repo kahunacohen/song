@@ -6,25 +6,36 @@ import (
 	"github.com/kahunacohen/songs/mdls"
 )
 
+// UserID        int32 `form:"user_id" json:"user_id"`
+//     UserFirstName string
+//     UserLastName  string
+//     UserEmail     string
+//     SongID        int32  `form:"song_id"`
+//     SongTitle     string `form:"song_title" json:"song_title"`
+//     SongLyrics    string `form:"song_lyrics"`
+//     GenreID       int32  `form:"genre_id"`
+//     Genre         string
+//     ArtistID      int32 `form:"artist_id"`
+//     ArtistName    string
 templ SongFormContents(song mdls.SongByUser, artists[]mdls.ArtistsByUser) {
 	if song.SongTitle != "" {
 		// If the template is called with an existing song, dynamically modify the heading and title 
 		<span style="display:none;" hx-swap-oob="innerHTML:h2,title" style="border:1px solid red">Edit "{ song.SongTitle }"</span>
 	}
 	<div id="song-form-contents">
-		<input type="hidden" name="id" value={ strconv.Itoa(int(song.SongID)) }/>
+		<input type="hidden" name="song_id" value={ strconv.Itoa(int(song.SongID)) }/>
 		<input type="hidden" name="genre" value="Rock"/>
 		<div>
 			<label for="title">Title</label>
-			<input class="w-full" id="title" name="title" type="text" value={ song.SongTitle }/>
+			<input class="w-full" id="song_title" name="song_title" type="text" value={ song.SongTitle }/>
 		</div>
 		<div class="form-group">
 			<label class="mt-3" for="lyrics">Lyrics</label>
-			<textarea id="lyrics" name="lyrics" class="resize-none border rounded-md p-2 min-h-full w-full" rows="4" value="{song.Lyrics}">{ song.SongLyrics }</textarea>
+			<textarea id="song_lyrics" name="song_lyrics" class="resize-none border rounded-md p-2 min-h-full w-full" rows="4" value="{song.Lyrics}">{ song.SongLyrics }</textarea>
 		</div>
 		<div class="form-group">
 			<label class="mt-3" for="artist">Artist</label>
-			<select id="artist" name="artist" class="resize-none border rounded-md p-2 min-h-full w-full" rows="4">
+			<select id="artist_id" name="artist_id" class="resize-none border rounded-md p-2 min-h-full w-full" rows="4">
 				<option>Choose an Aritst</option>
 				for _, artist := range artists {
 					<option selected?={ 1== 1} value={ strconv.Itoa(int(artist.ArtistID)) }>{ artist.ArtistName }</option>

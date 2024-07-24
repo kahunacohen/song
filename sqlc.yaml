@@ -11,6 +11,8 @@ sql:
         rename:
           songs_by_user: SongByUser
         overrides:
+          - db_type: pgtype.Int4
+            go_type: int
           - column: songs_by_user.song_id
             go_struct_tag: 'form:"song_id"'
           - column: songs_by_user.user_id
