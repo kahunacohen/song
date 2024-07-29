@@ -3,7 +3,7 @@ ENV GOOS="linux"
 ENV CGO_ENABLED=0
 
 # Install required tools
-RUN go install github.com/cosmtrek/air@latest  # Allows hot reload.
+RUN go install github.com/air-verse/air@latest  # Allows hot reload.
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
 RUN apk add --no-cache git
 
