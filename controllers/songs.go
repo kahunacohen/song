@@ -40,14 +40,14 @@ func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 		}
 		// The totalCount is for the pager. If we have a query, then we consider the total
 		// the amount of songs returned. Otherwise it's the total songs a user has.
-		var totalCount int
+		var totalCount int64
 		if q == "" {
 			totalCount, err = queries.GetTotalSongsByUser(c, int32(userIDAsInt))
 			if err != nil {
 				fmt.Println(err)
 			}
 		} else {
-			totalCount = len(songs)
+			totalCount = int64(len(songs))
 		}
 		if content == "partial" {
 			templates.Render(c, templates.SongTable(songs, int(totalCount), pageInt))
@@ -62,7 +62,6 @@ func ListSongs(conn *pgx.Conn) gin.HandlerFunc {
 
 func SearchSongs(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		fmt.Println("SEARCH!")
 
 		userID := c.Param("user_id")
 		userIDAsInt, _ := strconv.Atoi(userID)
