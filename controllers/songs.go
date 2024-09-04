@@ -138,7 +138,6 @@ func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 			// @TODO error handling.
 			fmt.Printf("error updating song: %v\n", err)
 		}
-		fmt.Println(song.SongID)
 		uri := fmt.Sprintf("/users/%s/songs/%d?flashOn=true&flashMsg=Song%%20saved", userID, song.SongID)
 		if c.Request.Method == "POST" {
 			// We are receiving from old-school form where method=POST
@@ -147,7 +146,14 @@ func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 			c.Redirect(http.StatusSeeOther, uri)
 			return
 		}
-		// var artists []models.Artist
-		// templates.Render(c, templates.SongFormContents(song, artists))
+		userIDInt, err := strconv.Atoi(userID)
+		if err != nil {
+			fmt.Println("error converting userID")
+		}
+		artists, err := queries.GetArtistsByUser(c, mdls.GetArtistsByUserParams{UserID: int32(userIDInt), Offset: 0})
+		if err != nil {
+			fmt.Println("error getting artists")
+		}
+		templates.Render(c, templates.SongFormContents(song, artists))
 	}
 }
