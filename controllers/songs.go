@@ -150,7 +150,7 @@ func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 		if err != nil {
 			fmt.Println("error converting userID")
 		}
-		artists, err := queries.GetArtistsByUser(c, mdls.GetArtistsByUserParams{UserID: int32(userIDInt), Offset: 0})
+		artists, err := queries.GetArtistsByUser(c, mdls.GetArtistsByUserParams{UserID: int32(userIDInt)})
 		if err != nil {
 			fmt.Println("error getting artists")
 		}
