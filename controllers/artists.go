@@ -34,6 +34,11 @@ func ListArtists(conn *pgx.Conn) gin.HandlerFunc {
 				templates.Artists(userID, artists, totalCount, pageInt, c.Query("q")),
 			))
 		}
-		//responder(c, userID, artists, totalCount, pageInt, c.Query("q"), content == "partial")
+	}
+}
+
+func UpdateArtist(conn *pgx.Conn) gin.HandlerFunc {
+	return func(c *gin.Context) {
+
 	}
 }

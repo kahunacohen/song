@@ -109,5 +109,6 @@ func main() {
 		}
 		c.Header("HX-Redirect", fmt.Sprintf("/users/%s/artists?flashOn=true&flashMsg=Artist%%20added", c.Param("user_id")))
 	})
+	router.GET("/users/:user_id/artists/:artist_id", controllers.UpdateArtist(conn))
 	router.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
