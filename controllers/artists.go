@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
+	"github.com/kahunacohen/songs/mdls"
 	"github.com/kahunacohen/songs/models"
 	"github.com/kahunacohen/songs/templates"
 )
@@ -39,6 +40,16 @@ func ListArtists(conn *pgx.Conn) gin.HandlerFunc {
 
 func UpdateArtist(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		artistId := c.Param("artist_id")
+		artistIdAsInt, _ := strconv.Atoi(artistId)
+		queries := mdls.New(conn)
+		artistName, err := queries.GetArtist(c, int32(artistIdAsInt))
+		if err != nil {
+			fmt.Println("error getting artist")
+			return
+		}
+		fmt.Println(artistName)
+		templates.Render(c, templates.Base(artistName, templates.Artist(c.Request.RequestURI, artistName)))
 
 	}
 }

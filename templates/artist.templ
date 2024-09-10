@@ -1,0 +1,39 @@
+package templates
+
+templ Artist(uri string, artistName string) {
+	<div id="wrapper">
+		@Flash()
+			<h2 class="mb-3">Edit "{ artistName }"</h2>
+			<!-- form can save (stay in edit mode) and put 
+        post when submitting and redirecting back to view mode. Standard
+        html form handles submitting, htmx handles saving. -->
+			<form action={ templ.SafeURL(uri) } method="post" hx-boost="true">
+				<input type="text" value={artistName}/>
+				<button
+					class="btn"
+					hx-delete={ uri }
+					x-on:htmx:after-request="flashOn=true;flashMsg='Song deleted'"
+					type="submit"
+				>
+					Delete
+				</button>
+				<button
+					class="btn"
+					hx-put={ uri }
+					hx-target="#song-form-contents"
+					x-on:htmx:after-request="flashOn=true;flashMsg='Song saved'"
+					type="submit"
+				>
+					Save and continue editing
+				</button>
+				<button
+					class="btn"
+					type="submit"
+				>
+					Save
+				</button>
+			</form>
+		
+		
+	</div>
+}
