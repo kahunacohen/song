@@ -32,4 +32,4 @@ Thumbs.db
 tmp
 static/output.css
 tailwindcss
-mdls
+mdls/*
