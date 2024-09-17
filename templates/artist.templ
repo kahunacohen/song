@@ -8,7 +8,7 @@ templ Artist(uri string, artistName string) {
         post when submitting and redirecting back to view mode. Standard
         html form handles submitting, htmx handles saving. -->
 			<form action={ templ.SafeURL(uri) } method="post" hx-boost="true">
-				<input type="text" value={artistName}/>
+				<input type="text" name="artist" value={artistName}/>
 				<button
 					class="btn"
 					hx-delete={ uri }
@@ -16,15 +16,6 @@ templ Artist(uri string, artistName string) {
 					type="submit"
 				>
 					Delete
-				</button>
-				<button
-					class="btn"
-					hx-put={ uri }
-					hx-target="#song-form-contents"
-					x-on:htmx:after-request="flashOn=true;flashMsg='Song saved'"
-					type="submit"
-				>
-					Save and continue editing
 				</button>
 				<button
 					class="btn"

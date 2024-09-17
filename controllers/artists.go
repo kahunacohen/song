@@ -43,13 +43,22 @@ func UpdateArtist(conn *pgx.Conn) gin.HandlerFunc {
 		artistId := c.Param("artist_id")
 		artistIdAsInt, _ := strconv.Atoi(artistId)
 		queries := mdls.New(conn)
-		artistName, err := queries.GetArtist(c, int32(artistIdAsInt))
-		if err != nil {
-			fmt.Println("error getting artist")
-			return
+		if c.Request.Method == "GET" {
+			artistName, err := queries.GetArtist(c, int32(artistIdAsInt))
+			if err != nil {
+				fmt.Println("error getting artist")
+				return
+			}
+
+			templates.Render(c, templates.Base(artistName, templates.Artist(c.Request.RequestURI, artistName)))
+		} else { // POST
+			artistName := c.PostForm("artist")
+			err := queries.UpdateArtist(c, mdls.UpdateArtistParams{Name: artistName, ID: int32(artistIdAsInt)})
+			if err != nil {
+				fmt.Println("error updating artist")
+			}
+			c.Header("HX-Redirect", fmt.Sprintf("/users/%s/artists?flashOn=true&flashMsg=Artist%%20updated", c.Param("user_id")))
 		}
-		fmt.Println(artistName)
-		templates.Render(c, templates.Base(artistName, templates.Artist(c.Request.RequestURI, artistName)))
 
 	}
 }
