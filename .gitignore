@@ -32,6 +32,4 @@ Thumbs.db
 tmp
 static/output.css
 tailwindcss
-mdls/db.go
-mdls/models.go
-mdls/query.sql.go
+mdls

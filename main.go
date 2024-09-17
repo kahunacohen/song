@@ -62,19 +62,7 @@ func main() {
 			templates.NewSong(userID, artists),
 		))
 	})
-	router.POST("/users/:user_id/songs/new", func(c *gin.Context) {
-		var song *models.Song
-		if err := c.ShouldBind(&song); err != nil {
-			fmt.Println(err)
-			return
-		}
-		fmt.Printf("artist id")
-		if err := models.CreateSong(conn, song); err != nil {
-			fmt.Println(err)
-			return
-		}
-		c.Header("HX-Redirect", fmt.Sprintf("/users/%s/songs?flashOn=true&flashMsg=Song%%20added", c.Param("user_id")))
-	})
+	router.POST("/users/:user_id/songs/new", controllers.CreateSong(conn))
 	router.POST("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn))
 	router.GET("/users/:user_id/songs/:song_id", controllers.ReadSong(conn))
 	router.DELETE("/users/:user_id/songs/:song_id", func(c *gin.Context) {

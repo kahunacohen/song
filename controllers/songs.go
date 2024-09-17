@@ -157,3 +157,24 @@ func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 		templates.Render(c, templates.SongFormContents(song, artists))
 	}
 }
+
+func CreateSong(conn *pgx.Conn) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var song *mdls.SongByUser
+		if err := c.ShouldBind(&song); err != nil {
+			fmt.Println(err)
+			return
+		}
+		queries := mdls.New(conn)
+		if err := queries.CreateSong(c, mdls.CreateSongParams{
+			Title:    song.SongTitle,
+			Lyrics:   song.SongLyrics,
+			UserID:   song.UserID,
+			GenreID:  song.GenreID,
+			ArtistID: song.ArtistID}); err != nil {
+			fmt.Println(err)
+		}
+		c.Header("HX-Redirect", fmt.Sprintf("/users/%s/songs?flashOn=true&flashMsg=Song%%20added", c.Param("user_id")))
+
+	}
+}

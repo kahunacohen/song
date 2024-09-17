@@ -1,6 +1,7 @@
 package templates
 
 import (
+	"github.com/kahunacohen/songs/utils"
 	"github.com/kahunacohen/songs/mdls"
 )
 
@@ -44,7 +45,7 @@ templ Song(song mdls.SongByUser, artists []mdls.ArtistsByUser, uri string, uriEd
 					<h2 class="mb-3">@templ.Raw(song.SongTitle)
 </h2>
 					<span>{ song.ArtistName }</span>
-					<div>@templ.Raw(song.Html())
+					<div>@templ.Raw(utils.SongToHTML(song))
 </div>
 					<button
 						hx-get={ uriEditMode }
