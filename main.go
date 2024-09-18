@@ -53,15 +53,7 @@ func main() {
 	router.PUT("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn))
 
 	// This route is specific to the web app, so it's defined inline here.
-	router.GET("/users/:user_id/songs/new", func(c *gin.Context) {
-		userID := c.Param("user_id")
-		userIdAsInt, _ := strconv.Atoi(userID)
-		artists, _, _ := models.SearchArtists(conn, userIdAsInt, nil, nil)
-		templates.Render(c, templates.Base(
-			"New Song",
-			templates.NewSong(userID, artists),
-		))
-	})
+	router.GET("/users/:user_id/songs/new", controllers.RenderNewSongForm(conn))
 	router.POST("/users/:user_id/songs/new", controllers.CreateSong(conn))
 	router.POST("/users/:user_id/songs/:song_id", controllers.UpdateSong(conn))
 	router.GET("/users/:user_id/songs/:song_id", controllers.ReadSong(conn))

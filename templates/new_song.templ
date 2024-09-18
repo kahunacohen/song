@@ -2,17 +2,17 @@ package templates
 
 import (
 	"fmt"
-	"github.com/kahunacohen/songs/models"
+	"github.com/kahunacohen/songs/mdls"
 )
 
-templ NewSong(userID string, artists []models.Artist) {
+templ NewSong(userID string, artists []mdls.ArtistsByUser) {
 	<form
 		method="post"
 		hx-post={ fmt.Sprintf("/users/%s/songs/new", userID) }
 		hx-vals={ fmt.Sprintf("{\"user_id\": \"%s\"}", userID) }
 		x-on:htmx:after-request="showModal=false"
 	>
-		// @SongFormContents(wrapped_models.GetSongRowWrapped{}, artists)
+		@SongFormContents(mdls.SongByUser{}, artists)
 		<div class="flex space-x-8">
 			<button
 				class="btn"

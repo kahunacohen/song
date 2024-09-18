@@ -158,6 +158,24 @@ func UpdateSong(conn *pgx.Conn) gin.HandlerFunc {
 	}
 }
 
+func RenderNewSongForm(conn *pgx.Conn) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userID := c.Param("user_id")
+		userIdAsInt, _ := strconv.Atoi(userID)
+		queries := mdls.New(conn)
+		artists, err := queries.GetArtistsByUser(c, mdls.GetArtistsByUserParams{
+			UserID: int32(userIdAsInt),
+			Offset: 0})
+		if err != nil {
+			fmt.Println(err)
+		}
+		templates.Render(c, templates.Base(
+			"New Song",
+			templates.NewSong(userID, artists),
+		))
+	}
+}
+
 func CreateSong(conn *pgx.Conn) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var song *mdls.SongByUser
